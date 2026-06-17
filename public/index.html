@@ -1042,17 +1042,62 @@ function sendChat() {
   const chat = document.querySelector('.m-chat');
   const now = new Date().toTimeString().slice(0,5);
   chat.insertAdjacentHTML('beforeend',
-    `<div class="m-msg sent"><div class="bubble">${msg}<div class="time">${now}</div></div></div>`);
+    `<div class="m-msg sent"><div class="bubble">${escHtml(msg)}<div class="time">${now}</div></div></div>`);
   input.value = '';
   chat.scrollTop = chat.scrollHeight;
-  setTimeout(() => {
-    const replies = ['好的，马上处理！', '收到，正在执行。', '已记录，稍后汇报结果。', '明白，预计 30 秒内完成。'];
-    const reply = replies[Math.floor(Math.random() * replies.length)];
+
+  // 获取当前 Agent 信息，用于 system prompt
+  const agents = CLIENTS[currentClient].agents;
+  const agent = agents.find(a => a.id === currentAgentId);
+
+  // 显示"正在输入..."指示器
+  const typingEl = document.createElement('div');
+  typingEl.className = 'm-msg received';
+  typingEl.id = 'typingIndicator';
+  typingEl.innerHTML = `<div class="bubble" style="color:var(--muted)">正在输入…</div>`;
+  chat.appendChild(typingEl);
+  chat.scrollTop = chat.scrollHeight;
+
+  // 调用真实 LLM API（通过本地代理解决 CORS）
+  // 开发环境使用本地 FreeLLMAPI；生产环境需替换为公开 API
+  const API_URL = 'http://localhost:3459/v1/chat/completions';
+  const API_KEY = 'freellmapi-40a61314915df9132b0fb0ee5a09eb90db854f4c4339afc9';
+
+  const systemPrompt = agent
+    ? `你是 Zirflow 数字员工「${agent.name}」，担任「${agent.role}」。\n你的目标：${agent.metrics.map((v,i) => `${agent.metricLabels[i]}: ${v}`).join('、')}\n回答问题简洁专业，不超过150字。`
+    : '你是 Zirflow 的 AI 助手，回答问题简洁专业。';
+
+  fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Authorization': `Bearer ${API_KEY}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'gemini-3.5-flash',
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: msg }
+      ],
+      max_tokens: 300
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    const reply = data?.choices?.[0]?.message?.content || '抱歉，我暂时无法回答。';
+    document.getElementById('typingIndicator')?.remove();
+    chat.insertAdjacentHTML('beforeend',
+      `<div class="m-msg received"><div class="bubble">${escHtml(reply)}<div class="time">${new Date().toTimeString().slice(0,5)}</div></div></div>`);
+    chat.scrollTop = chat.scrollHeight;
+    addRandomActivity();
+  })
+  .catch(err => {
+    document.getElementById('typingIndicator')?.remove();
+    // fallback: 用本地随机回复
+    const fallbacks = ['好的，正在处理。', '收到指令，马上执行。', '已记录，稍后汇报。', '明白。'];
+    const reply = fallbacks[Math.floor(Math.random() * fallbacks.length)];
     chat.insertAdjacentHTML('beforeend',
       `<div class="m-msg received"><div class="bubble">${reply}<div class="time">${new Date().toTimeString().slice(0,5)}</div></div></div>`);
     chat.scrollTop = chat.scrollHeight;
     addRandomActivity();
-  }, 600 + Math.random() * 400);
+  });
 }
 
 function quickAssign(task) {
