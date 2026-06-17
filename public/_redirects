@@ -1,0 +1,15 @@
+# Cloudflare Pages Redirects
+# https://developers.cloudflare.com/pages/platform/redirects/
+
+# Office main pages
+/            /index.html   200
+
+# API routes — handled by Functions, no redirect needed
+# /api/*  passes through to Functions automatically
+
+# Static pages
+/login       /login.html   200
+/templates   /templates.html   200
+
+# 404 fallback — serve index.html for SPA-like navigation
+/*          /index.html     404

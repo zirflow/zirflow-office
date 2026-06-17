@@ -1,4 +1,14 @@
 {
-  "releases": {},
+  "releases": {
+    "crewAIInc/crewAI": "1.14.7",
+    "FoundationAgents/MetaGPT": "v0.8.1",
+    "microsoft/autogen": "python-v0.7.5",
+    "OpenBMB/ChatDev": "v2.2.0",
+    "TransformerOptimus/SuperAGI": "v0.0.14",
+    "EKKOLearnAI/hermes-studio": "v0.6.16",
+    "itq5/OpenClaw-Admin": "v1.0.2",
+    "eliautobot/my-virtual-office": "v0.6.28",
+    "AlexAnys/opencrew": "v0.3.0"
+  },
   "reports": []
 }

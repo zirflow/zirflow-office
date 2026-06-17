@@ -20,31 +20,23 @@
   --accent-2:#10b981;
   --accent-3:#8b5cf6;
   --warn:    #f59e0b;
+  --gold:    #f0c040;
   --danger:  #ef4444;
+  --card-r: 16px;
   --font:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, 'PingFang SC', 'Microsoft YaHei', sans-serif;
   --font-mono:'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
-  --card-r: 16px;
 }
+html { scroll-behavior: smooth; }
 body {
-  font: 14px/1.5 var(--font); color: var(--fg); background: var(--bg);
-  -webkit-font-smoothing: antialiased; min-height: 100vh;
+  font: 14px/1.5 var(--font);
+  color: var(--fg);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  min-height: 100vh;
 }
 button { font: inherit; border: 0; background: none; color: inherit; cursor: pointer; }
-
-/* ============================================================
-   BG
-   ============================================================ */
-.bg-grid {
-  position: fixed; inset: 0; pointer-events: none; z-index: 0;
-  background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
-  background-size: 64px 64px;
-  mask-image: radial-gradient(ellipse 80% 70% at 50% 20%, #000 30%, transparent 90%);
-}
-.bg-glow { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
-.bg-glow .g { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.22; }
-.bg-glow .g1 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(59,130,246,0.5), transparent); top: -10%; left: -5%; }
-.bg-glow .g2 { width: 380px; height: 380px; background: radial-gradient(circle, rgba(16,185,129,0.35), transparent); top: 30%; right: -8%; }
-.bg-glow .g3 { width: 320px; height: 320px; background: radial-gradient(circle, rgba(139,92,246,0.3), transparent); bottom: 0; left: 20%; }
+a { color: inherit; text-decoration: none; }
 
 /* ============================================================
    STATUS BAR
@@ -57,6 +49,7 @@ button { font: inherit; border: 0; background: none; color: inherit; cursor: poi
   border-bottom: 1px solid var(--line);
   font: 500 10px/1 var(--font-mono);
   letter-spacing: 0.14em;
+  text-transform: uppercase;
   color: var(--muted);
   backdrop-filter: blur(14px);
 }
@@ -68,28 +61,55 @@ button { font: inherit; border: 0; background: none; color: inherit; cursor: poi
 .status-bar .ok { color: var(--accent-2); }
 .status-bar .sep { width: 1px; height: 11px; background: var(--line-2); display: inline-block; }
 @keyframes livePulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(.5);opacity:.5} }
+@keyframes statusPulse { 0%,100%{opacity:1} 50%{opacity:.5} }
 @media (max-width: 780px) { .status-bar .hide-mob { display: none; } }
 
 /* ============================================================
-   APP
+   BG
+   ============================================================ */
+.bg-grid {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 20%, #000 30%, transparent 90%);
+}
+.bg-glow {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
+}
+.bg-glow .g {
+  position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.25;
+}
+.bg-glow .g1 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(59,130,246,0.5), transparent); top: -10%; left: -5%; }
+.bg-glow .g2 { width: 380px; height: 380px; background: radial-gradient(circle, rgba(16,185,129,0.35), transparent); top: 30%; right: -8%; animation-delay: -6s; }
+.bg-glow .g3 { width: 320px; height: 320px; background: radial-gradient(circle, rgba(139,92,246,0.3), transparent); bottom: 0; left: 20%; animation-delay: -12s; }
+
+/* ============================================================
+   LAYOUT
    ============================================================ */
 .app { position: relative; z-index: 1; padding-top: 46px; }
+.wrap { max-width: 1320px; margin: 0 auto; padding: 0 24px; }
 
+/* ============================================================
+   HERO
+   ============================================================ */
 .office-hero {
   display: flex; align-items: flex-end; justify-content: space-between;
-  padding: 32px 24px 24px; flex-wrap: wrap; gap: 16px;
+  padding: 40px 24px 28px; flex-wrap: wrap; gap: 16px;
 }
 .office-hero h1 {
-  font: 800 clamp(20px, 2.2vw, 30px)/1.1 var(--font);
-  letter-spacing: -0.03em; color: var(--fg);
+  font: 800 clamp(22px, 2.4vw, 32px)/1.1 var(--font);
+  letter-spacing: -0.03em;
+  color: var(--fg);
 }
-.office-hero .sub { font: 12px/1.4 var(--font-mono); color: var(--muted); margin-top: 4px; }
+.office-hero h1 span { color: var(--muted); font-weight: 500; }
+.office-hero .sub { font: 13px/1.4 var(--font-mono); color: var(--muted); margin-top: 4px; }
 .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; }
-
 .btn {
   display: inline-flex; align-items: center; gap: 7px;
   padding: 9px 18px; border-radius: 10px;
-  font: 600 13px/1 var(--font); transition: all 0.2s;
+  font: 600 13px/1 var(--font);
+  letter-spacing: -0.005em;
+  transition: all 0.2s;
   white-space: nowrap;
 }
 .btn-primary {
@@ -120,82 +140,151 @@ button { font: inherit; border: 0; background: none; color: inherit; cursor: poi
   border-radius: var(--card-r);
   padding: 24px 22px 20px;
   transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-  cursor: pointer; overflow: hidden;
-  opacity: 0; transform: translateY(16px);
+  cursor: pointer;
+  overflow: hidden;
 }
-.agent-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent); }
-.agent-card:hover { border-color: rgba(59,130,246,0.3); transform: translateY(-4px); box-shadow: 0 20px 48px -16px rgba(0,0,0,0.6), 0 0 0 1px rgba(59,130,246,0.15); }
-.agent-card.show { opacity: 1; transform: translateY(0); }
+.agent-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+}
+.agent-card:hover {
+  border-color: rgba(59,130,246,0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 48px -16px rgba(0,0,0,0.6), 0 0 0 1px rgba(59,130,246,0.15);
+}
+.agent-card:active { transform: translateY(-1px); }
 .agent-card-add {
-  border: 2px dashed var(--line-2); background: transparent;
+  border: 2px dashed var(--line-2);
+  background: transparent;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  min-height: 200px; cursor: pointer; transition: all 0.25s;
+  min-height: 200px;
+  cursor: pointer;
+  transition: all 0.25s;
   color: var(--muted);
 }
-.agent-card-add:hover { border-color: var(--accent); color: var(--accent); background: rgba(59,130,246,0.03); }
+.agent-card-add:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(59,130,246,0.03);
+}
 .agent-card-add .plus { font-size: 36px; font-weight: 200; line-height: 1; margin-bottom: 6px; }
-.agent-card-add .lbl { font: 13px/1 var(--font); }
+.agent-card-add .lbl { font: 13px/1 var(--font); letter-spacing: -0.005em; }
 
-.agent-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; }
+.agent-top {
+  display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px;
+}
 .agent-avatar {
   width: 44px; height: 44px; border-radius: 12px;
   display: grid; place-items: center;
-  font: 700 18px/1 var(--font); flex-shrink: 0;
+  font: 700 18px/1 var(--font);
+  flex-shrink: 0;
   position: relative;
 }
-.agent-avatar .status-ring { position: absolute; bottom: -2px; right: -2px; width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--surface); }
+.agent-avatar .status-ring {
+  position: absolute; bottom: -2px; right: -2px;
+  width: 14px; height: 14px; border-radius: 50%;
+  border: 2px solid var(--surface);
+}
 .agent-avatar .sr-inner { width: 100%; height: 100%; border-radius: 50%; }
 
-.badge {
+.agent-badge {
   display: flex; align-items: center; gap: 5px;
   padding: 3px 9px; border-radius: 999px;
-  font: 600 9px/1 var(--font-mono); letter-spacing: 0.12em;
+  font: 600 9px/1 var(--font-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
+
+.agent-name { font: 700 17px/1.2 var(--font); color: var(--fg); letter-spacing: -0.01em; }
+.agent-role { font: 12px/1 var(--font-mono); color: var(--muted); margin-top: 5px; letter-spacing: 0.04em; }
+.agent-team { font: 10px/1 var(--font-mono); color: var(--accent-2); margin-top: 4px; letter-spacing: 0.02em; }
+
+.agent-metrics {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  margin: 16px 0 14px;
+  padding: 12px 14px;
+  background: rgba(0,0,0,0.25);
+  border-radius: 10px;
+  border: 1px solid var(--line);
+}
+.agent-metric { }
+.agent-metric .val {
+  font: 700 18px/1 var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  background: linear-gradient(135deg, var(--fg), var(--fg-2));
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.agent-metric .lbl { font: 9px/1 var(--font-mono); color: var(--muted); margin-top: 3px; letter-spacing: 0.1em; text-transform: uppercase; }
+
+.agent-actions {
+  display: flex; gap: 8px;
+}
+.agent-actions .btn { flex: 1; justify-content: center; padding: 8px; font-size: 12px; }
+
+/* status colors */
+.avatar-working { background: linear-gradient(135deg, #10b981, #059669); }
+.avatar-idle { background: linear-gradient(135deg, #6b7280, #4b5563); }
+.avatar-reporting { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+.avatar-resting { background: linear-gradient(135deg, #f59e0b, #d97706); }
+
 .badge-working { background: rgba(16,185,129,0.12); color: #10b981; border: 1px solid rgba(16,185,129,0.25); }
 .badge-idle { background: rgba(107,114,128,0.12); color: #9ca3af; border: 1px solid rgba(107,114,128,0.2); }
 .badge-reporting { background: rgba(59,130,246,0.12); color: #3b82f6; border: 1px solid rgba(59,130,246,0.25); }
 .badge-resting { background: rgba(245,158,11,0.12); color: #f59e0b; border: 1px solid rgba(245,158,11,0.25); }
 
 .pulse-working { background: #10b981; box-shadow: 0 0 6px #10b981; animation: statusPulse 1.6s infinite; }
-.pulse-idle { background: #6b7280; }
+.pulse-idle { background: #6b7280; box-shadow: 0 0 4px rgba(107,114,128,0.3); }
 .pulse-reporting { background: #3b82f6; box-shadow: 0 0 6px #3b82f6; animation: statusPulse 1.6s infinite; }
 .pulse-resting { background: #f59e0b; box-shadow: 0 0 6px #f59e0b; animation: statusPulse 2.4s infinite; }
-@keyframes statusPulse { 0%,100%{opacity:1} 50%{opacity:.5} }
 
-.agent-name { font: 700 16px/1.2 var(--font); color: var(--fg); letter-spacing: -0.01em; }
-.agent-role { font: 12px/1 var(--font-mono); color: var(--muted); margin-top: 4px; }
-
-.agent-metrics {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
-  margin: 14px 0 12px;
-  padding: 12px 14px;
-  background: rgba(0,0,0,0.25);
-  border-radius: 10px; border: 1px solid var(--line);
-}
-.agent-metric .val { font: 700 17px/1 var(--font-mono); font-variant-numeric: tabular-nums; background: linear-gradient(135deg, var(--fg), var(--fg-2)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-.agent-metric .lbl { font: 9px/1 var(--font-mono); color: var(--muted); margin-top: 3px; letter-spacing: 0.1em; }
-
-.agent-actions { display: flex; gap: 8px; }
-.agent-actions .btn { flex: 1; justify-content: center; padding: 8px; font-size: 11px; }
+/* Workflow status dots */
+.dot-working { background: #10b981; }
+.dot-idle { background: #6b7280; }
+.dot-reporting { background: #3b82f6; }
+.dot-resting { background: #f59e0b; }
 
 /* ============================================================
-   ACTIVITY
+   ACTIVITY LOG
    ============================================================ */
-.activity-section { max-width: 1360px; margin: 8px auto 40px; padding: 0 24px; }
-.activity-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-.activity-bar h3 { font: 700 14px/1 var(--font); color: var(--fg); display: flex; align-items: center; gap: 8px; }
-.activity-bar h3 .badge { font: 600 9px/1 var(--font-mono); padding: 3px 7px; border-radius: 999px; background: rgba(16,185,129,0.12); color: var(--accent-2); }
+.activity-section {
+  max-width: 1360px; margin: 12px auto 40px;
+  padding: 0 24px;
+}
+.activity-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 12px;
+}
+.activity-bar h3 {
+  font: 700 14px/1 var(--font);
+  color: var(--fg);
+  letter-spacing: -0.01em;
+  display: flex; align-items: center; gap: 8px;
+}
+.activity-bar h3 .badge {
+  font: 600 9px/1 var(--font-mono);
+  padding: 3px 7px;
+  border-radius: 999px;
+  background: rgba(16,185,129,0.12);
+  color: var(--accent-2);
+  letter-spacing: 0.12em;
+}
 .activity-feed {
-  background: var(--surface); border: 1px solid var(--line);
-  border-radius: var(--card-r); padding: 8px 0;
-  max-height: 220px; overflow-y: auto;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--card-r);
+  padding: 8px 0;
+  max-height: 240px;
+  overflow-y: auto;
 }
 .activity-feed::-webkit-scrollbar { width: 3px; }
 .activity-feed::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 2px; }
 .activity-item {
   display: flex; align-items: baseline; gap: 10px;
-  padding: 6px 18px; font: 12px/1.5 var(--font-mono);
-  color: var(--fg-2); transition: background 0.15s;
+  padding: 7px 18px;
+  font: 12px/1.5 var(--font-mono);
+  color: var(--fg-2);
+  transition: background 0.15s;
 }
 .activity-item:hover { background: rgba(255,255,255,0.02); }
 .activity-item .t { color: var(--muted); flex-shrink: 0; font-size: 11px; }
@@ -203,8 +292,11 @@ button { font: inherit; border: 0; background: none; color: inherit; cursor: poi
 .activity-item .dot.ok { background: var(--accent-2); }
 .activity-item .dot.info { background: var(--accent); }
 .activity-item .dot.warn { background: var(--warn); }
-.activity-item .x { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.line-new { animation: feedIn 0.35s ease both; }
+.activity-item .x { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.activity-feed .line-new {
+  animation: feedIn 0.35s ease both;
+}
 @keyframes feedIn { from{opacity:0;transform:translateX(-6px)} to{opacity:1;transform:none} }
 
 /* ============================================================
@@ -212,15 +304,22 @@ button { font: inherit; border: 0; background: none; color: inherit; cursor: poi
    ============================================================ */
 .modal-overlay {
   position: fixed; inset: 0; z-index: 200;
-  background: rgba(7,9,15,0.75); backdrop-filter: blur(6px);
-  display: none; align-items: center; justify-content: center;
+  background: rgba(7,9,15,0.75);
+  backdrop-filter: blur(6px);
+  display: none;
+  align-items: center;
+  justify-content: center;
   padding: 20px;
 }
 .modal-overlay.open { display: flex; }
 .modal {
-  background: var(--surface); border: 1px solid var(--line-2);
-  border-radius: 20px; width: 100%; max-width: 540px;
-  max-height: 80vh; overflow-y: auto;
+  background: var(--surface);
+  border: 1px solid var(--line-2);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 560px;
+  max-height: 85vh;
+  overflow-y: auto;
   box-shadow: 0 40px 80px -20px rgba(0,0,0,0.8);
   animation: modalIn 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -230,74 +329,298 @@ button { font: inherit; border: 0; background: none; color: inherit; cursor: poi
 
 .modal-head {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 20px 24px 14px; border-bottom: 1px solid var(--line);
+  padding: 22px 24px 16px;
+  border-bottom: 1px solid var(--line);
 }
 .modal-head-left { display: flex; align-items: center; gap: 14px; }
-.m-avatar { width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; font: 700 16px/1 var(--font); flex-shrink:0; }
-.m-name { font: 700 17px/1 var(--font); color: var(--fg); }
-.m-role { font: 11px/1 var(--font-mono); color: var(--muted); margin-top: 2px; }
-.modal-close { width: 32px; height: 32px; border-radius: 8px; display: grid; place-items: center; font-size: 18px; color: var(--muted); transition: all 0.15s; }
+.modal-head .m-avatar { width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; font: 700 16px/1 var(--font); flex-shrink:0; }
+.modal-head .m-info {}
+.modal-head .m-name { font: 700 18px/1 var(--font); color: var(--fg); }
+.modal-head .m-role { font: 11px/1 var(--font-mono); color: var(--muted); margin-top: 3px; }
+.modal-close {
+  width: 32px; height: 32px; border-radius: 8px;
+  display: grid; place-items: center;
+  font-size: 18px; color: var(--muted);
+  transition: all 0.15s;
+}
 .modal-close:hover { background: rgba(255,255,255,0.05); color: var(--fg); }
 
-.modal-body { padding: 16px 24px 20px; }
-.modal-tabs { display: flex; gap: 4px; background: rgba(0,0,0,0.25); border-radius: 10px; padding: 3px; margin-bottom: 16px; }
-.modal-tab { flex: 1; text-align: center; padding: 8px 0; border-radius: 8px; font: 600 12px/1 var(--font); color: var(--muted); transition: all 0.2s; }
+.modal-body { padding: 20px 24px; }
+
+.modal-tabs {
+  display: flex; gap: 4px;
+  background: rgba(0,0,0,0.25);
+  border-radius: 10px;
+  padding: 3px;
+  margin-bottom: 20px;
+}
+.modal-tab {
+  flex: 1; text-align: center;
+  padding: 8px 0;
+  border-radius: 8px;
+  font: 600 12px/1 var(--font);
+  color: var(--muted);
+  transition: all 0.2s;
+}
 .modal-tab.active { background: var(--surface-2); color: var(--fg); box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
 .modal-tab:hover { color: var(--fg-2); }
 
-.m-chat {}
-.m-msg { display: flex; gap: 10px; margin-bottom: 12px; }
+/* Chat */
+.m-chat { }
+.m-msg {
+  display: flex; gap: 10px; margin-bottom: 14px;
+}
+.m-msg.received { }
 .m-msg.sent { flex-direction: row-reverse; }
-.m-msg .bubble { max-width: 80%; padding: 10px 14px; border-radius: 12px; font-size: 13px; line-height: 1.55; }
+.m-msg .bubble {
+  max-width: 80%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 13px;
+  line-height: 1.55;
+}
 .m-msg.received .bubble { background: var(--bg-2); border: 1px solid var(--line); color: var(--fg-2); }
 .m-msg.sent .bubble { background: rgba(59,130,246,0.15); border: 1px solid rgba(59,130,246,0.25); color: var(--fg); }
 .m-msg .time { font: 9px/1 var(--font-mono); color: var(--muted); margin-top: 4px; }
-.m-input-row { display: flex; gap: 8px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); }
+
+.m-input-row {
+  display: flex; gap: 8px; margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
 .m-input { flex: 1; padding: 9px 14px; border-radius: 10px; border: 1px solid var(--line-2); background: var(--bg); color: var(--fg); font: 13px/1.4 var(--font); outline: none; }
 .m-input:focus { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(59,130,246,0.15); }
 .m-input::placeholder { color: var(--muted); }
 
-.m-report-item {
-  padding: 12px 14px; background: var(--bg-2); border: 1px solid var(--line);
-  border-radius: 10px; margin-bottom: 10px; cursor: pointer;
-  transition: background 0.2s;
+/* ============================================================
+   TEAM TEMPLATE WIZARD (integrated from templates.html)
+   ============================================================ */
+.wizard-overlay {
+  position: fixed; inset: 0; z-index: 300;
+  background: rgba(7,9,15,0.88); backdrop-filter: blur(8px);
+  display: none; flex-direction: column;
+  padding: 0; overflow-y: auto;
 }
-.m-report-item:hover { background: rgba(17,24,39,0.8); }
+.wizard-overlay.open { display: flex; }
+.wizard-overlay::-webkit-scrollbar { width: 3px; }
+.wizard-overlay::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 2px; }
+.wizard-container {
+  max-width: 860px; width: 100%; margin: 0 auto;
+  padding: 24px 20px 40px; flex: 1;
+  animation: wizardIn 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes wizardIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:none} }
+.wizard-steps {
+  display: flex; align-items: center; justify-content: center;
+  gap: 0; margin-bottom: 32px; padding: 0 10px;
+}
+.wiz-step {
+  display: flex; align-items: center; gap: 10px;
+  font: 600 12px/1 var(--font); color: var(--muted);
+  transition: color 0.3s;
+}
+.wiz-step .num {
+  width: 30px; height: 30px; border-radius: 50%;
+  display: grid; place-items: center;
+  font: 700 13px/1 var(--font-mono);
+  border: 1px solid var(--line-2);
+  color: var(--muted); transition: all 0.3s;
+}
+.wiz-step.active { color: var(--fg); }
+.wiz-step.active .num { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: 0 0 0 4px rgba(59,130,246,0.15); }
+.wiz-step.done .num { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+.wiz-step.done { color: var(--accent-2); }
+.wiz-step .label { white-space: nowrap; }
+@media (max-width: 600px) { .wiz-step .label { display: none; } }
+.wiz-connector {
+  width: 48px; height: 1px;
+  background: var(--line-2); margin: 0 12px;
+  flex-shrink: 0; position: relative;
+}
+.wiz-connector.done { background: var(--accent-2); }
+.wiz-connector::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 100%;
+  background: var(--accent-2);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.wiz-connector.done::after { transform: scaleX(1); }
+.wizard-header { margin-bottom: 28px; }
+.wizard-header h2 { font: 800 24px/1.2 var(--font); letter-spacing: -0.02em; color: var(--fg); }
+.wizard-header .sub { font: 13px/1.4 var(--font-mono); color: var(--muted); margin-top: 4px; }
+.wizard-body { min-height: 300px; }
+
+/* Step 1: Template picker */
+.wizard-tpl-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
+}
+.wizard-tpl-card {
+  background: linear-gradient(160deg, var(--surface), rgba(17,24,39,0.4));
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 18px 16px 16px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  position: relative; overflow: hidden;
+}
+.wizard-tpl-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent); }
+.wizard-tpl-card:hover { border-color: rgba(59,130,246,0.25); transform: translateY(-2px); box-shadow: 0 8px 24px -12px rgba(0,0,0,0.5); }
+.wizard-tpl-card.selected { border-color: var(--accent); box-shadow: 0 0 0 1px rgba(59,130,246,0.3), 0 8px 24px -12px rgba(0,0,0,0.5); }
+.wizard-tpl-card.selected::after {
+  content: '✓'; position: absolute; top: 10px; right: 12px;
+  font: 700 14px/1 var(--font); color: var(--accent);
+}
+.wizard-tpl-card .wt-emoji { font-size: 28px; margin-bottom: 8px; }
+.wizard-tpl-card .wt-name { font: 700 15px/1.2 var(--font); color: var(--fg); }
+.wizard-tpl-card .wt-count { font: 11px/1 var(--font-mono); color: var(--muted); margin-top: 4px; }
+.wizard-tpl-card .wt-desc { font: 12px/1.4 var(--font); color: var(--muted); margin-top: 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.wizard-tpl-card .wt-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 8px; }
+.wizard-tpl-card .wt-tag { padding: 2px 7px; border-radius: 999px; font: 600 8px/1 var(--font-mono); background: rgba(59,130,246,0.08); color: var(--accent); border: 1px solid rgba(59,130,246,0.15); }
+
+/* Blank card in wizard */
+.wizard-tpl-blank {
+  border: 2px dashed var(--line-2); background: transparent;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  min-height: 180px; cursor: pointer; transition: all 0.25s;
+  color: var(--muted); border-radius: 14px;
+}
+.wizard-tpl-blank:hover { border-color: var(--accent); color: var(--accent); background: rgba(59,130,246,0.03); }
+.wizard-tpl-blank .big-icon { font-size: 32px; margin-bottom: 6px; opacity: 0.5; }
+.wizard-tpl-blank .lbl { font: 14px/1 var(--font); }
+
+/* Step 2: Config form */
+.wizard-form { max-width: 680px; margin: 0 auto; }
+.form-section { margin-bottom: 24px; }
+.form-section-title {
+  font: 700 15px/1 var(--font); color: var(--fg);
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 12px;
+}
+.form-section-title .badge { font: 600 9px/1 var(--font-mono); padding: 2px 7px; border-radius: 999px; background: rgba(16,185,129,0.1); color: var(--accent-2); }
+.form-group { margin-bottom: 14px; }
+.form-group label {
+  display: block; font: 600 11px/1 var(--font); color: var(--fg-2);
+  margin-bottom: 5px; letter-spacing: 0.02em;
+}
+.form-group input, .form-group textarea {
+  width: 100%; padding: 10px 13px;
+  background: var(--bg); border: 1px solid var(--line-2);
+  border-radius: 10px; color: var(--fg); font: 13px/1.5 var(--font);
+  outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+}
+.form-group input:focus, .form-group textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
+.form-group input::placeholder, .form-group textarea::placeholder { color: var(--muted); }
+.form-group textarea { min-height: 60px; resize: vertical; }
+
+/* Agent config cards */
+.agent-config-list { display: flex; flex-direction: column; gap: 12px; }
+.agent-config-card {
+  background: var(--bg-2); border: 1px solid var(--line);
+  border-radius: 12px; padding: 16px;
+  animation: configSlideIn 0.3s ease both;
+}
+@keyframes configSlideIn { from{opacity:0;transform:translateX(-8px)} to{opacity:1;transform:none} }
+.agent-config-card .ac-header {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 12px;
+}
+.agent-config-card .ac-avatar {
+  width: 32px; height: 32px; border-radius: 8px;
+  display: grid; place-items: center;
+  font-size: 16px; flex-shrink: 0;
+}
+.agent-config-card .ac-title { font: 600 14px/1 var(--font); color: var(--fg); }
+.agent-config-card .ac-sub { font: 10px/1 var(--font-mono); color: var(--muted); margin-top: 2px; }
+.agent-config-card .ac-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+@media (max-width: 600px) { .agent-config-card .ac-fields { grid-template-columns: 1fr; } }
+
+/* Blank team - add agent button */
+.add-agent-btn {
+  width: 100%; padding: 14px;
+  border: 2px dashed var(--line-2); border-radius: 12px;
+  background: transparent; color: var(--muted);
+  font: 600 13px/1 var(--font); cursor: pointer;
+  transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.add-agent-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(59,130,246,0.03); }
+
+/* Step 3: Confirm */
+.team-overview { max-width: 680px; margin: 0 auto; }
+.team-summary {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: 14px; padding: 20px; margin-bottom: 24px;
+}
+.team-summary .ts-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; flex-wrap: wrap; gap: 4px; }
+.team-summary .ts-row + .ts-row { border-top: 1px solid var(--line); }
+.team-summary .ts-label { font: 12px/1 var(--font-mono); color: var(--muted); }
+.team-summary .ts-value { font: 600 14px/1 var(--font); color: var(--fg); }
+
+/* Relation diagram */
+.relation-diagram {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: 14px; padding: 24px 20px;
+  margin-bottom: 24px; overflow-x: auto;
+}
+.relation-diagram .rd-title { font: 700 14px/1 var(--font); color: var(--fg); margin-bottom: 20px; text-align: center; }
+
+/* Wizard footer */
+.wizard-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 32px; padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+.wizard-footer-left { display: flex; gap: 8px; }
+.wizard-footer-right { display: flex; gap: 8px; }
+
+/* Success state */
+.success-state {
+  text-align: center; padding: 40px 20px;
+  animation: successPop 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes successPop { 0%{opacity:0;transform:scale(0.9)} 50%{transform:scale(1.02)} 100%{opacity:1;transform:scale(1)} }
+.success-state .big-icon { font-size: 64px; margin-bottom: 16px; }
+.success-state h2 { font: 800 24px/1.2 var(--font); color: var(--fg); margin-bottom: 8px; }
+.success-state p { font: 14px/1.5 var(--font); color: var(--muted); margin-bottom: 24px; }
+
+/* Toast */
+.toast {
+  position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+  padding: 10px 20px; border-radius: 10px;
+  background: var(--surface); border: 1px solid var(--line-2);
+  color: var(--fg); font-size: 14px;
+  z-index: 999; font-family: var(--font);
+  animation: toastIn 0.3s ease, toastOut 0.3s 2.5s ease;
+}
+@keyframes toastIn { from{opacity:0;transform:translateX(-50%) translateY(10px)} to{opacity:1;transform:translateX(-50%) translateY(0)} }
+@keyframes toastOut { from{opacity:1} to{opacity:0} }
+
+@media (max-width: 780px) {
+  .wizard-tpl-grid { grid-template-columns: 1fr 1fr; }
+  .wizard-container { padding: 16px; }
+  .wiz-connector { width: 24px; margin: 0 6px; }
+}
+@media (max-width: 480px) {
+  .wizard-tpl-grid { grid-template-columns: 1fr; }
+}
+
+/* Reports */
+.m-report { }
+.m-report-item {
+  padding: 12px 14px;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
 .m-report-item .r-t { font: 600 13px/1 var(--font); color: var(--fg); }
 .m-report-item .r-d { font: 11px/1.4 var(--font-mono); color: var(--muted); margin-top: 5px; }
-.m-report-item .r-v { display: inline-block; margin-top: 8px; font: 600 12px/1 var(--font); color: var(--accent-2); }
-
-.assign-item {
-  padding: 12px 14px; background: var(--bg-2); border: 1px solid var(--line);
-  border-radius: 10px; margin-bottom: 8px; cursor: pointer;
-  transition: all 0.2s;
+.m-report-item .r-v {
+  display: inline-block; margin-top: 8px;
+  font: 600 12px/1 var(--font); color: var(--accent-2);
 }
-.assign-item:hover { border-color: var(--accent); background: rgba(59,130,246,0.04); }
-.assign-item .a-t { font-weight: 600; font-size: 13px; color: var(--fg); }
-.assign-item .a-d { font: 11px/1.3 var(--font-mono); color: var(--muted); margin-top: 3px; }
-
-/* ============================================================
-   EMPTY STATE
-   ============================================================ */
-.empty-state {
-  text-align: center; padding: 60px 20px;
-  color: var(--muted);
-}
-.empty-state .big { font-size: 48px; margin-bottom: 12px; }
-.empty-state h2 { font: 700 18px/1 var(--font); color: var(--fg); margin-bottom: 6px; }
-.empty-state p { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
-
-/* ============================================================
-   LOADING
-   ============================================================ */
-.skeleton {
-  background: linear-gradient(90deg, var(--surface) 25%, rgba(255,255,255,0.03) 50%, var(--surface) 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
-  border-radius: 8px;
-}
-@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
-.skeleton-card { height: 180px; border-radius: var(--card-r); }
 </style>
 </head>
 <body>
@@ -309,15 +632,17 @@ button { font: inherit; border: 0; background: none; color: inherit; cursor: poi
 <div class="status-bar">
   <div class="seg">
     <span><span class="dot"></span><span class="lbl-name">ZIRFLOW OFFICE</span></span>
+    <span class="sep"></span>
+    <span class="hide-mob"><span class="lbl">AGENTS</span><span class="v" id="agentCount">4</span></span>
     <span class="sep hide-mob"></span>
-    <span><span class="lbl">AGENTS</span><span class="v" id="agentCount">0</span></span>
-    <span class="sep hide-mob"></span>
-    <span class="hide-mob"><span class="lbl">WORKING</span><span class="v ok" id="workingCount">0</span></span>
+    <span class="hide-mob"><span class="lbl">WORKING</span><span class="v ok" id="workingCount">2</span></span>
     <span class="sep hide-mob"></span>
     <span><span class="lbl">UTC</span><span class="v" id="clock">--:--:--</span></span>
   </div>
   <div class="seg">
-    <span class="hide-mob"><span class="lbl" id="userLabel">USER</span><span class="v" id="userDisplay">—</span></span>
+    <span><span class="lbl">STATUS</span><span class="v ok">● LIVE</span></span>
+    <span class="sep"></span>
+    <span class="hide-mob"><span class="lbl" id="userLabel">USER</span><span class="v" id="userDisplay">demo@huaqing.com</span></span>
     <span class="sep"></span>
     <button onclick="logout()" style="font:600 10px/1 var(--font-mono);color:var(--muted);letter-spacing:0.1em;background:none;border:0;cursor:pointer">退出</button>
   </div>
@@ -326,30 +651,32 @@ button { font: inherit; border: 0; background: none; color: inherit; cursor: poi
 <!-- APP -->
 <div class="app">
 
-<div class="office-hero" style="max-width:1360px;margin:0 auto">
+<!-- OFFICE HERO -->
+<div class="office-hero wrap">
   <div>
-    <h1 id="officeTitle">数字员工办公室</h1>
-    <div class="sub" id="officeSub">加载中…</div>
+    <h1 id="officeTitle">华清检测 · 数字员工办公室</h1>
+    <div class="sub" id="officeSub">点击任意 Agent 卡片下达指令或查看报告</div>
   </div>
   <div class="hero-actions">
-    <button class="btn btn-ghost" onclick="toast('全局报告即将上线')">📊 全局报告</button>
-    <button class="btn btn-primary" onclick="toast('添加 Agent 功能即将上线')">+ 添加 Agent</button>
+    <button class="btn btn-ghost" onclick="alert('全局报告功能开发中')">📊 全局报告</button>
+    <button class="btn btn-ghost" onclick="openWizard()">📋 团队模板</button>
+    <button class="btn btn-primary" onclick="openWizard()">+ 从模板创建团队</button>
   </div>
 </div>
 
+<!-- AGENT GRID -->
 <div class="agent-grid" id="agentGrid">
-  <div class="skeleton skeleton-card"></div>
-  <div class="skeleton skeleton-card"></div>
-  <div class="skeleton skeleton-card"></div>
-  <div class="skeleton skeleton-card"></div>
+  <!-- Rendered by JS -->
 </div>
 
+<!-- ACTIVITY LOG -->
 <div class="activity-section">
   <div class="activity-bar">
     <h3>实时工作日志 <span class="badge">LIVE</span></h3>
+    <button class="btn btn-ghost btn-sm" onclick="addRandomActivity()">+ 模拟事件</button>
   </div>
   <div class="activity-feed" id="activityFeed">
-    <div style="text-align:center;padding:20px;color:var(--muted);font:12px/1 var(--font-mono)">等待活动…</div>
+    <!-- Rendered by JS -->
   </div>
 </div>
 
@@ -360,10 +687,10 @@ button { font: inherit; border: 0; background: none; color: inherit; cursor: poi
   <div class="modal">
     <div class="modal-head">
       <div class="modal-head-left">
-        <div class="m-avatar" id="mAvatar">💼</div>
+        <div class="m-avatar" id="mAvatar">S</div>
         <div class="m-info">
-          <div class="m-name" id="mName">—</div>
-          <div class="m-role" id="mRole">—</div>
+          <div class="m-name" id="mName">销售 Agent</div>
+          <div class="m-role" id="mRole">销售岗 · 工作中</div>
         </div>
       </div>
       <button class="modal-close" onclick="closeModal()">✕</button>
@@ -373,202 +700,320 @@ button { font: inherit; border: 0; background: none; color: inherit; cursor: poi
         <button class="modal-tab active" data-tab="chat" onclick="switchTab(this)">💬 对话</button>
         <button class="modal-tab" data-tab="report" onclick="switchTab(this)">📊 报告</button>
         <button class="modal-tab" data-tab="assign" onclick="switchTab(this)">📋 指令</button>
+        <button class="modal-tab" data-tab="workflow" onclick="switchTab(this)">🔗 工作流</button>
       </div>
+
+      <!-- Chat tab -->
       <div class="m-chat tab-content" id="tabChat">
-        <div class="m-msg received"><div class="bubble">你好！有什么我可以帮你的？</div></div>
+        <div class="m-msg received">
+          <div class="bubble">我是销售 Agent，今天已经处理了 12 个询盘。有什么需要我做的？</div>
+        </div>
+        <div class="m-msg sent">
+          <div class="bubble">把今天的潜在客户名单整理一下发给我</div>
+        </div>
+        <div class="m-msg received">
+          <div class="bubble">好的，已整理完毕。一共 8 个高意向客户，已经按优先级排好。需要我现在发给你吗？</div>
+        </div>
         <div class="m-input-row">
-          <input class="m-input" id="chatInput" placeholder="输入指令…" onkeydown="if(event.key==='Enter')sendChat()" />
+          <input class="m-input" placeholder="输入指令…" id="chatInput" onkeydown="if(event.key==='Enter')sendChat()" />
           <button class="btn btn-primary btn-sm" onclick="sendChat()">发送</button>
         </div>
       </div>
+
+      <!-- Report tab -->
       <div class="m-report tab-content" id="tabReport" style="display:none">
         <div class="m-report-item">
           <div class="r-t">📈 今日业绩</div>
-          <div class="r-d">加载中…</div>
+          <div class="r-d">处理询盘 12 单 · 成交转化率 42% · 平均响应时间 3.2min</div>
           <span class="r-v">查看详细 →</span>
         </div>
         <div class="m-report-item">
           <div class="r-t">📋 待办事项</div>
-          <div class="r-d">加载中…</div>
+          <div class="r-d">跟进客户: 张总(高意向) · 李总(待报价) · 王总(需合同)</div>
           <span class="r-v">处理待办 →</span>
         </div>
+        <div class="m-report-item">
+          <div class="r-t">📊 本周趋势</div>
+          <div class="r-d">本周询盘量 +23% · 成交额 ¥68,000 · 目标完成率 85%</div>
+          <span class="r-v">查看完整报告 →</span>
+        </div>
       </div>
+
+      <!-- Assign tab -->
       <div class="tab-content" id="tabAssign" style="display:none">
-        <p style="color:var(--fg-2);font-size:14px;margin-bottom:12px">快速下达任务：</p>
-        <div class="assign-item" onclick="quickAssign('整理今日工作汇总')">
-          <div class="a-t">📋 整理今日工作汇总</div>
-          <div class="a-d">按优先级整理今日完成和待办事项</div>
+        <p style="color:var(--fg-2);font-size:14px;margin-bottom:12px">为 Agent 下达新任务：</p>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="padding:12px 14px;background:var(--bg-2);border:1px solid var(--line);border-radius:10px;cursor:pointer" onclick="quickAssign('整理今日客户名单')">
+            <div style="font-weight:600;font-size:13px;color:var(--fg)">📋 整理客户名单</div>
+            <div style="font:11px/1.3 var(--font-mono);color:var(--muted);margin-top:3px">按优先级排序今日潜在客户</div>
+          </div>
+          <div style="padding:12px 14px;background:var(--bg-2);border:1px solid var(--line);border-radius:10px;cursor:pointer" onclick="quickAssign('生成周度业绩报告')">
+            <div style="font-weight:600;font-size:13px;color:var(--fg)">📊 生成周度报告</div>
+            <div style="font:11px/1.3 var(--font-mono);color:var(--muted);margin-top:3px">汇总本周数据并输出分析报告</div>
+          </div>
+          <div style="padding:12px 14px;background:var(--bg-2);border:1px solid var(--line);border-radius:10px;cursor:pointer" onclick="quickAssign('跟进高意向客户')">
+            <div style="font-weight:600;font-size:13px;color:var(--fg)">📞 跟进高意向客户</div>
+            <div style="font:11px/1.3 var(--font-mono);color:var(--muted);margin-top:3px">主动联系 3 个高意向未成交客户</div>
+          </div>
         </div>
-        <div class="assign-item" onclick="quickAssign('生成周度业绩报告')">
-          <div class="a-t">📊 生成周度报告</div>
-          <div class="a-d">汇总本周数据并输出分析报告</div>
-        </div>
-        <div class="assign-item" onclick="quickAssign('跟进高意向客户')">
-          <div class="a-t">📞 跟进高意向客户</div>
-          <div class="a-d">主动联系高意向未成交客户</div>
+      </div>
+
+      <!-- Workflow tab -->
+      <div class="tab-content" id="tabWorkflow" style="display:none">
+        <div id="workflowContent">
+          <!-- rendered by JS -->
         </div>
       </div>
     </div>
   </div>
 </div>
+</div>
 
-<!-- Empty state template (hidden) -->
-<div id="emptyTemplate" style="display:none">
-  <div class="empty-state">
-    <div class="big">🏢</div>
-    <h2>还没有数字员工</h2>
-    <p>添加你的第一个 Agent 开始使用 Zirflow Office</p>
-    <button class="btn btn-primary" onclick="toast('添加 Agent 功能即将上线')">+ 添加数字员工</button>
+<!-- TEAM TEMPLATE WIZARD OVERLAY -->
+<div class="wizard-overlay" id="wizardOverlay">
+  <div class="wizard-container" id="wizardContainer">
+
+    <!-- Step indicator -->
+    <div class="wizard-steps" id="wizardSteps">
+      <div class="wiz-step active" data-step="1">
+        <span class="num">1</span>
+        <span class="label">选择模板</span>
+      </div>
+      <div class="wiz-connector" id="conn1"></div>
+      <div class="wiz-step" data-step="2">
+        <span class="num">2</span>
+        <span class="label">配置团队</span>
+      </div>
+      <div class="wiz-connector" id="conn2"></div>
+      <div class="wiz-step" data-step="3">
+        <span class="num">3</span>
+        <span class="label">确认创建</span>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <div class="wizard-header">
+      <h2 id="wizTitle">选择团队模板</h2>
+      <div class="sub" id="wizSub">选择一个预置模板快速开始，或从空白创建</div>
+    </div>
+
+    <!-- Body -->
+    <div class="wizard-body" id="wizardBody">
+      <!-- Step content rendered by JS -->
+    </div>
+
+    <!-- Footer -->
+    <div class="wizard-footer" id="wizardFooter">
+      <div class="wizard-footer-left">
+        <button class="btn btn-ghost" id="wizPrevBtn" style="display:none" onclick="wizardPrev()">← 上一步</button>
+        <button class="btn btn-ghost" onclick="closeWizard()">取消</button>
+      </div>
+      <div class="wizard-footer-right">
+        <button class="btn btn-primary" id="wizNextBtn" onclick="wizardNext()">下一步 →</button>
+      </div>
+    </div>
+
   </div>
 </div>
 
 <script>
 // ============================================================
-// CLIENT DATA
+// CLIENT DATA — each client sees their own agents
 // ============================================================
 const CLIENTS = {
-  huaqing: { name:'华清检测',
-    agents: [
-      { id:1,name:'销售 Agent',role:'销售岗',emoji:'💼',status:'working',metrics:['12单','3.2min','42%','¥24k'],metricLabels:['今日单量','响应时间','转化率','成交额'],color:'linear-gradient(135deg,#3b82f6,#1d4ed8)' },
-      { id:2,name:'客服 Agent',role:'客服岗',emoji:'🎧',status:'idle',metrics:['28单','1.8min','96%','4.8★'],metricLabels:['今日接待','平均响应','解决率','满意度'],color:'linear-gradient(135deg,#10b981,#059669)' },
-      { id:3,name:'HR Agent',role:'人力资源',emoji:'👤',status:'reporting',metrics:['6人','48份','15人','5人'],metricLabels:['今日面试','简历筛选','待跟进','推荐入职'],color:'linear-gradient(135deg,#8b5cf6,#6d28d9)' },
-      { id:4,name:'跟单 Agent',role:'跟单岗',emoji:'📋',status:'resting',metrics:['8单','100%','0','3单'],metricLabels:['今日订单','准时率','异常数','明日待办'],color:'linear-gradient(135deg,#f59e0b,#d97706)' },
-    ] },
-  hengjia: { name:'亨加礼品',
-    agents: [
-      { id:1,name:'销售 Agent',role:'销售岗 · 日本市场',emoji:'💼',status:'working',metrics:['18封','4.2x','62%','¥38k'],metricLabels:['开发信','回复率','意向率','成交额'],color:'linear-gradient(135deg,#3b82f6,#1d4ed8)' },
-      { id:2,name:'跟单 Agent',role:'跟单岗',emoji:'📋',status:'working',metrics:['5单','3批','2次','100%'],metricLabels:['打样中','在产','验货','按时率'],color:'linear-gradient(135deg,#10b981,#059669)' },
-      { id:3,name:'市场 Agent',role:'市场调研',emoji:'🔍',status:'idle',metrics:['120家','8个','3份','2.4x'],metricLabels:['已分析','新赛道','报告','线索增长'],color:'linear-gradient(135deg,#8b5cf6,#6d28d9)' },
-    ] },
-  demo: { name:'演示公司',
-    agents: [
-      { id:1,name:'销售 Agent',role:'销售岗',emoji:'💼',status:'working',metrics:['8单','4.1min','38%','¥12k'],metricLabels:['今日单量','响应时间','转化率','成交额'],color:'linear-gradient(135deg,#3b82f6,#1d4ed8)' },
-      { id:2,name:'客服 Agent',role:'客服岗',emoji:'🎧',status:'idle',metrics:['15单','2.3min','92%','4.6★'],metricLabels:['今日接待','平均响应','解决率','满意度'],color:'linear-gradient(135deg,#10b981,#059669)' },
-    ] },
+  huaqing: {
+    name:'华清检测', agents:[
+      { id:1, name:'销售 Agent', role:'销售岗',emoji:'💼',status:'working',
+        metrics:['12单','3.2min','42%','¥24k'],metricLabels:['今日单量','响应时间','转化率','成交额'],
+        avatarColor:'linear-gradient(135deg,#3b82f6,#1d4ed8)' },
+      { id:2, name:'客服 Agent', role:'客服岗',emoji:'🎧',status:'idle',
+        metrics:['28单','1.8min','96%','4.8★'],metricLabels:['今日接待','平均响应','解决率','满意度'],
+        avatarColor:'linear-gradient(135deg,#10b981,#059669)' },
+      { id:3, name:'HR Agent', role:'人力资源',emoji:'👤',status:'reporting',
+        metrics:['6人','48份','15人','5人'],metricLabels:['今日面试','简历筛选','待跟进','推荐入职'],
+        avatarColor:'linear-gradient(135deg,#8b5cf6,#6d28d9)' },
+      { id:4, name:'跟单 Agent', role:'跟单岗',emoji:'📋',status:'resting',
+        metrics:['8单','100%','0','3单'],metricLabels:['今日订单','准时率','异常数','明日待办'],
+        avatarColor:'linear-gradient(135deg,#f59e0b,#d97706)' },
+    ]
+  },
+  hengjia: {
+    name:'亨加礼品', agents:[
+      { id:1,name:'销售 Agent',role:'销售岗 · 日本市场',emoji:'💼',status:'working',
+        metrics:['18封','4.2x','62%','¥38k'],metricLabels:['开发信','回复率','意向率','成交额'],
+        avatarColor:'linear-gradient(135deg,#3b82f6,#1d4ed8)' },
+      { id:2,name:'跟单 Agent',role:'跟单岗',emoji:'📋',status:'working',
+        metrics:['5单','3批','2次','100%'],metricLabels:['打样中','在产批次','验货','按时率'],
+        avatarColor:'linear-gradient(135deg,#10b981,#059669)' },
+      { id:3,name:'市场 Agent',role:'市场调研',emoji:'🔍',status:'idle',
+        metrics:['120家','8个','3份','2.4x'],metricLabels:['已分析','新赛道','报告产出','线索增长'],
+        avatarColor:'linear-gradient(135deg,#8b5cf6,#6d28d9)' },
+    ]
+  },
+  demo: {
+    name:'演示公司', agents:[
+      { id:1,name:'销售 Agent',role:'销售岗',emoji:'💼',status:'working',
+        metrics:['8单','4.1min','38%','¥12k'],metricLabels:['今日单量','响应时间','转化率','成交额'],
+        avatarColor:'linear-gradient(135deg,#3b82f6,#1d4ed8)' },
+      { id:2,name:'客服 Agent',role:'客服岗',emoji:'🎧',status:'idle',
+        metrics:['15单','2.3min','92%','4.6★'],metricLabels:['今日接待','平均响应','解决率','满意度'],
+        avatarColor:'linear-gradient(135deg,#10b981,#059669)' },
+    ]
+  }
 };
 
-const STATUS_TEXT = { working:'工作中', idle:'空闲中', reporting:'汇报中', resting:'休息中' };
-const TEMPLATES = {
-  huaqing:[{msg:'销售 Agent 完成第 12 批客户询盘回复',type:'ok'},{msg:'客服 Agent 解决客户张总的售后问题',type:'ok'},{msg:'HR Agent 筛选出 5 份匹配简历',type:'info'}],
-  hengjia:[{msg:'销售 Agent 向日本客户发送开发信',type:'ok'},{msg:'跟单 Agent 确认打样通过验收',type:'ok'},{msg:'市场 Agent 发现 3 个高潜力渠道',type:'info'}],
-  demo:[{msg:'销售 Agent 完成第 8 单报价',type:'ok'},{msg:'客服 Agent 解决客户售后问题',type:'ok'}],
+const STATUS_LABELS = { working:'工作中', idle:'空闲中', reporting:'汇报中', resting:'休息中' };
+
+const ACTIVITY_TEMPLATES = {
+  huaqing: [
+    { msg:'销售 Agent 完成第 12 批客户询盘回复', type:'ok' },
+    { msg:'客服 Agent 解决客户张总的售后问题', type:'ok' },
+    { msg:'HR Agent 筛选出 5 份匹配简历', type:'info' },
+    { msg:'跟单 Agent 确认订单 ZF-2026-0616 已发货', type:'ok' },
+  ],
+  hengjia: [
+    { msg:'销售 Agent 向日本客户发送第 18 封开发信', type:'ok' },
+    { msg:'跟单 Agent 确认打样已通过客户验收', type:'ok' },
+    { msg:'市场 Agent 发现 3 个高潜力日本礼品渠道', type:'info' },
+    { msg:'销售 Agent 收到客户回复 — 意向度极高', type:'info' },
+  ],
+  demo: [
+    { msg:'销售 Agent 完成第 8 单报价', type:'ok' },
+    { msg:'客服 Agent 解决客户售后问题', type:'ok' },
+    { msg:'系统检测到新的潜在客户线索（+2）', type:'info' },
+  ],
 };
 
-let clientKey = 'huaqing';
-const STATUS_COLORS = {working:'working',idle:'idle',reporting:'reporting',resting:'resting'};
+let currentClient = null;
+let currentAgentId = null;
 
 // ============================================================
 // INIT
 // ============================================================
-async function init() {
+function init() {
   const params = new URLSearchParams(window.location.search);
-  clientKey = params.get('client') || 'huaqing';
+  const clientKey = params.get('client') || 'huaqing';
+  currentClient = clientKey;
 
-  // Show user info
-  let userName = 'demo@${clientKey}.com';
+  // Get user info
+  let userEmail = `demo@${clientKey}.com`;
   try {
     const stored = localStorage.getItem('zirflow_user');
     if (stored) {
       const user = JSON.parse(stored);
-      userName = user.email || userName;
+      userEmail = user.email;
     }
-  } catch(e){}
-  document.getElementById('userDisplay').textContent = userName;
+  } catch(e) {}
+  document.getElementById('userDisplay').textContent = userEmail;
 
-  // Simulate loading
-  await new Promise(r => setTimeout(r, 500));
   render();
-  setTimeout(() => animateCards(), 100);
 }
 
+// ============================================================
+// RENDER
+// ============================================================
 function render() {
-  const client = CLIENTS[clientKey];
-  if (!client) { document.getElementById('agentGrid').innerHTML = '<div class="empty-state"><div class="big">❌</div><h2>客户未找到</h2></div>'; return; }
+  const client = CLIENTS[currentClient];
+  if (!client) return;
 
   document.getElementById('officeTitle').textContent = `${client.name} · 数字员工办公室`;
-  document.getElementById('officeSub').textContent = `${client.agents.length} 个数字员工 · 点击卡片下达指令或查看报告`;
   document.getElementById('agentCount').textContent = client.agents.length;
   document.getElementById('workingCount').textContent = client.agents.filter(a => a.status === 'working').length;
 
-  if (client.agents.length === 0) {
-    document.getElementById('agentGrid').innerHTML = document.getElementById('emptyTemplate').innerHTML;
-    return;
-  }
+  renderAgents(client.agents);
+  renderActivities();
+}
 
-  document.getElementById('agentGrid').innerHTML = client.agents.map(a => `
-    <div class="agent-card" onclick="openModal(${a.id})" data-idx="${a.id}">
+function renderAgents(agents) {
+  const grid = document.getElementById('agentGrid');
+  grid.innerHTML = agents.map(a => `
+    <div class="agent-card" onclick="openModal(${a.id})">
       <div class="agent-top">
-        <div class="agent-avatar" style="background:${a.color}">
+        <div class="agent-avatar" style="background:${a.avatarColor}">
           <span>${a.emoji}</span>
-          <div class="status-ring"><div class="sr-inner pulse-${STATUS_COLORS[a.status]}"></div></div>
+          <div class="status-ring">
+            <div class="sr-inner pulse-${a.status}"></div>
+          </div>
         </div>
-        <span class="badge badge-${a.status}">● ${STATUS_TEXT[a.status]}</span>
+        <span class="agent-badge badge-${a.status}">● ${STATUS_LABELS[a.status]}</span>
       </div>
-      <div class="agent-name">${a.name}</div>
-      <div class="agent-role">${a.role}</div>
+      <div class="agent-name">${escHtml(a.name)}</div>
+      <div class="agent-role">${escHtml(a.role)}</div>
+      <div class="agent-team">${a.team ? '🏢 ' + escHtml(a.team) : ''}</div>
       <div class="agent-metrics">
-        ${a.metrics.map((v,i) => `<div class="agent-metric"><div class="val">${v}</div><div class="lbl">${a.metricLabels[i]}</div></div>`).join('')}
+        ${a.metrics.map((v,i) => `
+          <div class="agent-metric">
+            <div class="val">${v}</div>
+            <div class="lbl">${a.metricLabels[i]}</div>
+          </div>
+        `).join('')}
       </div>
       <div class="agent-actions" onclick="event.stopPropagation()">
         <button class="btn btn-ghost btn-sm" onclick="openModal(${a.id});switchTabName('chat')">💬 对话</button>
         <button class="btn btn-ghost btn-sm" onclick="openModal(${a.id});switchTabName('assign')">📋 指令</button>
       </div>
     </div>
-  `).join('') + `<div class="agent-card agent-card-add" onclick="toast('添加 Agent 即将上线')"><div class="plus">+</div><div class="lbl">添加数字员工</div></div>`;
-
-  // Render activity feed
-  renderActivities();
+  `).join('') + `
+    <div class="agent-card agent-card-add" onclick="openWizard()">
+      <div class="plus">+</div>
+      <div class="lbl">从模板创建团队</div>
+    </div>
+  `;
 }
 
 function renderActivities() {
   const feed = document.getElementById('activityFeed');
-  const templates = TEMPLATES[clientKey] || TEMPLATES.huaqing;
+  const templates = ACTIVITY_TEMPLATES[currentClient] || ACTIVITY_TEMPLATES.huaqing;
   feed.innerHTML = templates.map(t =>
     `<div class="activity-item"><span class="t">${new Date().toTimeString().slice(0,8)}</span><span class="dot ${t.type}"></span><span class="x">${t.msg}</span></div>`
   ).join('');
 }
 
-function animateCards() {
-  document.querySelectorAll('.agent-card:not(.agent-card-add)').forEach((el, i) => {
-    setTimeout(() => el.classList.add('show'), i * 80);
-  });
-}
-
-function addActivity() {
+function addRandomActivity() {
   const feed = document.getElementById('activityFeed');
-  const templates = TEMPLATES[clientKey] || TEMPLATES.huaqing;
+  const templates = ACTIVITY_TEMPLATES[currentClient] || ACTIVITY_TEMPLATES.huaqing;
   const t = templates[Math.floor(Math.random() * templates.length)];
+  const now = new Date();
   const el = document.createElement('div');
   el.className = 'activity-item line-new';
-  el.innerHTML = `<span class="t">${new Date().toTimeString().slice(0,8)}</span><span class="dot ${t.type}"></span><span class="x">${t.msg}</span>`;
+  el.innerHTML = `<span class="t">${now.toTimeString().slice(0,8)}</span><span class="dot ${t.type}"></span><span class="x">${t.msg}</span>`;
+  feed.insertBefore(el, feed.firstChild);
+  while (feed.children.length > 20) feed.removeChild(feed.lastChild);
+}
+
+function addActivity(msg, type) {
+  const feed = document.getElementById('activityFeed');
+  const now = new Date();
+  const el = document.createElement('div');
+  el.className = 'activity-item line-new';
+  el.innerHTML = `<span class="t">${now.toTimeString().slice(0,8)}</span><span class="dot ${type}"></span><span class="x">${msg}</span>`;
   feed.insertBefore(el, feed.firstChild);
   while (feed.children.length > 20) feed.removeChild(feed.lastChild);
 }
 
 function logout() {
-  localStorage.removeItem('zirflow_token');
   localStorage.removeItem('zirflow_user');
-  window.location.href = '/login.html';
+  window.location.href = 'login.html';
 }
 
 // ============================================================
 // MODAL
 // ============================================================
 function openModal(id) {
-  const client = CLIENTS[clientKey];
-  if (!client) return;
-  const a = client.agents.find(x => x.id === id);
+  const agents = CLIENTS[currentClient].agents;
+  currentAgentId = id;
+  const a = agents.find(x => x.id === id);
   if (!a) return;
-  document.getElementById('mAvatar').style.background = a.color;
+  document.getElementById('mAvatar').style.background = a.avatarColor;
   document.getElementById('mAvatar').textContent = a.emoji;
   document.getElementById('mName').textContent = a.name;
-  document.getElementById('mRole').textContent = `${a.role} · ${STATUS_TEXT[a.status]}`;
+  document.getElementById('mRole').textContent = `${a.role} · ${STATUS_LABELS[a.status]}`;
   document.getElementById('modalOverlay').classList.add('open');
   document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
   document.querySelector('[data-tab="chat"]').classList.add('active');
   document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
   document.getElementById('tabChat').style.display = '';
-  document.getElementById('chatInput').focus();
+  renderWorkflowTab(a);
 }
 
 function closeModal() {
@@ -578,10 +1023,11 @@ function closeModal() {
 function switchTab(el) {
   document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
   el.classList.add('active');
+  const name = el.dataset.tab;
   document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
-  const map = { chat:'tabChat', report:'tabReport', assign:'tabAssign' };
-  const tid = map[el.dataset.tab];
-  if (tid) document.getElementById(tid).style.display = '';
+  const tabMap = { chat:'tabChat', report:'tabReport', assign:'tabAssign', workflow:'tabWorkflow' };
+  const tabId = tabMap[name];
+  if (tabId) document.getElementById(tabId).style.display = '';
 }
 
 function switchTabName(name) {
@@ -595,59 +1041,1061 @@ function sendChat() {
   if (!msg) return;
   const chat = document.querySelector('.m-chat');
   const now = new Date().toTimeString().slice(0,5);
-  chat.insertAdjacentHTML('beforeend', `<div class="m-msg sent"><div class="bubble">${msg}<div class="time">${now}</div></div></div>`);
+  chat.insertAdjacentHTML('beforeend',
+    `<div class="m-msg sent"><div class="bubble">${msg}<div class="time">${now}</div></div></div>`);
   input.value = '';
   chat.scrollTop = chat.scrollHeight;
   setTimeout(() => {
     const replies = ['好的，马上处理！', '收到，正在执行。', '已记录，稍后汇报结果。', '明白，预计 30 秒内完成。'];
-    chat.insertAdjacentHTML('beforeend', `<div class="m-msg received"><div class="bubble">${replies[Math.floor(Math.random()*replies.length)]}<div class="time">${new Date().toTimeString().slice(0,5)}</div></div></div>`);
+    const reply = replies[Math.floor(Math.random() * replies.length)];
+    chat.insertAdjacentHTML('beforeend',
+      `<div class="m-msg received"><div class="bubble">${reply}<div class="time">${new Date().toTimeString().slice(0,5)}</div></div></div>`);
     chat.scrollTop = chat.scrollHeight;
-    addActivity();
-  }, 500 + Math.random()*300);
+    addRandomActivity();
+  }, 600 + Math.random() * 400);
 }
 
 function quickAssign(task) {
   document.getElementById('chatInput').value = task;
   switchTabName('chat');
-  setTimeout(() => sendChat(), 200);
+  setTimeout(() => sendChat(), 100);
 }
 
 // ============================================================
-// CLOCK & LIVE ACTIVITY
+// WORKFLOW TAB
 // ============================================================
-function updateClock() { document.getElementById('clock').textContent = new Date().toTimeString().slice(0,8); }
+function findMatchingTemplate(agent) {
+  // First try by the agent's stored source template ID (agents created via wizard)
+  if (agent.fromTemplateId) {
+    const tpl = TEAM_TEMPLATES.find(t => t.id === agent.fromTemplateId);
+    if (tpl) return tpl;
+  }
+  // Then try by client key — each real client has its own template entry
+  const clientKey = currentClient;
+  const template = TEAM_TEMPLATES.find(t => t.id === clientKey);
+  if (template) return template;
+  // Not a template-backed agent — standalone/demo
+  return null;
+}
+
+function findAgentIndex(template, agent) {
+  // If agent carries a stored template index (set by wizard creation), use it directly
+  if (agent.templateIdx != null && agent.templateIdx >= 0 && agent.templateIdx < template.agents.length) {
+    return agent.templateIdx;
+  }
+  // Fall back to name matching (static CLIENTS agents that match template names)
+  const normalizedName = agent.name.replace(/\s+/g, '').toLowerCase();
+  return template.agents.findIndex(a =>
+    a.name.replace(/\s+/g, '').toLowerCase() === normalizedName
+  );
+}
+
+function getTopologicalOrder(relations, totalAgents) {
+  const adj = Array.from({ length: totalAgents }, () => []);
+  const inDeg = new Array(totalAgents).fill(0);
+  for (const r of relations) {
+    adj[r.from].push(r.to);
+    inDeg[r.to]++;
+  }
+  const queue = [];
+  for (let i = 0; i < totalAgents; i++) {
+    if (inDeg[i] === 0) queue.push(i);
+  }
+  const order = [];
+  while (queue.length > 0) {
+    const node = queue.shift();
+    order.push(node);
+    for (const next of adj[node]) {
+      inDeg[next]--;
+      if (inDeg[next] === 0) queue.push(next);
+    }
+  }
+  for (let i = 0; i < totalAgents; i++) {
+    if (!order.includes(i)) order.push(i);
+  }
+  return order;
+}
+
+function getWorkflowInfo(agent) {
+  const template = findMatchingTemplate(agent);
+  if (!template) return null;
+  const agentIdx = findAgentIndex(template, agent);
+  if (agentIdx === -1) return null;
+  const total = template.agents.length;
+  const relations = template.relations || [];
+  const upstream = relations
+    .filter(r => r.to === agentIdx)
+    .map(r => ({ idx: r.from, agent: template.agents[r.from], label: r.label }));
+  const downstream = relations
+    .filter(r => r.from === agentIdx)
+    .map(r => ({ idx: r.to, agent: template.agents[r.to], label: r.label }));
+  const order = getTopologicalOrder(relations, total);
+  const stepPos = order.indexOf(agentIdx);
+  const totalSteps = order.length;
+  return {
+    templateName: template.name,
+    step: stepPos + 1,
+    totalSteps: totalSteps,
+    upstream, downstream,
+    agentIdx, totalAgents: total,
+    allAgents: template.agents,
+    relations
+  };
+}
+
+function renderFlowchartSVG(agents, relations, currentIdx) {
+  const n = agents.length;
+  if (n === 0) return '';
+
+  // ---- compute graph layers (longest-path layering) ----
+  function computeLayers() {
+    const adj = Array.from({ length: n }, () => []);
+    const revAdj = Array.from({ length: n }, () => []);
+    for (const r of relations) {
+      adj[r.from].push(r.to);
+      revAdj[r.to].push(r.from);
+    }
+    const inDeg = revAdj.map(e => e.length);
+    const layer = new Array(n).fill(0);
+    const q = [];
+    for (let i = 0; i < n; i++) if (inDeg[i] === 0) q.push(i);
+    const vis = new Set();
+    while (q.length) {
+      const v = q.shift();
+      vis.add(v);
+      for (const nx of adj[v]) {
+        layer[nx] = Math.max(layer[nx], layer[v] + 1);
+        if (--inDeg[nx] === 0) q.push(nx);
+      }
+    }
+    // Handle cycles (e.g. feedback edges)
+    let maxLayer = Math.max(0, ...layer);
+    for (let i = 0; i < n; i++) {
+      if (!vis.has(i)) {
+        let mp = 0;
+        for (const p of revAdj[i]) if (vis.has(p)) mp = Math.max(mp, layer[p] + 1);
+        layer[i] = Math.max(layer[i], mp);
+        if (layer[i] <= maxLayer) layer[i] = maxLayer + 1;
+        maxLayer = Math.max(maxLayer, layer[i]);
+      }
+    }
+    return layer;
+  }
+
+  const layer = computeLayers();
+
+  // Group nodes by layer
+  const layerGroups = {};
+  for (let i = 0; i < n; i++) {
+    (layerGroups[layer[i]] = layerGroups[layer[i]] || []).push(i);
+  }
+  const sortedLayers = Object.keys(layerGroups).map(Number).sort((a, b) => a - b);
+  const numLayers = sortedLayers.length;
+
+  // Layout constants
+  const NODE_W = 72, NODE_H = 62, COL_GAP = 44, ROW_GAP = 28;
+  const PAD_X = 4, PAD_Y = 4;
+
+  let maxRow = 0;
+  for (const l of sortedLayers) maxRow = Math.max(maxRow, layerGroups[l].length);
+
+  const totalW = numLayers * NODE_W + (numLayers - 1) * COL_GAP;
+  const totalH = maxRow * NODE_H + (maxRow - 1) * ROW_GAP;
+  const svgW = totalW + PAD_X * 2;
+  const svgH = totalH + PAD_Y * 2;
+
+  // Assign pixel positions (top-left corner of each node)
+  const pos = {};
+  for (let ci = 0; ci < sortedLayers.length; ci++) {
+    const l = sortedLayers[ci];
+    const nodes = layerGroups[l];
+    const lh = nodes.length * NODE_H + (nodes.length - 1) * ROW_GAP;
+    const startY = PAD_Y + (totalH - lh) / 2;
+    nodes.forEach((node, ri) => {
+      pos[node] = { x: PAD_X + ci * (NODE_W + COL_GAP), y: startY + ri * (NODE_H + ROW_GAP) };
+    });
+  }
+
+  // Extract a solid hex color from a CSS gradient string
+  function solidColor(gradient) {
+    if (!gradient) return '';
+    const m = gradient.match(/#[0-9a-f]{6}/ig);
+    return m ? m[0] : '';
+  }
+
+  // ----- Build SVG -----
+  let svg = `<svg viewBox="0 0 ${svgW} ${svgH}" style="width:100%;height:auto;display:block" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <marker id="arr" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+    <polygon points="0 0,7 2.5,0 5" fill="var(--muted)"/>
+  </marker>
+  <marker id="arr-active" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+    <polygon points="0 0,7 2.5,0 5" fill="var(--accent)"/>
+  </marker>
+  <filter id="glow">
+    <feDropShadow dx="0" dy="0" stdDeviation="3.5" flood-color="rgba(59,130,246,0.45)"/>
+  </filter>
+</defs>`;
+
+  // ---- Edges (draw behind nodes) ----
+  for (const r of relations) {
+    const s = pos[r.from];
+    const t = pos[r.to];
+    if (!s || !t) continue;
+
+    const isActive = r.from === currentIdx || r.to === currentIdx;
+    const marker = isActive ? 'url(#arr-active)' : 'url(#arr)';
+    const stroke = isActive ? 'var(--accent)' : 'var(--line-2)';
+    const sw = isActive ? 2 : 1.5;
+    const op = isActive ? 0.9 : 0.4;
+
+    const x1 = s.x + NODE_W, y1 = s.y + NODE_H / 2;
+    const x2 = t.x, y2 = t.y + NODE_H / 2;
+
+    // Count siblings for vertical fan-out spacing
+    const outEdges = relations.filter(e => e.from === r.from);
+    const inEdges = relations.filter(e => e.to === r.to);
+    const outIdx = outEdges.findIndex(e => e.to === r.to);
+    const inIdx = inEdges.findIndex(e => e.from === r.from);
+    const outCount = outEdges.length;
+    const inCount = inEdges.length;
+
+    // Determine vertical offset for fork/merge fan-out
+    let yOff = 0;
+    if (outCount > 1 && inCount > 1) {
+      // Both fork and merge — offset based on both position
+      yOff = ((outIdx + inIdx) / 2 - (outCount + inCount - 2) / 2) * 14;
+    } else if (outCount > 1) {
+      yOff = (outIdx - (outCount - 1) / 2) * 14;
+    } else if (inCount > 1) {
+      yOff = (inIdx - (inCount - 1) / 2) * 14;
+    }
+
+    const cp = Math.max(16, Math.abs(x2 - x1) * 0.45);
+    let d;
+
+    if (x2 < x1) {
+      // Feedback/back edge — loop above the flow
+      const mx = (x1 + x2) / 2;
+      const by = Math.min(y1, y2) - 22;
+      d = `M${x1},${y1} Q${x1 + cp},${by + yOff} ${mx},${by + yOff} Q${x2 - cp},${by + yOff} ${x2},${y2}`;
+    } else {
+      // Forward edge — smooth cubic bezier (yOff fans out fork/merge control points)
+      d = `M${x1},${y1} C${x1 + cp},${y1 + yOff} ${x2 - cp},${y2 + yOff} ${x2},${y2}`;
+    }
+
+    svg += `<path d="${d}" fill="none" stroke="${stroke}" stroke-width="${sw}" opacity="${op}" marker-end="${marker}"/>`;
+
+    // Edge label
+    if (r.label) {
+      const lx = (x1 + x2) / 2;
+      const ly = (y1 + y2) / 2 - (x2 < x1 ? 16 : 10) + yOff * 0.5;
+      svg += `<text x="${lx}" y="${ly}" text-anchor="middle" fill="var(--muted)" font-size="9" font-family="var(--font-mono)" opacity="${op}">${escHtml(r.label)}</text>`;
+    }
+  }
+
+  // ---- Nodes ----
+  for (let i = 0; i < n; i++) {
+    const p = pos[i];
+    if (!p) continue;
+
+    const ag = agents[i];
+    const isCurrent = i === currentIdx;
+    const baseColor = solidColor(ag.color);
+
+    // Card body fill & stroke
+    const fill = isCurrent && baseColor ? baseColor : 'var(--surface)';
+    const stroke = isCurrent ? 'var(--accent)' : (baseColor || 'var(--line)');
+    const sw = isCurrent ? 2 : 1.2;
+
+    // Card shadow/glow for current
+    const filter = isCurrent ? ' filter="url(#glow)"' : '';
+
+    svg += `<rect x="${p.x}" y="${p.y}" width="${NODE_W}" height="${NODE_H}" rx="10" ry="10" fill="${fill}" stroke="${stroke}" stroke-width="${sw}" opacity="${isCurrent ? 1 : 0.85}"${filter}/>`;
+
+    // Top accent bar for non-current nodes
+    if (!isCurrent && baseColor) {
+      svg += `<rect x="${p.x + 12}" y="${p.y}" width="${NODE_W - 24}" height="2" rx="1" fill="${baseColor}" opacity="0.5"/>`;
+    }
+
+    // Emoji
+    svg += `<text x="${p.x + NODE_W / 2}" y="${p.y + 24}" text-anchor="middle" font-size="22">${escHtml(ag.emoji || '🤖')}</text>`;
+
+    // Name
+    const nameColor = isCurrent ? '#fff' : 'var(--fg-2)';
+    const prefix = isCurrent ? '▸ ' : '';
+    const nameWeight = isCurrent ? '700' : '600';
+    svg += `<text x="${p.x + NODE_W / 2}" y="${p.y + NODE_H - 9}" text-anchor="middle" fill="${nameColor}" font-size="10" font-weight="${nameWeight}" font-family="var(--font)">${prefix}${escHtml(ag.name)}</text>`;
+  }
+
+  svg += '</svg>';
+  return svg;
+}
+
+function renderWorkflowTab(agent) {
+  const container = document.getElementById('workflowContent');
+  const info = getWorkflowInfo(agent);
+  if (!info) {
+    container.innerHTML = `
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;text-align:center">
+        <div style="font-size:42px;margin-bottom:14px;opacity:0.5">🔗</div>
+        <div style="font:600 16px/1.4 var(--font);color:var(--fg-2);margin-bottom:4px">独立 Agent</div>
+        <div style="font:12px/1 var(--font-mono);color:var(--muted)">未关联工作流</div>
+      </div>`;
+    return;
+  }
+
+  const statusDot = `<span class="dot-${agent.status}" style="display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px"></span>`;
+  const statusText = STATUS_LABELS[agent.status] || agent.status;
+
+  let html = '';
+
+  // Workflow name header
+  html += `
+  <div style="margin-bottom:16px">
+    <div style="font:600 11px/1 var(--font-mono);color:var(--muted);letter-spacing:0.08em;margin-bottom:4px">所属工作流</div>
+    <div style="font:700 16px/1.2 var(--font);color:var(--fg)">${escHtml(info.templateName)}</div>
+  </div>`;
+
+  // Position bar
+  html += `
+  <div style="margin-bottom:18px">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">
+      <div style="font:600 11px/1 var(--font-mono);color:var(--fg-2)">工作流位置</div>
+      <div style="font:700 13px/1 var(--font-mono);color:var(--accent);font-variant-numeric:tabular-nums">
+        第 ${info.step} 步 / 共 ${info.totalSteps} 步
+      </div>
+    </div>
+    <div style="display:flex;gap:3px;height:4px">
+      ${Array.from({ length: info.totalSteps }, (_, i) => `
+        <div style="flex:1;border-radius:2px;background:${i < info.step ? 'var(--accent)' : 'var(--line)'};${i === info.step - 1 ? 'box-shadow:0 0 6px rgba(59,130,246,0.5)' : ''}"></div>
+      `).join('')}
+    </div>
+  </div>`;
+
+  // Status
+  html += `
+  <div style="background:var(--bg-2);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:18px;display:flex;align-items:center;gap:10px">
+    <div>
+      <div style="font:600 13px/1 var(--font);color:var(--fg)">${statusDot}${statusText}</div>
+      <div style="font:10px/1 var(--font-mono);color:var(--muted);margin-top:3px">当前工作状态</div>
+    </div>
+  </div>`;
+
+  // SVG Flowchart
+  html += `
+  <div style="background:var(--bg-2);border:1px solid var(--line);border-radius:12px;padding:14px 10px;margin-bottom:18px;overflow-x:auto;overflow-y:visible">
+    <div style="font:600 11px/1 var(--font-mono);color:var(--muted);letter-spacing:0.08em;margin-bottom:10px;text-align:center">流程</div>`;
+  html += renderFlowchartSVG(info.allAgents, info.relations, info.agentIdx);
+  html += `</div>`;
+
+  // Upstream / Downstream details
+  if (info.upstream.length > 0 || info.downstream.length > 0) {
+    html += `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px">`;
+
+    if (info.upstream.length > 0) {
+      html += `
+      <div style="background:var(--bg-2);border:1px solid var(--line);border-radius:10px;padding:12px">
+        <div style="font:600 10px/1 var(--font-mono);color:var(--muted);letter-spacing:0.1em;margin-bottom:8px">⬆ 上游 Agent</div>
+        ${info.upstream.map(u => {
+          const color = u.agent.color || 'var(--surface-2)';
+          return `<div style="display:flex;align-items:center;gap:8px;padding:5px 0">
+            <div style="width:26px;height:26px;border-radius:6px;display:grid;place-items:center;font-size:13px;background:${color}">${u.agent.emoji || '🤖'}</div>
+            <div>
+              <div style="font:600 12px/1 var(--font);color:var(--fg)">${escHtml(u.agent.name)}</div>
+              <div style="font:9px/1 var(--font-mono);color:var(--muted);margin-top:2px">${escHtml(u.label || '协作')}</div>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>`;
+    } else {
+      html += `<div style="background:var(--bg-2);border:1px solid var(--line);border-radius:10px;padding:12px;display:flex;align-items:center;justify-content:center">
+        <div style="font:12px/1 var(--font-mono);color:var(--muted)">⬆ 无上游</div>
+      </div>`;
+    }
+
+    if (info.downstream.length > 0) {
+      html += `
+      <div style="background:var(--bg-2);border:1px solid var(--line);border-radius:10px;padding:12px">
+        <div style="font:600 10px/1 var(--font-mono);color:var(--muted);letter-spacing:0.1em;margin-bottom:8px">⬇ 下游 Agent</div>
+        ${info.downstream.map(d => {
+          const color = d.agent.color || 'var(--surface-2)';
+          return `<div style="display:flex;align-items:center;gap:8px;padding:5px 0">
+            <div style="width:26px;height:26px;border-radius:6px;display:grid;place-items:center;font-size:13px;background:${color}">${d.agent.emoji || '🤖'}</div>
+            <div>
+              <div style="font:600 12px/1 var(--font);color:var(--fg)">${escHtml(d.agent.name)}</div>
+              <div style="font:9px/1 var(--font-mono);color:var(--muted);margin-top:2px">${escHtml(d.label || '协作')}</div>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>`;
+    } else {
+      html += `<div style="background:var(--bg-2);border:1px solid var(--line);border-radius:10px;padding:12px;display:flex;align-items:center;justify-content:center">
+        <div style="font:12px/1 var(--font-mono);color:var(--muted)">⬇ 无下游</div>
+      </div>`;
+    }
+
+    html += `</div>`;
+  }
+
+  // Member count
+  html += `
+  <div style="display:flex;justify-content:center;gap:16px;padding:4px 0 2px">
+    <div style="font:10px/1 var(--font-mono);color:var(--muted)">${info.totalAgents} 个 Agent</div>
+    <div style="font:10px/1 var(--font-mono);color:var(--muted)">${info.relations.length} 条协作关系</div>
+  </div>`;
+
+  container.innerHTML = html;
+}
+
+// ============================================================
+// CLOCK
+// ============================================================
+function updateClock() {
+  document.getElementById('clock').textContent = new Date().toTimeString().slice(0,8);
+}
 setInterval(updateClock, 1000);
-setInterval(() => { if (Math.random() > 0.55) addActivity(); }, 7000);
 
 // ============================================================
 // OVERLAY CLOSE
 // ============================================================
-document.getElementById('modalOverlay').addEventListener('click', function(e) { if (e.target===this) closeModal(); });
+document.getElementById('modalOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
 
 // ============================================================
-// TOAST
+// AUTO ACTIVITY
 // ============================================================
-function toast(msg) {
-  const existing = document.querySelector('.toast');
-  if (existing) existing.remove();
-  const el = document.createElement('div');
-  el.className = 'toast'; el.textContent = msg;
-  Object.assign(el.style, {
-    position:'fixed', bottom:'30px', left:'50%', transform:'translateX(-50%)',
-    padding:'10px 20px', borderRadius:'10px', background:'var(--surface)',
-    border:'1px solid var(--line-2)', color:'var(--fg)', fontSize:'14px',
-    zIndex:'999', fontFamily:'var(--font)',
-    animation:'feedIn 0.3s ease, feedIn 0.3s 2.5s ease reverse',
-  });
-  document.body.appendChild(el);
-  setTimeout(() => el.remove(), 3000);
-}
+setInterval(() => {
+  if (Math.random() > 0.6) addRandomActivity();
+}, 8000);
 
 // ============================================================
 // START
 // ============================================================
 init();
 updateClock();
+
+// ============================================================
+// TEAM TEMPLATES DATA
+// ============================================================
+const TEAM_TEMPLATES = [
+  {
+    id: 'huaqing',
+    name: '华清检测标准团队',
+    emoji: '🏭',
+    tags: ['检测认证', '全流程'],
+    tagType: 'alt',
+    description: '面向检测认证行业的完整数字员工团队，覆盖销售获客、客户服务、人才招聘和订单跟单全流程。',
+    agentCount: 4,
+    defaultTeamName: '华清检测数字员工团队',
+    agents: [
+      { name: '销售Agent', role: '销售岗', emoji: '💼', color: 'linear-gradient(135deg,#3b82f6,#1d4ed8)',
+        goal: '开发新客户，完成检测服务订单',
+        backstory: '资深检测行业销售，精通B2B客户开发和检测方案报价，擅长用数据驱动销售决策。' },
+      { name: '客服Agent', role: '客服岗', emoji: '🎧', color: 'linear-gradient(135deg,#10b981,#059669)',
+        goal: '解答客户咨询，处理售后问题，提升客户满意度',
+        backstory: '7x24小时在线客服，熟悉检测流程和各环节标准答案，快速响应客户需求。' },
+      { name: 'HR Agent', role: '人力资源', emoji: '👤', color: 'linear-gradient(135deg,#8b5cf6,#6d28d9)',
+        goal: '招聘和管理检测行业专业人才',
+        backstory: '专注检测行业人才库建设，从简历筛选到面试安排全流程自动化。' },
+      { name: '跟单Agent', role: '跟单岗', emoji: '📋', color: 'linear-gradient(135deg,#f59e0b,#d97706)',
+        goal: '跟踪检测订单全流程进度，确保按时交付',
+        backstory: '精通检测流程管理和节点控制，主动预警延期风险并协调资源。' }
+    ],
+    relations: [
+      { from: 0, to: 3, label: '委托跟单' },
+      { from: 1, to: 0, label: '反馈线索' },
+      { from: 2, to: 0, label: '人才支持' },
+      { from: 2, to: 1, label: '培训支持' }
+    ]
+  },
+  {
+    id: 'hengjia',
+    name: '亨加礼品外贸团队',
+    emoji: '🎁',
+    tags: ['外贸', '礼品'],
+    tagType: '',
+    description: '面向外贸礼品行业的精干团队，专注海外市场开发、客户跟单和供应链管理。',
+    agentCount: 3,
+    defaultTeamName: '亨加礼品外贸团队',
+    agents: [
+      { name: '销售Agent', role: '销售岗 · 海外市场', emoji: '💼', color: 'linear-gradient(135deg,#3b82f6,#1d4ed8)',
+        goal: '开发海外客户，完成外贸订单成交',
+        backstory: '专注日本和欧美市场的B2B外贸销售，精通外语开发和跨文化沟通。' },
+      { name: '市场Agent', role: '市场调研', emoji: '🔍', color: 'linear-gradient(135deg,#8b5cf6,#6d28d9)',
+        goal: '调研海外市场趋势，发现高潜力赛道和渠道',
+        backstory: '数据驱动的市场分析师，持续扫描海外礼品行业趋势和竞品动态。' },
+      { name: '跟单Agent', role: '跟单岗', emoji: '📋', color: 'linear-gradient(135deg,#10b981,#059669)',
+        goal: '跟踪打样、生产和验货全流程，确保订单按时交付',
+        backstory: '精通外贸跟单全流程，从打样确认到出货验货的精细化节点管理。' }
+    ],
+    relations: [
+      { from: 1, to: 0, label: '提供线索' },
+      { from: 0, to: 2, label: '委托跟单' }
+    ]
+  },
+  {
+    id: 'ecommerce',
+    name: '电商客服团队',
+    emoji: '🛒',
+    tags: ['电商', '客服'],
+    tagType: 'green',
+    description: '面向电商平台的完整客服体系，覆盖售前咨询、售后处理和投诉升级。',
+    agentCount: 3,
+    defaultTeamName: '电商客服中心',
+    agents: [
+      { name: '售前Agent', role: '售前咨询', emoji: '💬', color: 'linear-gradient(135deg,#3b82f6,#1d4ed8)',
+        goal: '解答客户售前疑问，促进下单转化',
+        backstory: '熟悉商品知识和促销策略，能根据客户需求推荐最合适的产品组合。' },
+      { name: '售后Agent', role: '售后服务', emoji: '🔧', color: 'linear-gradient(135deg,#10b981,#059669)',
+        goal: '处理退换货、物流查询等售后问题',
+        backstory: '精通售后流程和赔付标准，在不损害客户满意度的前提下控制售后成本。' },
+      { name: '投诉Agent', role: '投诉处理', emoji: '⚖️', color: 'linear-gradient(135deg,#f59e0b,#d97706)',
+        goal: '处理升级投诉，挽回客户信任',
+        backstory: '资深客诉专家，擅长处理高难度投诉场景，维护品牌声誉。' }
+    ],
+    relations: [
+      { from: 0, to: 1, label: '转交售后' },
+      { from: 1, to: 2, label: '升级投诉' },
+      { from: 2, to: 1, label: '反馈结论' }
+    ]
+  },
+  {
+    id: 'startup',
+    name: '初创公司全能团队',
+    emoji: '🚀',
+    tags: ['初创', '全能型'],
+    tagType: 'alt',
+    description: '为初创公司设计的轻量全能团队，一人多能，覆盖销售、客服和日常运营。',
+    agentCount: 3,
+    defaultTeamName: '初创全能团队',
+    agents: [
+      { name: '销售Agent', role: '销售岗', emoji: '💼', color: 'linear-gradient(135deg,#3b82f6,#1d4ed8)',
+        goal: '获客并完成销售转化',
+        backstory: '全能型销售，从线索挖掘到成交签约的全链路跟进，适应快速迭代的初创节奏。' },
+      { name: '客服Agent', role: '客服岗', emoji: '🎧', color: 'linear-gradient(135deg,#10b981,#059669)',
+        goal: '处理客户咨询和基础售后',
+        backstory: '灵活应变的全能客服，既解答产品问题也收集用户反馈推动产品改进。' },
+      { name: '运营Agent', role: '运营岗', emoji: '📊', color: 'linear-gradient(135deg,#8b5cf6,#6d28d9)',
+        goal: '支撑公司日常运营和数据分析',
+        backstory: '初创公司运营多面手，从数据报表到流程优化的全方位支持。' }
+    ],
+    relations: [
+      { from: 1, to: 0, label: '反馈需求' },
+      { from: 0, to: 2, label: '协作运营' },
+      { from: 2, to: 0, label: '数据支持' }
+    ]
+  },
+  {
+    id: 'ai-consulting',
+    name: 'AI 自动化咨询团队',
+    emoji: '🤖',
+    tags: ['AI咨询', '自动化'],
+    tagType: 'alt',
+    description: '为企业提供 AI 自动化解决方案的专业咨询团队，从方案设计到技术实现再到交付落地。',
+    agentCount: 3,
+    defaultTeamName: 'AI 咨询交付团队',
+    agents: [
+      { name: '方案Agent', role: '解决方案', emoji: '📐', color: 'linear-gradient(135deg,#3b82f6,#1d4ed8)',
+        goal: '了解客户需求，设计 AI 自动化解决方案',
+        backstory: '企业AI转型顾问，精通各类业务场景的自动化机会识别和方案设计。' },
+      { name: '技术Agent', role: '技术实现', emoji: '⚙️', color: 'linear-gradient(135deg,#10b981,#059669)',
+        goal: '将方案落地为可运行的技术实现',
+        backstory: '全栈AI工程师，擅长将方案快速转化为原型和可交付成果。' },
+      { name: '交付Agent', role: '项目交付', emoji: '📦', color: 'linear-gradient(135deg,#f59e0b,#d97706)',
+        goal: '管理交付进度，确保客户满意',
+        backstory: '项目交付专家，跟踪需求变更和交付质量，确保项目按时上线。' }
+    ],
+    relations: [
+      { from: 0, to: 1, label: '移交实现' },
+      { from: 1, to: 2, label: '移交交付' },
+      { from: 2, to: 0, label: '反馈优化' }
+    ]
+  },
+  {
+    id: 'blank',
+    name: '自定义空白模板',
+    emoji: '✨',
+    tags: ['自由配置'],
+    tagType: 'green',
+    description: '从零开始配置你的数字员工团队，自由定义每个 Agent 的角色、目标和背景。',
+    agentCount: 0,
+    defaultTeamName: '我的数字员工团队',
+    agents: [],
+    relations: []
+  }
+];
+
+const TPL_COLORS = {
+  huaqing: 'linear-gradient(135deg,#3b82f6,#1d4ed8)',
+  hengjia: 'linear-gradient(135deg,#f59e0b,#d97706)',
+  ecommerce: 'linear-gradient(135deg,#10b981,#059669)',
+  startup: 'linear-gradient(135deg,#8b5cf6,#6d28d9)',
+  'ai-consulting': 'linear-gradient(135deg,#ec4899,#be185d)',
+  blank: 'linear-gradient(135deg,#6b7280,#4b5563)'
+};
+
+const AVATAR_COLORS = [
+  'linear-gradient(135deg,#3b82f6,#1d4ed8)',
+  'linear-gradient(135deg,#10b981,#059669)',
+  'linear-gradient(135deg,#8b5cf6,#6d28d9)',
+  'linear-gradient(135deg,#f59e0b,#d97706)',
+  'linear-gradient(135deg,#ec4899,#be185d)',
+  'linear-gradient(135deg,#06b6d4,#0891b2)',
+  'linear-gradient(135deg,#f97316,#ea580c)',
+  'linear-gradient(135deg,#6366f1,#4338ca)'
+];
+
+// ============================================================
+// WIZARD STATE
+// ============================================================
+let wizardStep = 1;
+let selectedTemplateId = null;
+let teamConfig = { name: '', agents: [] };
+
+// ============================================================
+// WIZARD FUNCTIONS
+// ============================================================
+function openWizard() {
+  selectedTemplateId = null;
+  wizardStep = 1;
+  teamConfig = { name: '', agents: [], _fromTemplate: null };
+  document.getElementById('wizardOverlay').classList.add('open');
+  document.getElementById('wizPrevBtn').style.display = 'none';
+  document.getElementById('wizNextBtn').style.display = '';
+  document.querySelector('.wizard-footer-left .btn-ghost').textContent = '取消';
+  document.body.style.overflow = 'hidden';
+  renderStep1();
+}
+
+function closeWizard() {
+  document.getElementById('wizardOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+  // Re-render grid to pick up new agents if any were added
+  render();
+}
+
+function updateStepIndicator(step) {
+  document.querySelectorAll('.wiz-step').forEach(el => {
+    const s = parseInt(el.dataset.step);
+    el.classList.toggle('active', s === step);
+    el.classList.toggle('done', s < step);
+  });
+  document.querySelectorAll('.wiz-connector').forEach((el, i) => {
+    el.classList.toggle('done', i + 1 < step);
+  });
+}
+
+// ============================================================
+// STEP 1: Select template
+// ============================================================
+function renderStep1() {
+  wizardStep = 1;
+  updateStepIndicator(1);
+
+  document.getElementById('wizTitle').textContent = '选择团队模板';
+  document.getElementById('wizSub').textContent = '选择一个预置模板快速开始，或从空白创建';
+
+  document.getElementById('wizardBody').innerHTML = `
+  <div class="wizard-tpl-grid">
+    ${TEAM_TEMPLATES.map(t => {
+      if (t.id === 'blank') {
+        return `<div class="wizard-tpl-blank ${selectedTemplateId === 'blank' ? 'selected' : ''}" data-id="blank" onclick="selectTemplate('blank')">
+          <div class="big-icon">✨</div>
+          <div class="lbl">从空白开始</div>
+        </div>`;
+      }
+      return `<div class="wizard-tpl-card ${selectedTemplateId === t.id ? 'selected' : ''}" data-id="${t.id}" onclick="selectTemplate('${t.id}')">
+        <div class="wt-emoji">${t.emoji}</div>
+        <div class="wt-name">${t.name}</div>
+        <div class="wt-count">👥 ${t.agentCount} 个 Agent</div>
+        <div class="wt-desc">${t.description}</div>
+        <div class="wt-tags">${t.tags.map(tag => `<span class="wt-tag">${tag}</span>`).join('')}</div>
+      </div>`;
+    }).join('')}
+  </div>`;
+
+  document.getElementById('wizPrevBtn').style.display = 'none';
+  const nextBtn = document.getElementById('wizNextBtn');
+  nextBtn.textContent = '下一步 →';
+  nextBtn.disabled = !selectedTemplateId;
+  nextBtn.style.opacity = selectedTemplateId ? '1' : '0.4';
+  nextBtn.style.pointerEvents = selectedTemplateId ? 'auto' : 'none';
+}
+
+function selectTemplate(id) {
+  selectedTemplateId = id;
+  document.querySelectorAll('.wizard-tpl-card, .wizard-tpl-blank').forEach(el => {
+    el.classList.toggle('selected', el.dataset.id === id);
+  });
+  const nextBtn = document.getElementById('wizNextBtn');
+  nextBtn.disabled = false;
+  nextBtn.style.opacity = '1';
+  nextBtn.style.pointerEvents = 'auto';
+}
+
+// ============================================================
+// STEP 2: Configure team
+// ============================================================
+function renderStep2() {
+  wizardStep = 2;
+  updateStepIndicator(2);
+
+  const template = TEAM_TEMPLATES.find(t => t.id === selectedTemplateId);
+
+  document.getElementById('wizTitle').textContent = '配置团队';
+  document.getElementById('wizSub').textContent = template
+    ? '基于「' + template.name + '」模板，调整团队名称和各 Agent 详情'
+    : '配置你的数字员工团队';
+
+  // Reset config if template changed (user went back to step 1 and picked a different one)
+  if (!teamConfig.name || teamConfig._fromTemplate !== selectedTemplateId) {
+    teamConfig.name = template ? template.defaultTeamName : '我的数字员工团队';
+    teamConfig.agents = template
+      ? template.agents.map(a => ({ ...a }))
+      : [];
+    teamConfig._fromTemplate = selectedTemplateId;
+  }
+
+  let html = '<div class="wizard-form">';
+
+  html += `
+  <div class="form-section">
+    <div class="form-section-title">🏢 团队名称</div>
+    <div class="form-group">
+      <input type="text" id="teamNameInput" value="${escHtml(teamConfig.name)}" placeholder="输入团队名称" oninput="teamConfig.name = this.value" />
+    </div>
+  </div>`;
+
+  if (teamConfig.agents.length > 0) {
+    html += `
+    <div class="form-section">
+      <div class="form-section-title">👥 Agent 配置 <span class="badge">${teamConfig.agents.length} 个</span></div>
+      <div class="agent-config-list">`;
+
+    teamConfig.agents.forEach((a, i) => {
+      const color = a.color || AVATAR_COLORS[i % AVATAR_COLORS.length];
+      html += `
+      <div class="agent-config-card" data-idx="${i}">
+        <div class="ac-header">
+          <div class="ac-avatar" style="background:${color}">${a.emoji || '🤖'}</div>
+          <div>
+            <div class="ac-title">Agent ${i + 1}</div>
+            <div class="ac-sub">${a.role || '未设置角色'}</div>
+          </div>
+        </div>
+        <div class="ac-fields">
+          <div class="form-group">
+            <label>名称</label>
+            <input type="text" value="${escHtml(a.name)}" oninput="teamConfig.agents[${i}].name = this.value" placeholder="Agent 名称" />
+          </div>
+          <div class="form-group">
+            <label>角色</label>
+            <input type="text" value="${escHtml(a.role || '')}" oninput="teamConfig.agents[${i}].role = this.value" placeholder="岗位/角色" />
+          </div>
+          <div class="form-group">
+            <label>目标</label>
+            <textarea oninput="teamConfig.agents[${i}].goal = this.value" placeholder="这个 Agent 的核心目标是什么？" rows="2">${escHtml(a.goal || '')}</textarea>
+          </div>
+          <div class="form-group">
+            <label>背景</label>
+            <textarea oninput="teamConfig.agents[${i}].backstory = this.value" placeholder="这个 Agent 的背景和专长" rows="2">${escHtml(a.backstory || '')}</textarea>
+          </div>
+        </div>
+      </div>`;
+    });
+
+    html += '</div></div>';
+  } else {
+    // Blank template - no agents yet
+    html += `
+    <div class="form-section">
+      <div class="form-section-title">👥 Agent 配置 <span class="badge">0 个</span></div>
+      <div class="agent-config-list" id="blankAgentList"></div>
+      <button class="add-agent-btn" onclick="addBlankAgent()">+ 添加 Agent</button>
+    </div>`;
+  }
+
+  html += '</div>';
+  document.getElementById('wizardBody').innerHTML = html;
+
+  document.getElementById('wizPrevBtn').style.display = '';
+  const nextBtn = document.getElementById('wizNextBtn');
+  nextBtn.textContent = '下一步 →';
+  nextBtn.disabled = false;
+  nextBtn.style.opacity = '1';
+  nextBtn.style.pointerEvents = 'auto';
+}
+
+function addBlankAgent() {
+  const idx = teamConfig.agents.length;
+  const color = AVATAR_COLORS[idx % AVATAR_COLORS.length];
+  const emojis = ['💼', '🎧', '⚙️', '📊', '🔍', '🤖', '📋', '💬'];
+  const agent = {
+    name: 'Agent ' + (idx + 1),
+    role: '',
+    emoji: emojis[idx % emojis.length],
+    color: color,
+    goal: '',
+    backstory: ''
+  };
+  teamConfig.agents.push(agent);
+
+  const list = document.getElementById('blankAgentList');
+  const card = document.createElement('div');
+  card.className = 'agent-config-card';
+  card.style.animationDelay = '0s';
+  card.innerHTML = `
+  <div class="ac-header">
+    <div class="ac-avatar" style="background:${color}">${agent.emoji}</div>
+    <div>
+      <div class="ac-title">Agent ${idx + 1}</div>
+      <div class="ac-sub">新 Agent</div>
+    </div>
+  </div>
+  <div class="ac-fields">
+    <div class="form-group">
+      <label>名称</label>
+      <input type="text" value="${agent.name}" oninput="teamConfig.agents[${idx}].name = this.value" placeholder="Agent 名称" />
+    </div>
+    <div class="form-group">
+      <label>角色</label>
+      <input type="text" value="" oninput="teamConfig.agents[${idx}].role = this.value" placeholder="岗位/角色" />
+    </div>
+    <div class="form-group">
+      <label>目标</label>
+      <textarea oninput="teamConfig.agents[${idx}].goal = this.value" placeholder="这个 Agent 的核心目标是什么？" rows="2"></textarea>
+    </div>
+    <div class="form-group">
+      <label>背景</label>
+      <textarea oninput="teamConfig.agents[${idx}].backstory = this.value" placeholder="这个 Agent 的背景和专长" rows="2"></textarea>
+    </div>
+  </div>`;
+  list.appendChild(card);
+}
+
+// ============================================================
+// STEP 3: Confirm
+// ============================================================
+function renderStep3() {
+  wizardStep = 3;
+  updateStepIndicator(3);
+
+  const nameInput = document.getElementById('teamNameInput');
+  if (nameInput) teamConfig.name = nameInput.value;
+
+  document.getElementById('wizTitle').textContent = '确认创建';
+  document.getElementById('wizSub').textContent = '检查团队配置，确认无误后即可创建';
+
+  const agents = teamConfig.agents;
+  const template = TEAM_TEMPLATES.find(t => t.id === selectedTemplateId);
+  const relations = template && template.relations ? template.relations : [];
+
+  let html = '<div class="team-overview">';
+
+  html += `
+  <div class="team-summary">
+    <div class="ts-row">
+      <span class="ts-label">团队名称</span>
+      <span class="ts-value">${escHtml(teamConfig.name)}</span>
+    </div>
+    <div class="ts-row">
+      <span class="ts-label">基于模板</span>
+      <span class="ts-value">${template ? escHtml(template.name) : '自定义'}</span>
+    </div>
+    <div class="ts-row">
+      <span class="ts-label">Agent 数量</span>
+      <span class="ts-value">${agents.length} 个</span>
+    </div>
+  </div>`;
+
+  html += `
+  <div class="form-section">
+    <div class="form-section-title">👥 团队成员</div>
+    <div class="agent-config-list">`;
+  agents.forEach((a, i) => {
+    const color = a.color || AVATAR_COLORS[i % AVATAR_COLORS.length];
+    html += `
+    <div class="agent-config-card">
+      <div class="ac-header">
+        <div class="ac-avatar" style="background:${color}">${a.emoji || '🤖'}</div>
+        <div>
+          <div class="ac-title">${escHtml(a.name)}</div>
+          <div class="ac-sub">${escHtml(a.role || '未设置角色')}</div>
+        </div>
+      </div>
+      <div class="ac-fields">
+        <div class="form-group">
+          <label>🎯 目标</label>
+          <div style="color:var(--fg-2);font-size:13px;padding:6px 0">${escHtml(a.goal || '未设置')}</div>
+        </div>
+        <div class="form-group">
+          <label>📖 背景</label>
+          <div style="color:var(--fg-2);font-size:13px;padding:6px 0">${escHtml(a.backstory || '未设置')}</div>
+        </div>
+      </div>
+    </div>`;
+  });
+  html += '</div></div>';
+
+  // Relation diagram
+  if (relations.length > 0 && agents.length > 1) {
+    html += `
+    <div class="relation-diagram">
+      <div class="rd-title">🔗 Agent 协作关系</div>
+      <div style="display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0;padding:10px 0;min-height:80px">`;
+
+    const nodeSet = new Set();
+    relations.forEach(r => { nodeSet.add(r.from); nodeSet.add(r.to); });
+    const sortedNodes = Array.from(nodeSet).sort();
+
+    sortedNodes.forEach((n, i) => {
+      const agent = agents[n];
+      if (!agent) return;
+      const color = agent.color || AVATAR_COLORS[n % AVATAR_COLORS.length];
+
+      html += '<div style="display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0">';
+      html += '<div style="width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:20px;background:' + color + ';border:1px solid rgba(255,255,255,0.06)">' + (agent.emoji || '🤖') + '</div>';
+      html += '<div style="font:600 11px/1 var(--font);color:var(--fg);white-space:nowrap">' + escHtml(agent.name) + '</div>';
+      html += '<div style="font:9px/1 var(--font-mono);color:var(--muted);white-space:nowrap">' + escHtml(agent.role || '') + '</div>';
+      html += '</div>';
+
+      if (i < sortedNodes.length - 1) {
+        const rel = relations.find(r => r.from === n && r.to === sortedNodes[i + 1]);
+        html += '<div style="display:flex;flex-direction:column;align-items:center;gap:2px;margin:0 10px;flex-shrink:0">';
+        html += '<div style="font:8px/1 var(--font-mono);color:var(--muted);white-space:nowrap">' + (rel ? rel.label : '协作') + '</div>';
+        html += '<div style="width:32px;height:2px;background:var(--line-2);border-radius:1px;position:relative">';
+        html += '<div style="position:absolute;right:-3px;top:-3px;width:0;height:0;border-style:solid;border-width:4px 0 4px 6px;border-color:transparent transparent transparent var(--muted)"></div>';
+        html += '</div></div>';
+      }
+    });
+
+    html += '</div></div>';
+  }
+
+  html += '</div>';
+  document.getElementById('wizardBody').innerHTML = html;
+
+  document.getElementById('wizPrevBtn').style.display = '';
+  const nextBtn = document.getElementById('wizNextBtn');
+  nextBtn.textContent = '✓ 确认创建';
+  nextBtn.disabled = false;
+  nextBtn.style.opacity = '1';
+  nextBtn.style.pointerEvents = 'auto';
+}
+
+// ============================================================
+// WIZARD NAVIGATION
+// ============================================================
+function wizardNext() {
+  if (wizardStep === 1) {
+    if (!selectedTemplateId) { toast('请选择一个模板'); return; }
+    renderStep2();
+  } else if (wizardStep === 2) {
+    const nameInput = document.getElementById('teamNameInput');
+    if (nameInput) teamConfig.name = nameInput.value;
+    if (!teamConfig.name.trim()) { toast('请输入团队名称'); return; }
+    if (teamConfig.agents.length === 0) { toast('请至少添加一个 Agent'); return; }
+    const emptyNames = teamConfig.agents.filter(a => !a.name.trim());
+    if (emptyNames.length > 0) { toast('请为所有 Agent 填写名称'); return; }
+    renderStep3();
+  } else if (wizardStep === 3) {
+    createTeam();
+  }
+}
+
+function wizardPrev() {
+  if (wizardStep === 2) {
+    renderStep1();
+  } else if (wizardStep === 3) {
+    renderStep2();
+  }
+}
+
+// ============================================================
+// CREATE TEAM — adds agents to current client's office
+// ============================================================
+function templateAgentToCardAgent(templateAgent, id, teamName, templateId, templateIdx) {
+  return {
+    id: id,
+    name: templateAgent.name,
+    role: templateAgent.role,
+    emoji: templateAgent.emoji,
+    status: 'idle',
+    metrics: ['0', '0', '0', '0'],
+    metricLabels: ['今日统计', '活跃度', '任务数', '完成率'],
+    avatarColor: templateAgent.color,
+    team: teamName,
+    fromTemplateId: templateId || null,
+    templateIdx: templateIdx != null ? templateIdx : null
+  };
+}
+
+function createTeam() {
+  const client = CLIENTS[currentClient];
+  if (!client) return;
+
+  // Save pending input changes
+  const nameInput = document.getElementById('teamNameInput');
+  if (nameInput) teamConfig.name = nameInput.value;
+
+  const maxId = client.agents.reduce((max, a) => Math.max(max, a.id), 0);
+  const newAgents = teamConfig.agents.map((agent, i) =>
+    templateAgentToCardAgent(agent, maxId + i + 1, teamConfig.name, selectedTemplateId, i)
+  );
+  client.agents.push(...newAgents);
+
+  const teamName = teamConfig.name || '未命名团队';
+  const agentCount = teamConfig.agents.length;
+
+  // Close wizard first — this re-renders the grid and activity feed via render()
+  closeWizard();
+
+  // Add activity log entry after re-render so it persists
+  addActivity('🎉 「' + teamName + '」创建成功，包含 ' + agentCount + ' 个数字员工', 'ok');
+
+  // Toast notification
+  toast('团队创建成功！「' + teamName + '」已添加 ' + agentCount + ' 个数字员工');
+}
+
+// ============================================================
+// UTILITY
+// ============================================================
+function escHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function toast(msg) {
+  const existing = document.querySelector('.toast');
+  if (existing) existing.remove();
+  const el = document.createElement('div');
+  el.className = 'toast';
+  el.textContent = msg;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 3000);
+}
+
+// ============================================================
+// WIZARD ESC & OVERLAY CLOSE
+// ============================================================
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    if (document.getElementById('wizardOverlay').classList.contains('open')) {
+      closeWizard();
+    }
+  }
+});
+
+document.getElementById('wizardOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeWizard();
+});
 </script>
 </body>
 </html>

@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Zirflow Office · 团队模板</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:      #07090f;
+  --bg-2:    #0b0e16;
+  --surface: #111827;
+  --surface-2:#1a2236;
+  --fg:      #f3f5fa;
+  --fg-2:    #c4cbd9;
+  --muted:   #566076;
+  --line:    rgba(255,255,255,0.06);
+  --line-2:  rgba(255,255,255,0.12);
+  --accent:  #3b82f6;
+  --accent-2:#10b981;
+  --accent-3:#8b5cf6;
+  --warn:    #f59e0b;
+  --danger:  #ef4444;
+  --font:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono:'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --card-r: 16px;
+}
+body {
+  font: 14px/1.5 var(--font); color: var(--fg); background: var(--bg);
+  -webkit-font-smoothing: antialiased; min-height: 100vh;
+}
+button { font: inherit; border: 0; background: none; color: inherit; cursor: pointer; }
+input, textarea { font: inherit; }
+
+/* ============================================================
+   BG
+   ============================================================ */
+.bg-grid {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 20%, #000 30%, transparent 90%);
+}
+.bg-glow { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.bg-glow .g { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.22; }
+.bg-glow .g1 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(59,130,246,0.5), transparent); top: -10%; left: -5%; }
+.bg-glow .g2 { width: 380px; height: 380px; background: radial-gradient(circle, rgba(16,185,129,0.35), transparent); top: 30%; right: -8%; }
+.bg-glow .g3 { width: 320px; height: 320px; background: radial-gradient(circle, rgba(139,92,246,0.3), transparent); bottom: 0; left: 20%; }
+
+/* ============================================================
+   STATUS BAR
+   ============================================================ */
+.status-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 24px;
+  background: rgba(7,9,15,0.94);
+  border-bottom: 1px solid var(--line);
+  font: 500 10px/1 var(--font-mono);
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  backdrop-filter: blur(14px);
+}
+.status-bar .seg { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.status-bar .seg > span { display: inline-flex; align-items: center; gap: 7px; }
+.status-bar .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent-2); box-shadow: 0 0 7px var(--accent-2); animation: livePulse 1.6s infinite; }
+.status-bar .lbl-name { color: var(--fg); font-weight: 700; letter-spacing: 0.04em; }
+.status-bar .v { color: var(--fg-2); font-weight: 600; }
+.status-bar .sep { width: 1px; height: 11px; background: var(--line-2); display: inline-block; }
+@keyframes livePulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(.5);opacity:.5} }
+@media (max-width: 780px) { .status-bar .hide-mob { display: none; } }
+
+/* ============================================================
+   APP
+   ============================================================ */
+.app { position: relative; z-index: 1; padding-top: 46px; }
+
+.office-hero {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  padding: 32px 24px 24px; flex-wrap: wrap; gap: 16px;
+}
+.office-hero h1 {
+  font: 800 clamp(20px, 2.2vw, 30px)/1.1 var(--font);
+  letter-spacing: -0.03em; color: var(--fg);
+}
+.office-hero .sub { font: 12px/1.4 var(--font-mono); color: var(--muted); margin-top: 4px; }
+.hero-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 9px 18px; border-radius: 10px;
+  font: 600 13px/1 var(--font); transition: all 0.2s;
+  white-space: nowrap;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent), #2563eb);
+  color: #fff;
+  box-shadow: 0 0 0 1px rgba(59,130,246,0.4), 0 8px 20px -8px rgba(59,130,246,0.5);
+}
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 0 0 1px rgba(59,130,246,0.6), 0 12px 24px -8px rgba(59,130,246,0.7); }
+.btn-ghost { color: var(--fg-2); background: rgba(255,255,255,0.03); border: 1px solid var(--line-2); }
+.btn-ghost:hover { color: var(--fg); background: rgba(255,255,255,0.06); }
+.btn-sm { padding: 7px 12px; font-size: 11px; border-radius: 8px; }
+.btn-danger { background: rgba(239,68,68,0.12); color: var(--danger); border: 1px solid rgba(239,68,68,0.25); }
+.btn-danger:hover { background: rgba(239,68,68,0.2); }
+
+/* ============================================================
+   TEMPLATE GRID
+   ============================================================ */
+.template-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+  padding: 0 24px 32px;
+  max-width: 1360px;
+  margin: 0 auto;
+}
+.tpl-card {
+  position: relative;
+  background: linear-gradient(160deg, var(--surface), rgba(17,24,39,0.5));
+  border: 1px solid var(--line);
+  border-radius: var(--card-r);
+  padding: 24px 22px 20px;
+  transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  cursor: pointer; overflow: hidden;
+  opacity: 0; transform: translateY(16px);
+}
+.tpl-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent); }
+.tpl-card:hover { border-color: rgba(59,130,246,0.3); transform: translateY(-4px); box-shadow: 0 20px 48px -16px rgba(0,0,0,0.6), 0 0 0 1px rgba(59,130,246,0.15); }
+.tpl-card.show { opacity: 1; transform: translateY(0); }
+
+.tpl-emoji {
+  width: 48px; height: 48px; border-radius: 14px;
+  display: grid; place-items: center;
+  font-size: 26px; margin-bottom: 14px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--line);
+}
+.tpl-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
+.tpl-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.tpl-tag {
+  padding: 3px 9px; border-radius: 999px;
+  font: 600 9px/1 var(--font-mono); letter-spacing: 0.12em;
+  background: rgba(59,130,246,0.1); color: var(--accent);
+  border: 1px solid rgba(59,130,246,0.2);
+}
+.tpl-tag-alt { background: rgba(139,92,246,0.1); color: var(--accent-3); border: 1px solid rgba(139,92,246,0.2); }
+.tpl-tag-green { background: rgba(16,185,129,0.1); color: var(--accent-2); border: 1px solid rgba(16,185,129,0.2); }
+
+.tpl-name { font: 700 18px/1.2 var(--font); color: var(--fg); letter-spacing: -0.01em; }
+.tpl-desc { font: 13px/1.5 var(--font); color: var(--muted); margin-top: 8px; }
+.tpl-meta {
+  display: flex; align-items: center; gap: 16px;
+  margin-top: 16px; padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+.tpl-meta-item { display: flex; align-items: center; gap: 5px; font: 12px/1 var(--font); color: var(--fg-2); }
+.tpl-meta-item .num { font: 700 14px/1 var(--font-mono); color: var(--fg); }
+.tpl-actions { margin-top: 16px; display: flex; gap: 8px; }
+.tpl-actions .btn { flex: 1; justify-content: center; }
+
+/* ============================================================
+   EMPTY / BLANK CARD
+   ============================================================ */
+.tpl-card-blank { border: 2px dashed var(--line-2); background: transparent; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 260px; cursor: pointer; transition: all 0.25s; color: var(--muted); }
+.tpl-card-blank:hover { border-color: var(--accent); color: var(--accent); background: rgba(59,130,246,0.03); }
+.tpl-card-blank .big-icon { font-size: 42px; margin-bottom: 10px; opacity: 0.6; }
+.tpl-card-blank .lbl { font: 15px/1 var(--font); }
+
+/* ============================================================
+   WIZARD OVERLAY
+   ============================================================ */
+.wizard-overlay {
+  position: fixed; inset: 0; z-index: 300;
+  background: rgba(7,9,15,0.88); backdrop-filter: blur(8px);
+  display: none; flex-direction: column;
+  padding: 0;
+  overflow-y: auto;
+}
+.wizard-overlay.open { display: flex; }
+.wizard-overlay::-webkit-scrollbar { width: 3px; }
+.wizard-overlay::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 2px; }
+
+.wizard-container {
+  max-width: 860px; width: 100%; margin: 0 auto;
+  padding: 24px 20px 40px;
+  flex: 1;
+  animation: wizardIn 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes wizardIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:none} }
+
+/* Step indicator */
+.wizard-steps {
+  display: flex; align-items: center; justify-content: center;
+  gap: 0; margin-bottom: 32px; padding: 0 10px;
+}
+.wiz-step {
+  display: flex; align-items: center; gap: 10px;
+  font: 600 12px/1 var(--font); color: var(--muted);
+  transition: color 0.3s;
+}
+.wiz-step .num {
+  width: 30px; height: 30px; border-radius: 50%;
+  display: grid; place-items: center;
+  font: 700 13px/1 var(--font-mono);
+  border: 1px solid var(--line-2);
+  color: var(--muted);
+  transition: all 0.3s;
+}
+.wiz-step.active { color: var(--fg); }
+.wiz-step.active .num { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: 0 0 0 4px rgba(59,130,246,0.15); }
+.wiz-step.done .num { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+.wiz-step.done { color: var(--accent-2); }
+.wiz-step .label { white-space: nowrap; }
+@media (max-width: 600px) { .wiz-step .label { display: none; } }
+
+.wiz-connector {
+  width: 48px; height: 1px;
+  background: var(--line-2); margin: 0 12px;
+  flex-shrink: 0; position: relative;
+}
+.wiz-connector.done { background: var(--accent-2); }
+.wiz-connector::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 100%;
+  background: var(--accent-2);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.wiz-connector.done::after { transform: scaleX(1); }
+
+/* Wizard header */
+.wizard-header { margin-bottom: 28px; }
+.wizard-header h2 { font: 800 24px/1.2 var(--font); letter-spacing: -0.02em; color: var(--fg); }
+.wizard-header .sub { font: 13px/1.4 var(--font-mono); color: var(--muted); margin-top: 4px; }
+
+/* Wizard body */
+.wizard-body { min-height: 300px; }
+
+/* Step 1: Template picker inside wizard */
+.wizard-tpl-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
+}
+.wizard-tpl-card {
+  background: linear-gradient(160deg, var(--surface), rgba(17,24,39,0.4));
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 18px 16px 16px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  position: relative;
+  overflow: hidden;
+}
+.wizard-tpl-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent); }
+.wizard-tpl-card:hover { border-color: rgba(59,130,246,0.25); transform: translateY(-2px); box-shadow: 0 8px 24px -12px rgba(0,0,0,0.5); }
+.wizard-tpl-card.selected { border-color: var(--accent); box-shadow: 0 0 0 1px rgba(59,130,246,0.3), 0 8px 24px -12px rgba(0,0,0,0.5); }
+.wizard-tpl-card.selected::after {
+  content: '✓'; position: absolute; top: 10px; right: 12px;
+  font: 700 14px/1 var(--font); color: var(--accent);
+}
+.wizard-tpl-card .wt-emoji { font-size: 28px; margin-bottom: 8px; }
+.wizard-tpl-card .wt-name { font: 700 15px/1.2 var(--font); color: var(--fg); }
+.wizard-tpl-card .wt-count { font: 11px/1 var(--font-mono); color: var(--muted); margin-top: 4px; }
+.wizard-tpl-card .wt-desc { font: 12px/1.4 var(--font); color: var(--muted); margin-top: 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.wizard-tpl-card .wt-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 8px; }
+.wizard-tpl-card .wt-tag { padding: 2px 7px; border-radius: 999px; font: 600 8px/1 var(--font-mono); background: rgba(59,130,246,0.08); color: var(--accent); border: 1px solid rgba(59,130,246,0.15); }
+
+/* Blank card in wizard */
+.wizard-tpl-blank {
+  border: 2px dashed var(--line-2); background: transparent;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  min-height: 180px; cursor: pointer; transition: all 0.25s;
+  color: var(--muted); border-radius: 14px;
+}
+.wizard-tpl-blank:hover { border-color: var(--accent); color: var(--accent); background: rgba(59,130,246,0.03); }
+.wizard-tpl-blank .big-icon { font-size: 32px; margin-bottom: 6px; opacity: 0.5; }
+.wizard-tpl-blank .lbl { font: 14px/1 var(--font); }
+
+/* ============================================================
+   STEP 2: CONFIG FORM
+   ============================================================ */
+.wizard-form { max-width: 680px; margin: 0 auto; }
+.form-section { margin-bottom: 24px; }
+.form-section-title {
+  font: 700 15px/1 var(--font); color: var(--fg);
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 12px;
+}
+.form-section-title .badge { font: 600 9px/1 var(--font-mono); padding: 2px 7px; border-radius: 999px; background: rgba(16,185,129,0.1); color: var(--accent-2); }
+.form-group { margin-bottom: 14px; }
+.form-group label {
+  display: block; font: 600 11px/1 var(--font); color: var(--fg-2);
+  margin-bottom: 5px; letter-spacing: 0.02em;
+}
+.form-group input, .form-group textarea {
+  width: 100%; padding: 10px 13px;
+  background: var(--bg); border: 1px solid var(--line-2);
+  border-radius: 10px; color: var(--fg); font: 13px/1.5 var(--font);
+  outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+}
+.form-group input:focus, .form-group textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
+.form-group input::placeholder, .form-group textarea::placeholder { color: var(--muted); }
+.form-group textarea { min-height: 60px; resize: vertical; }
+.form-group .char-hint { font: 9px/1 var(--font-mono); color: var(--muted); margin-top: 3px; text-align: right; }
+
+/* Agent config cards */
+.agent-config-list { display: flex; flex-direction: column; gap: 12px; }
+.agent-config-card {
+  background: var(--bg-2); border: 1px solid var(--line);
+  border-radius: 12px; padding: 16px;
+  animation: configSlideIn 0.3s ease both;
+}
+@keyframes configSlideIn { from{opacity:0;transform:translateX(-8px)} to{opacity:1;transform:none} }
+.agent-config-card .ac-header {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 12px;
+}
+.agent-config-card .ac-avatar {
+  width: 32px; height: 32px; border-radius: 8px;
+  display: grid; place-items: center;
+  font-size: 16px; flex-shrink: 0;
+}
+.agent-config-card .ac-title { font: 600 14px/1 var(--font); color: var(--fg); }
+.agent-config-card .ac-sub { font: 10px/1 var(--font-mono); color: var(--muted); margin-top: 2px; }
+.agent-config-card .ac-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+@media (max-width: 600px) { .agent-config-card .ac-fields { grid-template-columns: 1fr; } }
+
+/* Blank team - add agent button */
+.add-agent-btn {
+  width: 100%; padding: 14px;
+  border: 2px dashed var(--line-2); border-radius: 12px;
+  background: transparent; color: var(--muted);
+  font: 600 13px/1 var(--font); cursor: pointer;
+  transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.add-agent-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(59,130,246,0.03); }
+
+/* ============================================================
+   STEP 3: CONFIRM
+   ============================================================ */
+.team-overview { max-width: 680px; margin: 0 auto; }
+.team-summary {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: 14px; padding: 20px;
+  margin-bottom: 24px;
+}
+.team-summary .ts-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; flex-wrap: wrap; gap: 4px; }
+.team-summary .ts-row + .ts-row { border-top: 1px solid var(--line); }
+.team-summary .ts-label { font: 12px/1 var(--font-mono); color: var(--muted); }
+.team-summary .ts-value { font: 600 14px/1 var(--font); color: var(--fg); }
+
+/* Agent relation diagram */
+.relation-diagram {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: 14px; padding: 24px 20px;
+  margin-bottom: 24px; overflow-x: auto;
+}
+.relation-diagram .rd-title { font: 700 14px/1 var(--font); color: var(--fg); margin-bottom: 20px; text-align: center; }
+.diagram-flow {
+  display: flex; align-items: center; justify-content: center;
+  flex-wrap: wrap; gap: 0; padding: 10px 0;
+  min-height: 100px;
+}
+.diagram-node {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 6px; flex-shrink: 0;
+}
+.diagram-node .dn-avatar {
+  width: 44px; height: 44px; border-radius: 12px;
+  display: grid; place-items: center;
+  font-size: 20px; border: 1px solid rgba(255,255,255,0.06);
+}
+.diagram-node .dn-name { font: 600 11px/1 var(--font); color: var(--fg); white-space: nowrap; }
+.diagram-node .dn-role { font: 9px/1 var(--font-mono); color: var(--muted); white-space: nowrap; }
+.diagram-edge {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 2px; margin: 0 6px; flex-shrink: 0;
+}
+.diagram-edge .de-line { width: 32px; height: 1px; background: var(--line-2); position: relative; }
+.diagram-edge .de-line::after {
+  content: '›'; position: absolute; right: -4px; top: -5px;
+  font: 700 10px/1 var(--font); color: var(--muted);
+}
+.diagram-edge .de-label { font: 8px/1 var(--font-mono); color: var(--muted); white-space: nowrap; }
+
+/* ============================================================
+   WIZARD FOOTER (nav buttons)
+   ============================================================ */
+.wizard-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 32px; padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+.wizard-footer-left { display: flex; gap: 8px; }
+.wizard-footer-right { display: flex; gap: 8px; }
+
+/* ============================================================
+   SUCCESS STATE
+   ============================================================ */
+.success-state {
+  text-align: center; padding: 40px 20px;
+  animation: successPop 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes successPop { 0%{opacity:0;transform:scale(0.9)} 50%{transform:scale(1.02)} 100%{opacity:1;transform:scale(1)} }
+.success-state .big-icon { font-size: 64px; margin-bottom: 16px; }
+.success-state h2 { font: 800 24px/1.2 var(--font); color: var(--fg); margin-bottom: 8px; }
+.success-state p { font: 14px/1.5 var(--font); color: var(--muted); margin-bottom: 24px; }
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+.toast {
+  position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+  padding: 10px 20px; border-radius: 10px;
+  background: var(--surface); border: 1px solid var(--line-2);
+  color: var(--fg); font-size: 14px;
+  z-index: 999; font-family: var(--font);
+  animation: toastIn 0.3s ease, toastOut 0.3s 2.5s ease;
+}
+@keyframes toastIn { from{opacity:0;transform:translateX(-50%) translateY(10px)} to{opacity:1;transform:translateX(-50%) translateY(0)} }
+@keyframes toastOut { from{opacity:1} to{opacity:0} }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 780px) {
+  .template-grid { grid-template-columns: 1fr; padding: 0 16px 24px; }
+  .office-hero { padding: 24px 16px 16px; }
+  .wizard-tpl-grid { grid-template-columns: 1fr 1fr; }
+  .wizard-container { padding: 16px; }
+  .wiz-connector { width: 24px; margin: 0 6px; }
+}
+@media (max-width: 480px) {
+  .wizard-tpl-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-glow"><div class="g g1"></div><div class="g g2"></div><div class="g g3"></div></div>
+
+<!-- STATUS BAR -->
+<div class="status-bar">
+  <div class="seg">
+    <span><span class="dot"></span><span class="lbl-name">ZIRFLOW OFFICE</span></span>
+    <span class="sep hide-mob"></span>
+    <span class="hide-mob"><span class="lbl">TEMPLATES</span><span class="v" id="templateCount">6</span></span>
+    <span class="sep hide-mob"></span>
+    <span><span class="lbl">UTC</span><span class="v" id="clock">--:--:--</span></span>
+  </div>
+  <div class="seg">
+    <button onclick="window.location.href='/?client=huaqing'" style="font:600 10px/1 var(--font-mono);color:var(--muted);letter-spacing:0.1em;background:none;border:0;cursor:pointer">返回办公室</button>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app">
+
+<div class="office-hero" style="max-width:1360px;margin:0 auto">
+  <div>
+    <h1>团队模板</h1>
+    <div class="sub">基于 crewAI 格式预置的行业团队模板，一键创建你的数字员工团队</div>
+  </div>
+  <div class="hero-actions">
+    <button class="btn btn-primary" onclick="openWizard()">+ 创建团队</button>
+  </div>
+</div>
+
+<div class="template-grid" id="templateGrid">
+  <!-- Cards rendered by JS -->
+</div>
+
+</div>
+
+<!-- WIZARD OVERLAY -->
+<div class="wizard-overlay" id="wizardOverlay">
+  <div class="wizard-container" id="wizardContainer">
+
+    <!-- Step indicator -->
+    <div class="wizard-steps" id="wizardSteps">
+      <div class="wiz-step active" data-step="1">
+        <span class="num">1</span>
+        <span class="label">选择模板</span>
+      </div>
+      <div class="wiz-connector" id="conn1"></div>
+      <div class="wiz-step" data-step="2">
+        <span class="num">2</span>
+        <span class="label">配置团队</span>
+      </div>
+      <div class="wiz-connector" id="conn2"></div>
+      <div class="wiz-step" data-step="3">
+        <span class="num">3</span>
+        <span class="label">确认创建</span>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <div class="wizard-header">
+      <h2 id="wizTitle">选择团队模板</h2>
+      <div class="sub" id="wizSub">选择一个预置模板快速开始，或从空白创建</div>
+    </div>
+
+    <!-- Body -->
+    <div class="wizard-body" id="wizardBody">
+      <!-- Step content rendered by JS -->
+    </div>
+
+    <!-- Footer -->
+    <div class="wizard-footer" id="wizardFooter">
+      <div class="wizard-footer-left">
+        <button class="btn btn-ghost" id="wizPrevBtn" style="display:none" onclick="wizardPrev()">← 上一步</button>
+        <button class="btn btn-ghost" onclick="closeWizard()">取消</button>
+      </div>
+      <div class="wizard-footer-right">
+        <button class="btn btn-primary" id="wizNextBtn" onclick="wizardNext()">下一步 →</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ============================================================
+// TEAM TEMPLATES DATA (crewAI JSONC format reference)
+// ============================================================
+const TEAM_TEMPLATES = [
+  {
+    id: 'huaqing',
+    name: '华清检测标准团队',
+    emoji: '🏭',
+    tags: ['检测认证', '全流程'],
+    tagType: 'alt',
+    description: '面向检测认证行业的完整数字员工团队，覆盖销售获客、客户服务、人才招聘和订单跟单全流程。',
+    agentCount: 4,
+    defaultTeamName: '华清检测数字员工团队',
+    agents: [
+      { name: '销售Agent', role: '销售岗', emoji: '💼', color: 'linear-gradient(135deg,#3b82f6,#1d4ed8)',
+        goal: '开发新客户，完成检测服务订单',
+        backstory: '资深检测行业销售，精通B2B客户开发和检测方案报价，擅长用数据驱动销售决策。' },
+      { name: '客服Agent', role: '客服岗', emoji: '🎧', color: 'linear-gradient(135deg,#10b981,#059669)',
+        goal: '解答客户咨询，处理售后问题，提升客户满意度',
+        backstory: '7x24小时在线客服，熟悉检测流程和各环节标准答案，快速响应客户需求。' },
+      { name: 'HR Agent', role: '人力资源', emoji: '👤', color: 'linear-gradient(135deg,#8b5cf6,#6d28d9)',
+        goal: '招聘和管理检测行业专业人才',
+        backstory: '专注检测行业人才库建设，从简历筛选到面试安排全流程自动化。' },
+      { name: '跟单Agent', role: '跟单岗', emoji: '📋', color: 'linear-gradient(135deg,#f59e0b,#d97706)',
+        goal: '跟踪检测订单全流程进度，确保按时交付',
+        backstory: '精通检测流程管理和节点控制，主动预警延期风险并协调资源。' }
+    ],
+    relations: [
+      { from: 0, to: 3, label: '委托跟单' },
+      { from: 1, to: 0, label: '反馈线索' },
+      { from: 2, to: 0, label: '人才支持' },
+      { from: 2, to: 1, label: '培训支持' }
+    ]
+  },
+  {
+    id: 'hengjia',
+    name: '亨加礼品外贸团队',
+    emoji: '🎁',
+    tags: ['外贸', '礼品'],
+    tagType: '',
+    description: '面向外贸礼品行业的精干团队，专注海外市场开发、客户跟单和供应链管理。',
+    agentCount: 3,
+    defaultTeamName: '亨加礼品外贸团队',
+    agents: [
+      { name: '销售Agent', role: '销售岗 · 海外市场', emoji: '💼', color: 'linear-gradient(135deg,#3b82f6,#1d4ed8)',
+        goal: '开发海外客户，完成外贸订单成交',
+        backstory: '专注日本和欧美市场的B2B外贸销售，精通外语开发和跨文化沟通。' },
+      { name: '市场Agent', role: '市场调研', emoji: '🔍', color: 'linear-gradient(135deg,#8b5cf6,#6d28d9)',
+        goal: '调研海外市场趋势，发现高潜力赛道和渠道',
+        backstory: '数据驱动的市场分析师，持续扫描海外礼品行业趋势和竞品动态。' },
+      { name: '跟单Agent', role: '跟单岗', emoji: '📋', color: 'linear-gradient(135deg,#10b981,#059669)',
+        goal: '跟踪打样、生产和验货全流程，确保订单按时交付',
+        backstory: '精通外贸跟单全流程，从打样确认到出货验货的精细化节点管理。' }
+    ],
+    relations: [
+      { from: 1, to: 0, label: '提供线索' },
+      { from: 0, to: 2, label: '委托跟单' }
+    ]
+  },
+  {
+    id: 'ecommerce',
+    name: '电商客服团队',
+    emoji: '🛒',
+    tags: ['电商', '客服'],
+    tagType: 'green',
+    description: '面向电商平台的完整客服体系，覆盖售前咨询、售后处理和投诉升级。',
+    agentCount: 3,
+    defaultTeamName: '电商客服中心',
+    agents: [
+      { name: '售前Agent', role: '售前咨询', emoji: '💬', color: 'linear-gradient(135deg,#3b82f6,#1d4ed8)',
+        goal: '解答客户售前疑问，促进下单转化',
+        backstory: '熟悉商品知识和促销策略，能根据客户需求推荐最合适的产品组合。' },
+      { name: '售后Agent', role: '售后服务', emoji: '🔧', color: 'linear-gradient(135deg,#10b981,#059669)',
+        goal: '处理退换货、物流查询等售后问题',
+        backstory: '精通售后流程和赔付标准，在不损害客户满意度的前提下控制售后成本。' },
+      { name: '投诉Agent', role: '投诉处理', emoji: '⚖️', color: 'linear-gradient(135deg,#f59e0b,#d97706)',
+        goal: '处理升级投诉，挽回客户信任',
+        backstory: '资深客诉专家，擅长处理高难度投诉场景，维护品牌声誉。' }
+    ],
+    relations: [
+      { from: 0, to: 1, label: '转交售后' },
+      { from: 1, to: 2, label: '升级投诉' },
+      { from: 2, to: 1, label: '反馈结论' }
+    ]
+  },
+  {
+    id: 'startup',
+    name: '初创公司全能团队',
+    emoji: '🚀',
+    tags: ['初创', '全能型'],
+    tagType: 'alt',
+    description: '为初创公司设计的轻量全能团队，一人多能，覆盖销售、客服和日常运营。',
+    agentCount: 3,
+    defaultTeamName: '初创全能团队',
+    agents: [
+      { name: '销售Agent', role: '销售岗', emoji: '💼', color: 'linear-gradient(135deg,#3b82f6,#1d4ed8)',
+        goal: '获客并完成销售转化',
+        backstory: '全能型销售，从线索挖掘到成交签约的全链路跟进，适应快速迭代的初创节奏。' },
+      { name: '客服Agent', role: '客服岗', emoji: '🎧', color: 'linear-gradient(135deg,#10b981,#059669)',
+        goal: '处理客户咨询和基础售后',
+        backstory: '灵活应变的全能客服，既解答产品问题也收集用户反馈推动产品改进。' },
+      { name: '运营Agent', role: '运营岗', emoji: '📊', color: 'linear-gradient(135deg,#8b5cf6,#6d28d9)',
+        goal: '支撑公司日常运营和数据分析',
+        backstory: '初创公司运营多面手，从数据报表到流程优化的全方位支持。' }
+    ],
+    relations: [
+      { from: 1, to: 0, label: '反馈需求' },
+      { from: 0, to: 2, label: '协作运营' },
+      { from: 2, to: 0, label: '数据支持' }
+    ]
+  },
+  {
+    id: 'ai-consulting',
+    name: 'AI 自动化咨询团队',
+    emoji: '🤖',
+    tags: ['AI咨询', '自动化'],
+    tagType: 'alt',
+    description: '为企业提供 AI 自动化解决方案的专业咨询团队，从方案设计到技术实现再到交付落地。',
+    agentCount: 3,
+    defaultTeamName: 'AI 咨询交付团队',
+    agents: [
+      { name: '方案Agent', role: '解决方案', emoji: '📐', color: 'linear-gradient(135deg,#3b82f6,#1d4ed8)',
+        goal: '了解客户需求，设计 AI 自动化解决方案',
+        backstory: '企业AI转型顾问，精通各类业务场景的自动化机会识别和方案设计。' },
+      { name: '技术Agent', role: '技术实现', emoji: '⚙️', color: 'linear-gradient(135deg,#10b981,#059669)',
+        goal: '将方案落地为可运行的技术实现',
+        backstory: '全栈AI工程师，擅长将方案快速转化为原型和可交付成果。' },
+      { name: '交付Agent', role: '项目交付', emoji: '📦', color: 'linear-gradient(135deg,#f59e0b,#d97706)',
+        goal: '管理交付进度，确保客户满意',
+        backstory: '项目交付专家，跟踪需求变更和交付质量，确保项目按时上线。' }
+    ],
+    relations: [
+      { from: 0, to: 1, label: '移交实现' },
+      { from: 1, to: 2, label: '移交交付' },
+      { from: 2, to: 0, label: '反馈优化' }
+    ]
+  },
+  {
+    id: 'blank',
+    name: '自定义空白模板',
+    emoji: '✨',
+    tags: ['自由配置'],
+    tagType: 'green',
+    description: '从零开始配置你的数字员工团队，自由定义每个 Agent 的角色、目标和背景。',
+    agentCount: 0,
+    defaultTeamName: '我的数字员工团队',
+    agents: [],
+    relations: []
+  }
+];
+
+// Template emoji colors for cards
+const TPL_COLORS = {
+  huaqing: 'linear-gradient(135deg,#3b82f6,#1d4ed8)',
+  hengjia: 'linear-gradient(135deg,#f59e0b,#d97706)',
+  ecommerce: 'linear-gradient(135deg,#10b981,#059669)',
+  startup: 'linear-gradient(135deg,#8b5cf6,#6d28d9)',
+  'ai-consulting': 'linear-gradient(135deg,#ec4899,#be185d)',
+  blank: 'linear-gradient(135deg,#6b7280,#4b5563)'
+};
+
+// Avatar colors for blank agents
+const AVATAR_COLORS = [
+  'linear-gradient(135deg,#3b82f6,#1d4ed8)',
+  'linear-gradient(135deg,#10b981,#059669)',
+  'linear-gradient(135deg,#8b5cf6,#6d28d9)',
+  'linear-gradient(135deg,#f59e0b,#d97706)',
+  'linear-gradient(135deg,#ec4899,#be185d)',
+  'linear-gradient(135deg,#06b6d4,#0891b2)',
+  'linear-gradient(135deg,#f97316,#ea580c)',
+  'linear-gradient(135deg,#6366f1,#4338ca)'
+];
+
+// ============================================================
+// STATE
+// ============================================================
+let currentStep = 1;
+let selectedTemplateId = null;
+let teamConfig = {
+  name: '',
+  agents: []
+};
+
+// ============================================================
+// INIT
+// ============================================================
+function init() {
+  updateClock();
+  renderTemplateGrid();
+  setTimeout(() => animateCards(), 100);
+}
+
+function renderTemplateGrid() {
+  const grid = document.getElementById('templateGrid');
+  grid.innerHTML = TEAM_TEMPLATES.map((t, i) => {
+    if (t.id === 'blank') {
+      return `
+      <div class="tpl-card tpl-card-blank" onclick="openWizardWith('blank')" style="animation-delay:${i * 80}ms">
+        <div class="big-icon">✨</div>
+        <div class="lbl">从空白创建</div>
+      </div>`;
+    }
+    const tagTypeClass = t.tagType ? `tpl-tag-${t.tagType}` : '';
+    return `
+    <div class="tpl-card" data-idx="${i}" onclick="openWizardWith('${t.id}')">
+      <div class="tpl-top">
+        <div class="tpl-emoji">${t.emoji}</div>
+        <div class="tpl-tags">
+          ${t.tags.map(tag => `<span class="tpl-tag ${tagTypeClass}">${tag}</span>`).join('')}
+        </div>
+      </div>
+      <div class="tpl-name">${t.name}</div>
+      <div class="tpl-desc">${t.description}</div>
+      <div class="tpl-meta">
+        <div class="tpl-meta-item">👥 <span class="num">${t.agentCount || '—'}</span> 个 Agent</div>
+      </div>
+      <div class="tpl-actions" onclick="event.stopPropagation()">
+        <button class="btn btn-primary btn-sm" onclick="openWizardWith('${t.id}')">使用此模板</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function animateCards() {
+  document.querySelectorAll('.tpl-card:not(.tpl-card-blank)').forEach((el, i) => {
+    setTimeout(() => el.classList.add('show'), i * 80);
+  });
+}
+
+// ============================================================
+// WIZARD
+// ============================================================
+function openWizard() {
+  selectedTemplateId = null;
+  currentStep = 1;
+  resetTeamConfig();
+  document.getElementById('wizardOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  renderStep1();
+}
+
+function openWizardWith(id) {
+  openWizard();
+  // Auto-select the template
+  selectTemplate(id);
+}
+
+function closeWizard() {
+  document.getElementById('wizardOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function resetTeamConfig() {
+  teamConfig = { name: '', agents: [] };
+}
+
+function updateStepIndicator(step) {
+  document.querySelectorAll('.wiz-step').forEach(el => {
+    const s = parseInt(el.dataset.step);
+    el.classList.toggle('active', s === step);
+    el.classList.toggle('done', s < step);
+  });
+  document.querySelectorAll('.wiz-connector').forEach((el, i) => {
+    el.classList.toggle('done', i + 1 < step);
+  });
+}
+
+// ============================================================
+// STEP 1: SELECT TEMPLATE
+// ============================================================
+function renderStep1() {
+  currentStep = 1;
+  updateStepIndicator(1);
+
+  document.getElementById('wizTitle').textContent = '选择团队模板';
+  document.getElementById('wizSub').textContent = '选择一个预置模板快速开始，或从空白创建';
+
+  const body = document.getElementById('wizardBody');
+  body.innerHTML = `
+  <div class="wizard-tpl-grid">
+    ${TEAM_TEMPLATES.map(t => {
+      if (t.id === 'blank') {
+        return `<div class="wizard-tpl-blank ${selectedTemplateId === 'blank' ? 'selected' : ''}" data-id="blank" onclick="selectTemplate('blank')">
+          <div class="big-icon">✨</div>
+          <div class="lbl">从空白开始</div>
+        </div>`;
+      }
+      return `<div class="wizard-tpl-card ${selectedTemplateId === t.id ? 'selected' : ''}" data-id="${t.id}" onclick="selectTemplate('${t.id}')">
+        <div class="wt-emoji">${t.emoji}</div>
+        <div class="wt-name">${t.name}</div>
+        <div class="wt-count">👥 ${t.agentCount} 个 Agent</div>
+        <div class="wt-desc">${t.description}</div>
+        <div class="wt-tags">${t.tags.map(tag => `<span class="wt-tag">${tag}</span>`).join('')}</div>
+      </div>`;
+    }).join('')}
+  </div>`;
+
+  // Update nav buttons
+  document.getElementById('wizPrevBtn').style.display = 'none';
+  const nextBtn = document.getElementById('wizNextBtn');
+  nextBtn.textContent = '下一步 →';
+  nextBtn.disabled = !selectedTemplateId;
+  nextBtn.style.opacity = selectedTemplateId ? '1' : '0.4';
+  nextBtn.style.pointerEvents = selectedTemplateId ? 'auto' : 'none';
+}
+
+function selectTemplate(id) {
+  selectedTemplateId = id;
+  // Update visual
+  document.querySelectorAll('.wizard-tpl-card, .wizard-tpl-blank').forEach(el => {
+    el.classList.toggle('selected', el.dataset.id === id);
+  });
+  // Enable next button
+  const nextBtn = document.getElementById('wizNextBtn');
+  nextBtn.disabled = false;
+  nextBtn.style.opacity = '1';
+  nextBtn.style.pointerEvents = 'auto';
+}
+
+// ============================================================
+// STEP 2: CONFIGURE TEAM
+// ============================================================
+function renderStep2() {
+  currentStep = 2;
+  updateStepIndicator(2);
+
+  const template = TEAM_TEMPLATES.find(t => t.id === selectedTemplateId);
+
+  document.getElementById('wizTitle').textContent = '配置团队';
+  document.getElementById('wizSub').textContent = template
+    ? `基于「${template.name}」模板，调整团队名称和各 Agent 详情`
+    : '配置你的数字员工团队';
+
+  // Initialize config if not yet
+  if (!teamConfig.name) {
+    teamConfig.name = template ? template.defaultTeamName : '我的数字员工团队';
+    teamConfig.agents = template
+      ? template.agents.map(a => ({ ...a }))
+      : [];
+  }
+
+  const body = document.getElementById('wizardBody');
+  let html = '<div class="wizard-form">';
+
+  // Team name
+  html += `
+  <div class="form-section">
+    <div class="form-section-title">🏢 团队名称</div>
+    <div class="form-group">
+      <input type="text" id="teamNameInput" value="${escHtml(teamConfig.name)}" placeholder="输入团队名称" oninput="teamConfig.name = this.value" />
+    </div>
+  </div>`;
+
+  // Agent configs
+  if (teamConfig.agents.length > 0) {
+    html += `
+    <div class="form-section">
+      <div class="form-section-title">👥 Agent 配置 <span class="badge">${teamConfig.agents.length} 个</span></div>
+      <div class="agent-config-list">`;
+
+    teamConfig.agents.forEach((a, i) => {
+      const color = a.color || AVATAR_COLORS[i % AVATAR_COLORS.length];
+      html += `
+      <div class="agent-config-card" data-idx="${i}">
+        <div class="ac-header">
+          <div class="ac-avatar" style="background:${color}">${a.emoji || '🤖'}</div>
+          <div>
+            <div class="ac-title">Agent ${i + 1}</div>
+            <div class="ac-sub">${a.role || '未设置角色'}</div>
+          </div>
+        </div>
+        <div class="ac-fields">
+          <div class="form-group">
+            <label>名称</label>
+            <input type="text" value="${escHtml(a.name)}" oninput="teamConfig.agents[${i}].name = this.value" placeholder="Agent 名称" />
+          </div>
+          <div class="form-group">
+            <label>角色</label>
+            <input type="text" value="${escHtml(a.role || '')}" oninput="teamConfig.agents[${i}].role = this.value" placeholder="岗位/角色" />
+          </div>
+          <div class="form-group">
+            <label>目标</label>
+            <textarea oninput="teamConfig.agents[${i}].goal = this.value" placeholder="这个 Agent 的核心目标是什么？" rows="2">${escHtml(a.goal || '')}</textarea>
+          </div>
+          <div class="form-group">
+            <label>背景</label>
+            <textarea oninput="teamConfig.agents[${i}].backstory = this.value" placeholder="这个 Agent 的背景和专长" rows="2">${escHtml(a.backstory || '')}</textarea>
+          </div>
+        </div>
+      </div>`;
+    });
+
+    html += '</div></div>';
+  } else {
+    // Blank template - no agents yet
+    html += `
+    <div class="form-section">
+      <div class="form-section-title">👥 Agent 配置 <span class="badge">0 个</span></div>
+      <div class="agent-config-list" id="blankAgentList"></div>
+      <button class="add-agent-btn" onclick="addBlankAgent()">+ 添加 Agent</button>
+    </div>`;
+  }
+
+  html += '</div>';
+  body.innerHTML = html;
+
+  // Update nav buttons
+  document.getElementById('wizPrevBtn').style.display = '';
+  const nextBtn = document.getElementById('wizNextBtn');
+  nextBtn.textContent = '下一步 →';
+  nextBtn.disabled = false;
+  nextBtn.style.opacity = '1';
+  nextBtn.style.pointerEvents = 'auto';
+}
+
+// For blank template: add agent
+function addBlankAgent() {
+  const idx = teamConfig.agents.length;
+  const color = AVATAR_COLORS[idx % AVATAR_COLORS.length];
+  const emojis = ['💼', '🎧', '⚙️', '📊', '🔍', '🤖', '📋', '💬'];
+  const agent = {
+    name: `Agent ${idx + 1}`,
+    role: '',
+    emoji: emojis[idx % emojis.length],
+    color: color,
+    goal: '',
+    backstory: ''
+  };
+  teamConfig.agents.push(agent);
+
+  const list = document.getElementById('blankAgentList');
+  const card = document.createElement('div');
+  card.className = 'agent-config-card';
+  card.style.animationDelay = '0s';
+  card.innerHTML = `
+  <div class="ac-header">
+    <div class="ac-avatar" style="background:${color}">${agent.emoji}</div>
+    <div>
+      <div class="ac-title">Agent ${idx + 1}</div>
+      <div class="ac-sub">新 Agent</div>
+    </div>
+  </div>
+  <div class="ac-fields">
+    <div class="form-group">
+      <label>名称</label>
+      <input type="text" value="${agent.name}" oninput="teamConfig.agents[${idx}].name = this.value" placeholder="Agent 名称" />
+    </div>
+    <div class="form-group">
+      <label>角色</label>
+      <input type="text" value="" oninput="teamConfig.agents[${idx}].role = this.value" placeholder="岗位/角色" />
+    </div>
+    <div class="form-group">
+      <label>目标</label>
+      <textarea oninput="teamConfig.agents[${idx}].goal = this.value" placeholder="这个 Agent 的核心目标是什么？" rows="2"></textarea>
+    </div>
+    <div class="form-group">
+      <label>背景</label>
+      <textarea oninput="teamConfig.agents[${idx}].backstory = this.value" placeholder="这个 Agent 的背景和专长" rows="2"></textarea>
+    </div>
+  </div>`;
+  list.appendChild(card);
+}
+
+// ============================================================
+// STEP 3: CONFIRM
+// ============================================================
+function renderStep3() {
+  currentStep = 3;
+  updateStepIndicator(3);
+
+  // Sync form values
+  const nameInput = document.getElementById('teamNameInput');
+  if (nameInput) teamConfig.name = nameInput.value;
+
+  document.getElementById('wizTitle').textContent = '确认创建';
+  document.getElementById('wizSub').textContent = '检查团队配置，确认无误后即可创建';
+
+  const body = document.getElementById('wizardBody');
+  const agents = teamConfig.agents;
+  const template = TEAM_TEMPLATES.find(t => t.id === selectedTemplateId);
+  const relations = template && template.relations ? template.relations : [];
+
+  let html = '<div class="team-overview">';
+
+  // Summary
+  html += `
+  <div class="team-summary">
+    <div class="ts-row">
+      <span class="ts-label">团队名称</span>
+      <span class="ts-value">${escHtml(teamConfig.name)}</span>
+    </div>
+    <div class="ts-row">
+      <span class="ts-label">基于模板</span>
+      <span class="ts-value">${template ? escHtml(template.name) : '自定义'}</span>
+    </div>
+    <div class="ts-row">
+      <span class="ts-label">Agent 数量</span>
+      <span class="ts-value">${agents.length} 个</span>
+    </div>
+  </div>`;
+
+  // Agent list
+  html += `
+  <div class="form-section">
+    <div class="form-section-title">👥 团队成员</div>
+    <div class="agent-config-list">`;
+  agents.forEach((a, i) => {
+    const color = a.color || AVATAR_COLORS[i % AVATAR_COLORS.length];
+    html += `
+    <div class="agent-config-card">
+      <div class="ac-header">
+        <div class="ac-avatar" style="background:${color}">${a.emoji || '🤖'}</div>
+        <div>
+          <div class="ac-title">${escHtml(a.name)}</div>
+          <div class="ac-sub">${escHtml(a.role || '未设置角色')}</div>
+        </div>
+      </div>
+      <div class="ac-fields">
+        <div class="form-group">
+          <label>🎯 目标</label>
+          <div style="color:var(--fg-2);font-size:13px;padding:6px 0">${escHtml(a.goal || '未设置')}</div>
+        </div>
+        <div class="form-group">
+          <label>📖 背景</label>
+          <div style="color:var(--fg-2);font-size:13px;padding:6px 0">${escHtml(a.backstory || '未设置')}</div>
+        </div>
+      </div>
+    </div>`;
+  });
+  html += '</div></div>';
+
+  // Relation diagram
+  if (relations.length > 0 && agents.length > 1) {
+    html += `
+    <div class="relation-diagram">
+      <div class="rd-title">🔗 Agent 协作关系</div>
+      <div style="display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0;padding:10px 0;min-height:80px">`;
+
+    // Build flow nodes from relations
+    const nodeSet = new Set();
+    relations.forEach(r => { nodeSet.add(r.from); nodeSet.add(r.to); });
+    const sortedNodes = Array.from(nodeSet).sort();
+
+    sortedNodes.forEach((n, i) => {
+      const agent = agents[n];
+      if (!agent) return;
+      const color = agent.color || AVATAR_COLORS[n % AVATAR_COLORS.length];
+
+      html += `<div style="display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0">
+        <div style="width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:20px;background:${color};border:1px solid rgba(255,255,255,0.06)">${agent.emoji || '🤖'}</div>
+        <div style="font:600 11px/1 var(--font);color:var(--fg);white-space:nowrap">${escHtml(agent.name)}</div>
+        <div style="font:9px/1 var(--font-mono);color:var(--muted);white-space:nowrap">${escHtml(agent.role || '')}</div>
+      </div>`;
+
+      if (i < sortedNodes.length - 1) {
+        // Find relation between these two
+        const rel = relations.find(r => r.from === n && r.to === sortedNodes[i + 1]);
+        html += `<div style="display:flex;flex-direction:column;align-items:center;gap:2px;margin:0 10px;flex-shrink:0">
+          <div style="font:8px/1 var(--font-mono);color:var(--muted);white-space:nowrap">${rel ? rel.label : '协作'}</div>
+          <div style="width:32px;height:2px;background:var(--line-2);border-radius:1px;position:relative">
+            <div style="position:absolute;right:-3px;top:-3px;width:0;height:0;border-style:solid;border-width:4px 0 4px 6px;border-color:transparent transparent transparent var(--muted)"></div>
+          </div>
+        </div>`;
+      }
+    });
+
+    html += '</div></div>';
+  }
+
+  // crewAI JSON preview
+  html += `
+  <div class="relation-diagram" style="padding:16px 20px">
+    <div class="rd-title" style="margin-bottom:12px;display:flex;align-items:center;gap:8px">
+      <span>📄 配置预览 (crewAI 格式)</span>
+      <span style="font:600 9px/1 var(--font-mono);padding:2px 7px;border-radius:999px;background:rgba(59,130,246,0.1);color:var(--accent);border:1px solid rgba(59,130,246,0.2)">JSONC</span>
+    </div>
+    <pre style="background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:14px 16px;font:11px/1.6 var(--font-mono);color:var(--fg-2);overflow-x:auto;white-space:pre-wrap;max-height:200px">${escHtml(generateCrewJson(teamConfig, template))}</pre>
+  </div>`;
+
+  html += '</div>';
+  body.innerHTML = html;
+
+  // Update nav buttons
+  document.getElementById('wizPrevBtn').style.display = '';
+  const nextBtn = document.getElementById('wizNextBtn');
+  nextBtn.textContent = '✓ 确认创建';
+  nextBtn.disabled = false;
+  nextBtn.style.opacity = '1';
+  nextBtn.style.pointerEvents = 'auto';
+}
+
+function generateCrewJson(config, template) {
+  const agents = config.agents.map(a => ({
+    role: a.role || a.name,
+    goal: a.goal || '',
+    backstory: a.backstory || '',
+    allow_delegation: true,
+    verbose: true
+  }));
+
+  const obj = {
+    _comment: `Generated from template: ${template ? template.name : 'custom'}`,
+    name: config.name,
+    agents: agents,
+    tasks: [],
+    process: 'sequential',
+    verbose: true,
+    memory: true,
+    planning: true
+  };
+
+  return JSON.stringify(obj, null, 2);
+}
+
+// ============================================================
+// WIZARD NAVIGATION
+// ============================================================
+function wizardNext() {
+  if (currentStep === 1) {
+    if (!selectedTemplateId) { toast('请选择一个模板'); return; }
+    renderStep2();
+  } else if (currentStep === 2) {
+    // Sync team name
+    const nameInput = document.getElementById('teamNameInput');
+    if (nameInput) teamConfig.name = nameInput.value;
+    if (!teamConfig.name.trim()) { toast('请输入团队名称'); return; }
+    if (teamConfig.agents.length === 0) { toast('请至少添加一个 Agent'); return; }
+
+    // Check all agents have names
+    const emptyNames = teamConfig.agents.filter(a => !a.name.trim());
+    if (emptyNames.length > 0) { toast('请为所有 Agent 填写名称'); return; }
+
+    renderStep3();
+  } else if (currentStep === 3) {
+    handleCreateTeam();
+  }
+}
+
+function wizardPrev() {
+  if (currentStep === 2) {
+    renderStep1();
+  } else if (currentStep === 3) {
+    renderStep2();
+  }
+}
+
+// ============================================================
+// CREATE TEAM
+// ============================================================
+function handleCreateTeam() {
+  // Show success
+  const body = document.getElementById('wizardBody');
+  const template = TEAM_TEMPLATES.find(t => t.id === selectedTemplateId);
+
+  body.innerHTML = `
+  <div class="success-state">
+    <div class="big-icon">🎉</div>
+    <h2>团队创建成功！</h2>
+    <p>「${escHtml(teamConfig.name)}」已创建，包含 ${teamConfig.agents.length} 个数字员工</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <button class="btn btn-primary" onclick="closeAndGo()">进入办公室 →</button>
+      <button class="btn btn-ghost" onclick="closeWizard()">继续浏览模板</button>
+    </div>
+  </div>`;
+
+  // Hide nav buttons
+  document.getElementById('wizPrevBtn').style.display = 'none';
+  document.getElementById('wizNextBtn').style.display = 'none';
+  document.querySelector('.wizard-footer-left .btn-ghost').textContent = '关闭';
+}
+
+function closeAndGo() {
+  // In a real app, this would save to backend and redirect
+  // For now, store config in localStorage and go to main office
+  try {
+    localStorage.setItem('zirflow_custom_team', JSON.stringify(teamConfig));
+    localStorage.setItem('zirflow_user', JSON.stringify({
+      email: 'team@custom.com',
+      client: 'custom',
+      teamName: teamConfig.name,
+      teamSize: teamConfig.agents.length
+    }));
+  } catch(e) {}
+  window.location.href = '/';
+}
+
+// ============================================================
+// UTILITY
+// ============================================================
+function escHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function toast(msg) {
+  const existing = document.querySelector('.toast');
+  if (existing) existing.remove();
+  const el = document.createElement('div');
+  el.className = 'toast';
+  el.textContent = msg;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 3000);
+}
+
+function updateClock() {
+  document.getElementById('clock').textContent = new Date().toTimeString().slice(0,8);
+}
+
+// ============================================================
+// CLOSE ON ESC
+// ============================================================
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    if (document.getElementById('wizardOverlay').classList.contains('open')) {
+      closeWizard();
+    }
+  }
+});
+
+// Close on overlay click
+document.getElementById('wizardOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeWizard();
+});
+
+// ============================================================
+// START
+// ============================================================
+init();
+setInterval(updateClock, 1000);
+</script>
+</body>
+</html>

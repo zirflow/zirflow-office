@@ -1,11 +1,398 @@
 {
-  "checkedAt": null,
-  "updated": [],
+  "checkedAt": "2026-06-17T08:09:17.021Z",
+  "updated": [
+    {
+      "name": "crewAI",
+      "repo": "crewAIInc/crewAI",
+      "release": {
+        "version": "1.14.7",
+        "date": "2026-06-11T17:13:46Z",
+        "url": "https://github.com/crewAIInc/crewAI/releases/tag/1.14.7"
+      },
+      "commits": [
+        {
+          "message": "Discriminate FlowDefinition state types (#6196)",
+          "date": "2026-06-17T04:31:07Z",
+          "url": "https://github.com/crewAIInc/crewAI/commit/7bb9bc7e1a6ec7485f274fad14c615273d9a5a26",
+          "author": "Vinicius Brasil"
+        },
+        {
+          "message": "Update installation and quickstart documentation for JSON-first crew projects (#6181)",
+          "date": "2026-06-16T22:55:23Z",
+          "url": "https://github.com/crewAIInc/crewAI/commit/ee4f8532705a0cddba502ebb7ad071dabc2a65b2",
+          "author": "João Moura"
+        },
+        {
+          "message": "Implement DMN mode support in crew creation and execution (#6194)",
+          "date": "2026-06-16T22:48:31Z",
+          "url": "https://github.com/crewAIInc/crewAI/commit/ebbc0998ef726721b76a1710ab6393e4f4befa73",
+          "author": "João Moura"
+        },
+        {
+          "message": "Enhance crew loading and validation logic (#6182)",
+          "date": "2026-06-16T21:45:26Z",
+          "url": "https://github.com/crewAIInc/crewAI/commit/06ada68083f98fb83b40fa12b196c5e1578fa01a",
+          "author": "João Moura"
+        },
+        {
+          "message": "Add crew actions to FlowDefinition (#6184)",
+          "date": "2026-06-16T19:59:48Z",
+          "url": "https://github.com/crewAIInc/crewAI/commit/4eb90ffbf31bde962e01894046ade65a84b17d7e",
+          "author": "Vinicius Brasil"
+        }
+      ],
+      "focus": "角色定义、组队逻辑、Crew控制台UI",
+      "hasNewRelease": false
+    },
+    {
+      "name": "MetaGPT",
+      "repo": "FoundationAgents/MetaGPT",
+      "release": {
+        "version": "v0.8.1",
+        "date": "2024-04-22T10:56:23Z",
+        "url": "https://github.com/FoundationAgents/MetaGPT/releases/tag/v0.8.1"
+      },
+      "commits": [],
+      "focus": "角色分工、任务流水线",
+      "hasNewRelease": false
+    },
+    {
+      "name": "AutoGen",
+      "repo": "microsoft/autogen",
+      "release": {
+        "version": "python-v0.7.5",
+        "date": "2025-09-30T06:18:26Z",
+        "url": "https://github.com/microsoft/autogen/releases/tag/python-v0.7.5"
+      },
+      "commits": [
+        {
+          "message": "Update maintenance mode banner in readme (#7521)",
+          "date": "2026-04-06T22:35:32Z",
+          "url": "https://github.com/microsoft/autogen/commit/027ecf0a379bcc1d09956d46d12d44a3ad9cee14",
+          "author": "chetantoshniwal"
+        },
+        {
+          "message": "fix: restrict importlib provider loading to trusted namespaces (#7463)",
+          "date": "2026-03-26T03:15:37Z",
+          "url": "https://github.com/microsoft/autogen/commit/8544314fa6cc9f906c3ec2395927f5404ffbb5eb",
+          "author": "Victor Dibia"
+        }
+      ],
+      "focus": "多Agent对话、企业级部署",
+      "hasNewRelease": false
+    },
+    {
+      "name": "ChatDev",
+      "repo": "OpenBMB/ChatDev",
+      "release": {
+        "version": "v2.2.0",
+        "date": "2026-03-23T02:10:51Z",
+        "url": "https://github.com/OpenBMB/ChatDev/releases/tag/v2.2.0"
+      },
+      "commits": [
+        {
+          "message": "Merge pull request #628 from NA-Wen/main",
+          "date": "2026-05-27T12:41:13Z",
+          "url": "https://github.com/OpenBMB/ChatDev/commit/a6a5cda5560053136897aa44301eacc6c48d8168",
+          "author": "Shu Yao"
+        },
+        {
+          "message": "udpate contributor list",
+          "date": "2026-05-27T12:12:01Z",
+          "url": "https://github.com/OpenBMB/ChatDev/commit/37e16e0f3d7387c94c25a54e7c4091fe347f429e",
+          "author": "NA-Wen"
+        },
+        {
+          "message": "udpate contributor list",
+          "date": "2026-05-27T12:08:14Z",
+          "url": "https://github.com/OpenBMB/ChatDev/commit/0db45160acfbba90b4dd0a765fa05d8aeb26a333",
+          "author": "NA-Wen"
+        },
+        {
+          "message": "Merge pull request #624 from hobostay/fix/temp-file-leak-session-download",
+          "date": "2026-05-26T13:29:08Z",
+          "url": "https://github.com/OpenBMB/ChatDev/commit/4d85134f60cc96c275012c767161ab88fc5003f6",
+          "author": "Shu Yao"
+        },
+        {
+          "message": "Merge pull request #627 from token2everything/feature/preserve-session-on-reconnect",
+          "date": "2026-05-26T13:16:47Z",
+          "url": "https://github.com/OpenBMB/ChatDev/commit/ff4d50a7672b20d3f3973fbc6318021042aff0ba",
+          "author": "Yufan Dang"
+        }
+      ],
+      "focus": "角色扮演流程、阶段化执行",
+      "hasNewRelease": false
+    },
+    {
+      "name": "SuperAGI",
+      "repo": "TransformerOptimus/SuperAGI",
+      "release": {
+        "version": "v0.0.14",
+        "date": "2024-01-16T14:21:23Z",
+        "url": "https://github.com/TransformerOptimus/SuperAGI/releases/tag/v0.0.14"
+      },
+      "commits": [],
+      "focus": "Web界面、Agent管理、任务调度",
+      "hasNewRelease": false
+    },
+    {
+      "name": "Hermes-Studio",
+      "repo": "EKKOLearnAI/hermes-studio",
+      "release": {
+        "version": "v0.6.16",
+        "date": "2026-06-17T03:03:44Z",
+        "url": "https://github.com/EKKOLearnAI/hermes-studio/releases/tag/v0.6.16"
+      },
+      "commits": [
+        {
+          "message": "[codex] Fix Windows coding agent MCP launch (#1623)",
+          "date": "2026-06-17T07:47:09Z",
+          "url": "https://github.com/EKKOLearnAI/hermes-studio/commit/904a124a6bae09d121fde6fe9b858b5b0de5649a",
+          "author": "ekko"
+        },
+        {
+          "message": "default to first skill (#1621)",
+          "date": "2026-06-17T05:03:25Z",
+          "url": "https://github.com/EKKOLearnAI/hermes-studio/commit/d8613462d43e0e3d618db5f1cfd200854d4e96a0",
+          "author": "ekko"
+        },
+        {
+          "message": "[codex] bump Web UI to 0.6.16 (#1619)",
+          "date": "2026-06-17T03:02:21Z",
+          "url": "https://github.com/EKKOLearnAI/hermes-studio/commit/185dac97264f92b7bdd225ca2223f0ea19dd5ff4",
+          "author": "ekko"
+        },
+        {
+          "message": "add clean session context api (#1618)",
+          "date": "2026-06-17T02:44:33Z",
+          "url": "https://github.com/EKKOLearnAI/hermes-studio/commit/3629364aafdab3eec2fa57cf3b51af4e1d21e602",
+          "author": "ekko"
+        },
+        {
+          "message": "fix chat file drop zone (#1616)",
+          "date": "2026-06-17T02:09:57Z",
+          "url": "https://github.com/EKKOLearnAI/hermes-studio/commit/456d61089bb43eaa9553aa364ec17a28d18f5802",
+          "author": "ekko"
+        }
+      ],
+      "focus": "Agent仪表盘、Crews管理、技能管理",
+      "hasNewRelease": false
+    },
+    {
+      "name": "OpenClaw-Admin",
+      "repo": "itq5/OpenClaw-Admin",
+      "release": {
+        "version": "v1.0.2",
+        "date": "2026-04-26T18:17:29Z",
+        "url": "https://github.com/itq5/OpenClaw-Admin/releases/tag/v1.0.2"
+      },
+      "commits": [
+        {
+          "message": "fix(hermes): 修复会话删除功能并更新会话ID处理",
+          "date": "2026-04-27T16:10:56Z",
+          "url": "https://github.com/itq5/OpenClaw-Admin/commit/d722891ec63458d29292e793330be45a958d5549",
+          "author": "Cloud1024"
+        },
+        {
+          "message": "fix(hermes): 修复仪表盘认证问题并更新依赖",
+          "date": "2026-04-27T12:52:41Z",
+          "url": "https://github.com/itq5/OpenClaw-Admin/commit/549369b4c9406400026257f286f20d3d685c1bdb",
+          "author": "Cloud1024"
+        },
+        {
+          "message": "fix(hermes): 改进Hermes主目录查找逻辑并添加调试日志",
+          "date": "2026-04-26T17:51:00Z",
+          "url": "https://github.com/itq5/OpenClaw-Admin/commit/f56bda3fe6a91f1dc9a3b768b2fa8301f566dc70",
+          "author": "Cloud1024"
+        },
+        {
+          "message": "feat(chat): 添加自动播放开关并调整位置",
+          "date": "2026-04-26T17:30:11Z",
+          "url": "https://github.com/itq5/OpenClaw-Admin/commit/f2ede3c4bbfb3d1a6289ac3eeca29e621dfe5990",
+          "author": "Cloud1024"
+        },
+        {
+          "message": "feat: 添加TTS语音合成功能及界面优化",
+          "date": "2026-04-26T16:59:51Z",
+          "url": "https://github.com/itq5/OpenClaw-Admin/commit/bf3d46c506cfdd0c7b628a8365dbc5a73c27cf51",
+          "author": "Cloud1024"
+        }
+      ],
+      "focus": "中文UI、虚拟公司场景、多网关",
+      "hasNewRelease": false
+    },
+    {
+      "name": "my-virtual-office",
+      "repo": "eliautobot/my-virtual-office",
+      "release": {
+        "version": "v0.6.28",
+        "date": "2026-06-17T04:08:16Z",
+        "url": "https://github.com/eliautobot/my-virtual-office/releases/tag/v0.6.28"
+      },
+      "commits": [
+        {
+          "message": "Improve Codex streaming and context metrics",
+          "date": "2026-06-17T04:07:12Z",
+          "url": "https://github.com/eliautobot/my-virtual-office/commit/80165580fe03c520574bf8e536afb82013debc80",
+          "author": "eliautobot"
+        },
+        {
+          "message": "Stream Hermes runs natively",
+          "date": "2026-06-16T18:46:31Z",
+          "url": "https://github.com/eliautobot/my-virtual-office/commit/b418654c79a0d18d13bbf99f84e000b28019f055",
+          "author": "eliautobot"
+        },
+        {
+          "message": "Surface Codex approvals in chat",
+          "date": "2026-06-16T12:59:07Z",
+          "url": "https://github.com/eliautobot/my-virtual-office/commit/db08d7611dfee5e8d779be3b089f612d0215383c",
+          "author": "eliautobot"
+        },
+        {
+          "message": "Codex agent directory support",
+          "date": "2026-06-15T23:50:58Z",
+          "url": "https://github.com/eliautobot/my-virtual-office/commit/e9861ea0c2bf9a76cd26faab114aeba6bc462283",
+          "author": "eliautobot"
+        },
+        {
+          "message": "Codex CLI support",
+          "date": "2026-06-15T22:31:39Z",
+          "url": "https://github.com/eliautobot/my-virtual-office/commit/0d01111b4271bb136a639b0dd7c7e8e1266f9e3e",
+          "author": "eliautobot"
+        }
+      ],
+      "focus": "Agent可视化、办公室场景、交互方式",
+      "hasNewRelease": false
+    },
+    {
+      "name": "CrewAI-Flows",
+      "repo": "crewAIInc/crewAI",
+      "release": {
+        "version": "1.14.7",
+        "date": "2026-06-11T17:13:46Z",
+        "url": "https://github.com/crewAIInc/crewAI/releases/tag/1.14.7"
+      },
+      "commits": [
+        {
+          "message": "Discriminate FlowDefinition state types (#6196)",
+          "date": "2026-06-17T04:31:07Z",
+          "url": "https://github.com/crewAIInc/crewAI/commit/7bb9bc7e1a6ec7485f274fad14c615273d9a5a26",
+          "author": "Vinicius Brasil"
+        },
+        {
+          "message": "Update installation and quickstart documentation for JSON-first crew projects (#6181)",
+          "date": "2026-06-16T22:55:23Z",
+          "url": "https://github.com/crewAIInc/crewAI/commit/ee4f8532705a0cddba502ebb7ad071dabc2a65b2",
+          "author": "João Moura"
+        },
+        {
+          "message": "Implement DMN mode support in crew creation and execution (#6194)",
+          "date": "2026-06-16T22:48:31Z",
+          "url": "https://github.com/crewAIInc/crewAI/commit/ebbc0998ef726721b76a1710ab6393e4f4befa73",
+          "author": "João Moura"
+        },
+        {
+          "message": "Enhance crew loading and validation logic (#6182)",
+          "date": "2026-06-16T21:45:26Z",
+          "url": "https://github.com/crewAIInc/crewAI/commit/06ada68083f98fb83b40fa12b196c5e1578fa01a",
+          "author": "João Moura"
+        },
+        {
+          "message": "Add crew actions to FlowDefinition (#6184)",
+          "date": "2026-06-16T19:59:48Z",
+          "url": "https://github.com/crewAIInc/crewAI/commit/4eb90ffbf31bde962e01894046ade65a84b17d7e",
+          "author": "Vinicius Brasil"
+        }
+      ],
+      "focus": "Flow编排、状态管理、条件路由",
+      "hasNewRelease": false
+    },
+    {
+      "name": "OpenCrew",
+      "repo": "AlexAnys/opencrew",
+      "release": {
+        "version": "v0.3.0",
+        "date": "2026-04-03T01:08:24Z",
+        "url": "https://github.com/AlexAnys/opencrew/releases/tag/v0.3.0"
+      },
+      "commits": [
+        {
+          "message": "Merge pull request #46 from AlexAnys/sync/en-docs-to-cn-quality",
+          "date": "2026-04-05T07:49:56Z",
+          "url": "https://github.com/AlexAnys/opencrew/commit/7937758b701693f8f3577081e74c1ccdb268a660",
+          "author": "Alex AN"
+        },
+        {
+          "message": "fix: add account ID and agent ID to Discussion setup prompts",
+          "date": "2026-04-05T07:37:24Z",
+          "url": "https://github.com/AlexAnys/opencrew/commit/ba59d6f1f79d5a5633da175bb305d75b5472b64a",
+          "author": "Alex's Mac"
+        },
+        {
+          "message": "docs(en): sync all English docs to match CN quality after PR #45",
+          "date": "2026-04-04T16:04:51Z",
+          "url": "https://github.com/AlexAnys/opencrew/commit/a9a91bc31d39cc16815b9f855c897d42daf96c23",
+          "author": "Alex's Mac"
+        },
+        {
+          "message": "Merge pull request #45 from AlexAnys/feat/a2a-v2-protocol",
+          "date": "2026-04-04T15:55:23Z",
+          "url": "https://github.com/AlexAnys/opencrew/commit/45cc577277b0ec16472ab0c63abfed17c886944c",
+          "author": "Alex AN"
+        },
+        {
+          "message": "fix: broken anchor, wrong doc reference, Bot User ID required",
+          "date": "2026-04-04T11:13:43Z",
+          "url": "https://github.com/AlexAnys/opencrew/commit/008fe173ffcb310c43460268775287e79cc86b9f",
+          "author": "Alex's Mac"
+        }
+      ],
+      "focus": "中文多Agent协同、OpenClaw集成",
+      "hasNewRelease": false
+    }
+  ],
   "stable": [],
-  "newProjects": [],
+  "newProjects": [
+    {
+      "name": "iflytek/astron-agent",
+      "stars": 8566,
+      "description": "Enterprise-grade, commercial-friendly agentic workflow platform for building next-generation SuperAg",
+      "url": "https://github.com/iflytek/astron-agent",
+      "updated_at": "2026-06-17T06:43:42Z"
+    },
+    {
+      "name": "builderz-labs/mission-control",
+      "stars": 5339,
+      "description": "Self-hosted AI agent orchestration platform: dispatch tasks, run multi-agent workflows, monitor spen",
+      "url": "https://github.com/builderz-labs/mission-control",
+      "updated_at": "2026-06-17T07:27:06Z"
+    },
+    {
+      "name": "ModelEngine-Group/nexent",
+      "stars": 5118,
+      "description": "Nexent is a zero-code platform for auto-generating production-grade AI agents using Harness Engineer",
+      "url": "https://github.com/ModelEngine-Group/nexent",
+      "updated_at": "2026-06-17T08:03:48Z"
+    },
+    {
+      "name": "golutra/golutra",
+      "stars": 3684,
+      "description": "Multi-agent AI orchestration platform for automation, workflows, and developer tools. Golutra transf",
+      "url": "https://github.com/golutra/golutra",
+      "updated_at": "2026-06-16T20:43:46Z"
+    },
+    {
+      "name": "phodal/routa",
+      "stars": 1697,
+      "description": "Workspace-first multi-agent coordination platform for AI development, with shared Specs, Kanban orch",
+      "url": "https://github.com/phodal/routa",
+      "updated_at": "2026-06-17T07:43:26Z"
+    }
+  ],
   "summary": {
     "total": 10,
-    "hasUpdates": 0,
-    "newProjectsFound": 0
+    "hasUpdates": 10,
+    "newProjectsFound": 5
   }
 }
