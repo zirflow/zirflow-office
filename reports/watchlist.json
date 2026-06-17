@@ -59,6 +59,36 @@
       "repo": "AlexAnys/opencrew",
       "reason": "OpenClaw多智能体协同",
       "focus": "中文多Agent协同、OpenClaw集成"
+    },
+    {
+      "name": "Astron-Agent",
+      "repo": "iflytek/astron-agent",
+      "reason": "科大讯飞出品的Agent工作流平台，8.5k星，跟Zirflow方向高度重合",
+      "focus": "可视化编排、RPA集成、企业级高可用、中文生态"
+    },
+    {
+      "name": "Mission-Control",
+      "repo": "builderz-labs/mission-control",
+      "reason": "自托管AI Agent编排平台，5.3k星",
+      "focus": "任务调度、多Agent工作流、可视化"
+    },
+    {
+      "name": "Nexent",
+      "repo": "ModelEngine-Group/nexent",
+      "reason": "零代码AI Agent平台，5.1k星",
+      "focus": "零代码Agent生成、拖拽式"
+    },
+    {
+      "name": "Golutra",
+      "repo": "golutra/golutra",
+      "reason": "多Agent AI编排平台，3.6k星",
+      "focus": "自动化工作流、开发者工具"
+    },
+    {
+      "name": "Routa",
+      "repo": "phodal/routa",
+      "reason": "工作空间优先多Agent协调，1.6k星，中文项目",
+      "focus": "多Agent协调、开发工作流"
     }
   ],
   "searchQueries": [
@@ -68,5 +98,5 @@
     "agent-as-a-service platform",
     "llm agent workflow visual editor"
   ],
-  "lastUpdated": null
+  "lastUpdated": "2026-06-17T08:28:47.197Z"
 }
