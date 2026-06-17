@@ -1,0 +1,72 @@
+{
+  "watched": [
+    {
+      "name": "crewAI",
+      "repo": "crewAIInc/crewAI",
+      "reason": "Agent编排框架，Omnify的智能HR组队原型",
+      "focus": "角色定义、组队逻辑、Crew控制台UI"
+    },
+    {
+      "name": "MetaGPT",
+      "repo": "FoundationAgents/MetaGPT",
+      "reason": "多角色协作，自动产出文档",
+      "focus": "角色分工、任务流水线"
+    },
+    {
+      "name": "AutoGen",
+      "repo": "microsoft/autogen",
+      "reason": "微软多智能体框架，企业级",
+      "focus": "多Agent对话、企业级部署"
+    },
+    {
+      "name": "ChatDev",
+      "repo": "OpenBMB/ChatDev",
+      "reason": "虚拟软件公司概念",
+      "focus": "角色扮演流程、阶段化执行"
+    },
+    {
+      "name": "SuperAGI",
+      "repo": "TransformerOptimus/SuperAGI",
+      "reason": "可视化Agent管理平台",
+      "focus": "Web界面、Agent管理、任务调度"
+    },
+    {
+      "name": "Hermes-Studio",
+      "repo": "EKKOLearnAI/hermes-studio",
+      "reason": "Hermes Agent管理面板，8000星",
+      "focus": "Agent仪表盘、Crews管理、技能管理"
+    },
+    {
+      "name": "OpenClaw-Admin",
+      "repo": "itq5/OpenClaw-Admin",
+      "reason": "中文Agent管理后台",
+      "focus": "中文UI、虚拟公司场景、多网关"
+    },
+    {
+      "name": "my-virtual-office",
+      "repo": "eliautobot/my-virtual-office",
+      "reason": "2D可视化办公室（最接近你概念）",
+      "focus": "Agent可视化、办公室场景、交互方式"
+    },
+    {
+      "name": "CrewAI-Flows",
+      "repo": "crewAIInc/crewAI",
+      "reason": "事件驱动工作流（最新特性）",
+      "focus": "Flow编排、状态管理、条件路由"
+    },
+    {
+      "name": "OpenCrew",
+      "repo": "AlexAnys/opencrew",
+      "reason": "OpenClaw多智能体协同",
+      "focus": "中文多Agent协同、OpenClaw集成"
+    }
+  ],
+  "searchQueries": [
+    "multi-agent orchestration platform",
+    "AI agent team management visual",
+    "AI employee workspace dashboard",
+    "agent-as-a-service platform",
+    "llm agent workflow visual editor"
+  ],
+  "lastUpdated": null
+}
