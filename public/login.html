@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Zirflow Office · 登录</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:      #07090f;
+  --surface: #111827;
+  --fg:      #f3f5fa;
+  --fg-2:    #c4cbd9;
+  --muted:   #566076;
+  --line:    rgba(255,255,255,0.07);
+  --line-2:  rgba(255,255,255,0.12);
+  --accent:  #3b82f6;
+  --accent-2:#10b981;
+  --font:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono:'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+}
+body {
+  font: 15px/1.5 var(--font); color: var(--fg); background: var(--bg);
+  -webkit-font-smoothing: antialiased; min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+input { font: inherit; }
+button { font: inherit; border: 0; background: none; color: inherit; cursor: pointer; }
+
+/* ============================================================
+   BG
+   ============================================================ */
+.bg-grid {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, #000 30%, transparent 80%);
+}
+.bg-glow { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.bg-glow .g { position: absolute; border-radius: 50%; filter: blur(140px); opacity: 0.18; }
+.bg-glow .g1 { width: 600px; height: 600px; background: radial-gradient(circle, rgba(59,130,246,0.5), transparent); top: -20%; left: -10%; }
+.bg-glow .g2 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(16,185,129,0.3), transparent); bottom: -10%; right: -8%; }
+
+/* ============================================================
+   AUTH CARD
+   ============================================================ */
+.auth-wrap { position: relative; z-index: 1; width: 100%; max-width: 420px; padding: 20px; }
+.auth-card {
+  background: linear-gradient(160deg, var(--surface), rgba(17,24,39,0.6));
+  border: 1px solid var(--line); border-radius: 24px;
+  padding: 44px 36px 36px;
+  box-shadow: 0 40px 80px -20px rgba(0,0,0,0.6);
+  position: relative; overflow: hidden;
+}
+.auth-card::before {
+  content: ''; position: absolute; top: 0; left: 24px; right: 24px; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(59,130,246,0.5), transparent);
+}
+
+.logo { display: flex; align-items: center; gap: 10px; margin-bottom: 28px; }
+.logo-icon {
+  width: 34px; height: 34px; border-radius: 10px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  display: grid; place-items: center;
+  font: 800 18px/1 var(--font); color: var(--bg);
+}
+.logo-text { font: 700 18px/1 var(--font); letter-spacing: -0.02em; color: var(--fg); }
+.logo-text span { color: var(--muted); font-weight: 500; }
+
+.auth-title { font: 800 22px/1.2 var(--font); letter-spacing: -0.02em; color: var(--fg); margin-bottom: 6px; }
+.auth-sub { font: 14px/1.4 var(--font); color: var(--muted); margin-bottom: 28px; }
+
+.form-group { margin-bottom: 16px; }
+.form-group label {
+  display: block; font: 600 12px/1 var(--font); color: var(--fg-2);
+  margin-bottom: 6px; letter-spacing: 0.02em;
+}
+.form-group input {
+  width: 100%; padding: 11px 14px;
+  background: var(--bg); border: 1px solid var(--line-2);
+  border-radius: 10px; color: var(--fg); font: 14px/1.4 var(--font);
+  outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+}
+.form-group input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(59,130,246,0.12); }
+.form-group input::placeholder { color: var(--muted); }
+
+.btn-primary {
+  width: 100%; padding: 12px; border-radius: 10px;
+  background: linear-gradient(135deg, var(--accent), #2563eb);
+  color: #fff; font: 600 15px/1 var(--font);
+  box-shadow: 0 0 0 1px rgba(59,130,246,0.4), 0 8px 20px -8px rgba(59,130,246,0.5);
+  transition: all 0.2s; margin-top: 4px;
+}
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 0 0 1px rgba(59,130,246,0.6), 0 12px 24px -8px rgba(59,130,246,0.7); }
+.btn-primary.loading { opacity: 0.6; pointer-events: none; }
+.auth-switch { text-align: center; margin-top: 20px; font: 13px/1 var(--font); color: var(--muted); }
+.auth-switch a { color: var(--accent); cursor: pointer; }
+.auth-switch a:hover { text-decoration: underline; }
+
+.form-view { display: none; animation: fadeIn 0.3s ease; }
+.form-view.active { display: block; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
+
+/* Client selector */
+.client-picker { margin-top: 16px; }
+.cp-label { font: 600 10px/1 var(--font-mono); color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+.client-options { display: flex; gap: 8px; flex-wrap: wrap; }
+.client-opt {
+  flex: 1; min-width: 80px; padding: 10px 8px; border-radius: 10px;
+  border: 1px solid var(--line-2); background: rgba(255,255,255,0.02);
+  text-align: center; cursor: pointer; transition: all 0.2s;
+}
+.client-opt:hover { border-color: var(--accent); background: rgba(59,130,246,0.05); }
+.client-opt.selected { border-color: var(--accent); background: rgba(59,130,246,0.1); }
+.client-opt .co-name { font: 600 13px/1 var(--font); color: var(--fg); }
+.client-opt .co-count { font: 10px/1 var(--font-mono); color: var(--muted); margin-top: 4px; }
+.demo-note { text-align: center; margin-top: 16px; font: 11px/1 var(--font-mono); color: var(--muted); }
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-glow"><div class="g g1"></div><div class="g g2"></div></div>
+
+<div class="auth-wrap">
+  <div class="auth-card">
+    <div class="logo">
+      <div class="logo-icon">Z</div>
+      <div class="logo-text">Zirflow <span>Office</span></div>
+    </div>
+
+    <div class="form-view active" id="viewLogin">
+      <div class="auth-title">欢迎回来</div>
+      <div class="auth-sub">登录查看你的数字员工办公室</div>
+      <div class="form-group">
+        <label>邮箱</label>
+        <input type="email" id="loginEmail" placeholder="your@company.com" />
+      </div>
+      <div class="form-group">
+        <label>密码</label>
+        <input type="password" id="loginPwd" placeholder="••••••••" />
+      </div>
+      <button class="btn-primary" id="loginBtn" onclick="handleLogin()">进入办公室 →</button>
+      <div class="auth-switch">还没有账号？<a onclick="showView('register')">注册</a></div>
+    </div>
+
+    <div class="form-view" id="viewRegister">
+      <div class="auth-title">创建你的办公室</div>
+      <div class="auth-sub">注册后即可管理你的 AI 数字员工团队</div>
+      <div class="form-group">
+        <label>公司名称</label>
+        <input type="text" id="regCompany" placeholder="你的公司名称" />
+      </div>
+      <div class="form-group">
+        <label>邮箱</label>
+        <input type="email" id="regEmail" placeholder="your@company.com" />
+      </div>
+      <div class="form-group">
+        <label>密码</label>
+        <input type="password" id="regPwd" placeholder="至少 6 位" />
+      </div>
+      <button class="btn-primary" id="regBtn" onclick="handleRegister()">注册并创建办公室 →</button>
+      <div class="auth-switch">已有账号？<a onclick="showView('login')">登录</a></div>
+    </div>
+
+    <div class="client-picker">
+      <div class="cp-label">▼ 演示 · 快速体验</div>
+      <div class="client-options">
+        <div class="client-opt selected" data-client="huaqing" onclick="pickClient(this,'华清检测',4)">
+          <div class="co-name">华清检测</div>
+          <div class="co-count">4 个数字员工</div>
+        </div>
+        <div class="client-opt" data-client="hengjia" onclick="pickClient(this,'亨加礼品',3)">
+          <div class="co-name">亨加礼品</div>
+          <div class="co-count">3 个数字员工</div>
+        </div>
+        <div class="client-opt" data-client="demo" onclick="pickClient(this,'演示公司',2)">
+          <div class="co-name">演示公司</div>
+          <div class="co-count">2 个数字员工</div>
+        </div>
+      </div>
+    </div>
+    <div class="demo-note">演示模式 · 点击客户后点击"进入办公室"即可体验</div>
+  </div>
+</div>
+
+<script>
+let selectedClient = 'huaqing';
+
+function showView(view) {
+  document.querySelectorAll('.form-view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view' + view.charAt(0).toUpperCase() + view.slice(1)).classList.add('active');
+}
+
+function pickClient(el, name, count) {
+  document.querySelectorAll('.client-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedClient = el.dataset.client;
+  document.getElementById('loginEmail').value = `demo@${selectedClient}.com`;
+}
+
+async function handleLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pwd = document.getElementById('loginPwd').value;
+  if (!email || !pwd) { toast('请填写邮箱和密码'); return; }
+  const btn = document.getElementById('loginBtn');
+  btn.textContent = '验证中…'; btn.classList.add('loading');
+  try {
+    const res = await fetch('/api/login', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ email, password: pwd }),
+    });
+    const data = await res.json();
+    if (!res.ok) { toast(data.error || '登录失败'); btn.textContent='进入办公室 →'; btn.classList.remove('loading'); return; }
+    localStorage.setItem('zirflow_token', data.token);
+    localStorage.setItem('zirflow_user', JSON.stringify(data.user));
+    enterOffice(data.user.agents || selectedClient);
+  } catch(e) {
+    // Fallback: use demo mode
+    localStorage.setItem('zirflow_user', JSON.stringify({ email, client: selectedClient }));
+    enterOffice(selectedClient);
+  }
+}
+
+async function handleRegister() {
+  const company = document.getElementById('regCompany').value.trim();
+  const email = document.getElementById('regEmail').value.trim();
+  const pwd = document.getElementById('regPwd').value;
+  if (!company || !email || !pwd) { toast('请填写完整信息'); return; }
+  if (pwd.length < 6) { toast('密码至少 6 位'); return; }
+  const btn = document.getElementById('regBtn');
+  btn.textContent = '创建中…'; btn.classList.add('loading');
+  try {
+    const res = await fetch('/api/register', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ company, email, password: pwd }),
+    });
+    const data = await res.json();
+    if (!res.ok) { toast(data.error || '注册失败'); btn.textContent='注册并创建办公室 →'; btn.classList.remove('loading'); return; }
+    toast('注册成功！');
+    localStorage.setItem('zirflow_token', data.token);
+    localStorage.setItem('zirflow_user', JSON.stringify(data.user));
+    enterOffice(selectedClient);
+  } catch(e) {
+    toast('注册失败，请稍后重试');
+    btn.textContent='注册并创建办公室 →';
+    btn.classList.remove('loading');
+  }
+}
+
+function enterOffice(client) {
+  window.location.href = `/?client=${client}`;
+}
+
+// Simple toast
+function toast(msg) {
+  const existing = document.querySelector('.toast');
+  if (existing) existing.remove();
+  const el = document.createElement('div');
+  el.className = 'toast';
+  el.textContent = msg;
+  Object.assign(el.style, {
+    position:'fixed', bottom:'30px', left:'50%', transform:'translateX(-50%)',
+    padding:'10px 20px', borderRadius:'10px', background:'var(--surface)',
+    border:'1px solid var(--line-2)', color:'var(--fg)', fontSize:'14px',
+    zIndex:'999', fontFamily:'var(--font)',
+    animation:'toastIn 0.3s ease, toastOut 0.3s 2.5s ease',
+  });
+  const style = document.createElement('style');
+  style.textContent = '@keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(10px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}@keyframes toastOut{from{opacity:1}to{opacity:0}}';
+  document.head.appendChild(style);
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 3000);
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    const login = document.getElementById('viewLogin');
+    if (login.classList.contains('active')) handleLogin();
+    else handleRegister();
+  }
+});
+
+// Pre-fill demo email
+document.getElementById('loginEmail').value = 'demo@huaqing.com';
+</script>
+</body>
+</html>

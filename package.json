@@ -1,0 +1,9 @@
+{
+  "name": "zirflow-office",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "npx wrangler pages dev public",
+    "deploy": "npx wrangler pages deploy public"
+  }
+}

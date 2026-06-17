@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Zirflow Office · 数字员工指挥中心</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:      #07090f;
+  --bg-2:    #0b0e16;
+  --surface: #111827;
+  --surface-2:#1a2236;
+  --fg:      #f3f5fa;
+  --fg-2:    #c4cbd9;
+  --muted:   #566076;
+  --line:    rgba(255,255,255,0.06);
+  --line-2:  rgba(255,255,255,0.12);
+  --accent:  #3b82f6;
+  --accent-2:#10b981;
+  --accent-3:#8b5cf6;
+  --warn:    #f59e0b;
+  --danger:  #ef4444;
+  --font:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono:'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --card-r: 16px;
+}
+body {
+  font: 14px/1.5 var(--font); color: var(--fg); background: var(--bg);
+  -webkit-font-smoothing: antialiased; min-height: 100vh;
+}
+button { font: inherit; border: 0; background: none; color: inherit; cursor: pointer; }
+
+/* ============================================================
+   BG
+   ============================================================ */
+.bg-grid {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 20%, #000 30%, transparent 90%);
+}
+.bg-glow { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.bg-glow .g { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.22; }
+.bg-glow .g1 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(59,130,246,0.5), transparent); top: -10%; left: -5%; }
+.bg-glow .g2 { width: 380px; height: 380px; background: radial-gradient(circle, rgba(16,185,129,0.35), transparent); top: 30%; right: -8%; }
+.bg-glow .g3 { width: 320px; height: 320px; background: radial-gradient(circle, rgba(139,92,246,0.3), transparent); bottom: 0; left: 20%; }
+
+/* ============================================================
+   STATUS BAR
+   ============================================================ */
+.status-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 24px;
+  background: rgba(7,9,15,0.94);
+  border-bottom: 1px solid var(--line);
+  font: 500 10px/1 var(--font-mono);
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  backdrop-filter: blur(14px);
+}
+.status-bar .seg { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.status-bar .seg > span { display: inline-flex; align-items: center; gap: 7px; }
+.status-bar .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent-2); box-shadow: 0 0 7px var(--accent-2); animation: livePulse 1.6s infinite; }
+.status-bar .lbl-name { color: var(--fg); font-weight: 700; letter-spacing: 0.04em; }
+.status-bar .v { color: var(--fg-2); font-weight: 600; }
+.status-bar .ok { color: var(--accent-2); }
+.status-bar .sep { width: 1px; height: 11px; background: var(--line-2); display: inline-block; }
+@keyframes livePulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(.5);opacity:.5} }
+@media (max-width: 780px) { .status-bar .hide-mob { display: none; } }
+
+/* ============================================================
+   APP
+   ============================================================ */
+.app { position: relative; z-index: 1; padding-top: 46px; }
+
+.office-hero {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  padding: 32px 24px 24px; flex-wrap: wrap; gap: 16px;
+}
+.office-hero h1 {
+  font: 800 clamp(20px, 2.2vw, 30px)/1.1 var(--font);
+  letter-spacing: -0.03em; color: var(--fg);
+}
+.office-hero .sub { font: 12px/1.4 var(--font-mono); color: var(--muted); margin-top: 4px; }
+.hero-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 9px 18px; border-radius: 10px;
+  font: 600 13px/1 var(--font); transition: all 0.2s;
+  white-space: nowrap;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent), #2563eb);
+  color: #fff;
+  box-shadow: 0 0 0 1px rgba(59,130,246,0.4), 0 8px 20px -8px rgba(59,130,246,0.5);
+}
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 0 0 1px rgba(59,130,246,0.6), 0 12px 24px -8px rgba(59,130,246,0.7); }
+.btn-ghost { color: var(--fg-2); background: rgba(255,255,255,0.03); border: 1px solid var(--line-2); }
+.btn-ghost:hover { color: var(--fg); background: rgba(255,255,255,0.06); }
+.btn-sm { padding: 7px 12px; font-size: 11px; border-radius: 8px; }
+
+/* ============================================================
+   AGENT GRID
+   ============================================================ */
+.agent-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  padding: 0 24px 32px;
+  max-width: 1360px;
+  margin: 0 auto;
+}
+.agent-card {
+  position: relative;
+  background: linear-gradient(160deg, var(--surface), rgba(17,24,39,0.5));
+  border: 1px solid var(--line);
+  border-radius: var(--card-r);
+  padding: 24px 22px 20px;
+  transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  cursor: pointer; overflow: hidden;
+  opacity: 0; transform: translateY(16px);
+}
+.agent-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent); }
+.agent-card:hover { border-color: rgba(59,130,246,0.3); transform: translateY(-4px); box-shadow: 0 20px 48px -16px rgba(0,0,0,0.6), 0 0 0 1px rgba(59,130,246,0.15); }
+.agent-card.show { opacity: 1; transform: translateY(0); }
+.agent-card-add {
+  border: 2px dashed var(--line-2); background: transparent;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  min-height: 200px; cursor: pointer; transition: all 0.25s;
+  color: var(--muted);
+}
+.agent-card-add:hover { border-color: var(--accent); color: var(--accent); background: rgba(59,130,246,0.03); }
+.agent-card-add .plus { font-size: 36px; font-weight: 200; line-height: 1; margin-bottom: 6px; }
+.agent-card-add .lbl { font: 13px/1 var(--font); }
+
+.agent-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; }
+.agent-avatar {
+  width: 44px; height: 44px; border-radius: 12px;
+  display: grid; place-items: center;
+  font: 700 18px/1 var(--font); flex-shrink: 0;
+  position: relative;
+}
+.agent-avatar .status-ring { position: absolute; bottom: -2px; right: -2px; width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--surface); }
+.agent-avatar .sr-inner { width: 100%; height: 100%; border-radius: 50%; }
+
+.badge {
+  display: flex; align-items: center; gap: 5px;
+  padding: 3px 9px; border-radius: 999px;
+  font: 600 9px/1 var(--font-mono); letter-spacing: 0.12em;
+}
+.badge-working { background: rgba(16,185,129,0.12); color: #10b981; border: 1px solid rgba(16,185,129,0.25); }
+.badge-idle { background: rgba(107,114,128,0.12); color: #9ca3af; border: 1px solid rgba(107,114,128,0.2); }
+.badge-reporting { background: rgba(59,130,246,0.12); color: #3b82f6; border: 1px solid rgba(59,130,246,0.25); }
+.badge-resting { background: rgba(245,158,11,0.12); color: #f59e0b; border: 1px solid rgba(245,158,11,0.25); }
+
+.pulse-working { background: #10b981; box-shadow: 0 0 6px #10b981; animation: statusPulse 1.6s infinite; }
+.pulse-idle { background: #6b7280; }
+.pulse-reporting { background: #3b82f6; box-shadow: 0 0 6px #3b82f6; animation: statusPulse 1.6s infinite; }
+.pulse-resting { background: #f59e0b; box-shadow: 0 0 6px #f59e0b; animation: statusPulse 2.4s infinite; }
+@keyframes statusPulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+
+.agent-name { font: 700 16px/1.2 var(--font); color: var(--fg); letter-spacing: -0.01em; }
+.agent-role { font: 12px/1 var(--font-mono); color: var(--muted); margin-top: 4px; }
+
+.agent-metrics {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+  margin: 14px 0 12px;
+  padding: 12px 14px;
+  background: rgba(0,0,0,0.25);
+  border-radius: 10px; border: 1px solid var(--line);
+}
+.agent-metric .val { font: 700 17px/1 var(--font-mono); font-variant-numeric: tabular-nums; background: linear-gradient(135deg, var(--fg), var(--fg-2)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.agent-metric .lbl { font: 9px/1 var(--font-mono); color: var(--muted); margin-top: 3px; letter-spacing: 0.1em; }
+
+.agent-actions { display: flex; gap: 8px; }
+.agent-actions .btn { flex: 1; justify-content: center; padding: 8px; font-size: 11px; }
+
+/* ============================================================
+   ACTIVITY
+   ============================================================ */
+.activity-section { max-width: 1360px; margin: 8px auto 40px; padding: 0 24px; }
+.activity-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.activity-bar h3 { font: 700 14px/1 var(--font); color: var(--fg); display: flex; align-items: center; gap: 8px; }
+.activity-bar h3 .badge { font: 600 9px/1 var(--font-mono); padding: 3px 7px; border-radius: 999px; background: rgba(16,185,129,0.12); color: var(--accent-2); }
+.activity-feed {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--card-r); padding: 8px 0;
+  max-height: 220px; overflow-y: auto;
+}
+.activity-feed::-webkit-scrollbar { width: 3px; }
+.activity-feed::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 2px; }
+.activity-item {
+  display: flex; align-items: baseline; gap: 10px;
+  padding: 6px 18px; font: 12px/1.5 var(--font-mono);
+  color: var(--fg-2); transition: background 0.15s;
+}
+.activity-item:hover { background: rgba(255,255,255,0.02); }
+.activity-item .t { color: var(--muted); flex-shrink: 0; font-size: 11px; }
+.activity-item .dot { width: 4px; height: 4px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+.activity-item .dot.ok { background: var(--accent-2); }
+.activity-item .dot.info { background: var(--accent); }
+.activity-item .dot.warn { background: var(--warn); }
+.activity-item .x { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.line-new { animation: feedIn 0.35s ease both; }
+@keyframes feedIn { from{opacity:0;transform:translateX(-6px)} to{opacity:1;transform:none} }
+
+/* ============================================================
+   MODAL
+   ============================================================ */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(7,9,15,0.75); backdrop-filter: blur(6px);
+  display: none; align-items: center; justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--surface); border: 1px solid var(--line-2);
+  border-radius: 20px; width: 100%; max-width: 540px;
+  max-height: 80vh; overflow-y: auto;
+  box-shadow: 0 40px 80px -20px rgba(0,0,0,0.8);
+  animation: modalIn 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes modalIn { from{opacity:0;transform:translateY(12px) scale(0.97)} to{opacity:1;transform:none} }
+.modal::-webkit-scrollbar { width: 3px; }
+.modal::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 2px; }
+
+.modal-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 24px 14px; border-bottom: 1px solid var(--line);
+}
+.modal-head-left { display: flex; align-items: center; gap: 14px; }
+.m-avatar { width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; font: 700 16px/1 var(--font); flex-shrink:0; }
+.m-name { font: 700 17px/1 var(--font); color: var(--fg); }
+.m-role { font: 11px/1 var(--font-mono); color: var(--muted); margin-top: 2px; }
+.modal-close { width: 32px; height: 32px; border-radius: 8px; display: grid; place-items: center; font-size: 18px; color: var(--muted); transition: all 0.15s; }
+.modal-close:hover { background: rgba(255,255,255,0.05); color: var(--fg); }
+
+.modal-body { padding: 16px 24px 20px; }
+.modal-tabs { display: flex; gap: 4px; background: rgba(0,0,0,0.25); border-radius: 10px; padding: 3px; margin-bottom: 16px; }
+.modal-tab { flex: 1; text-align: center; padding: 8px 0; border-radius: 8px; font: 600 12px/1 var(--font); color: var(--muted); transition: all 0.2s; }
+.modal-tab.active { background: var(--surface-2); color: var(--fg); box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
+.modal-tab:hover { color: var(--fg-2); }
+
+.m-chat {}
+.m-msg { display: flex; gap: 10px; margin-bottom: 12px; }
+.m-msg.sent { flex-direction: row-reverse; }
+.m-msg .bubble { max-width: 80%; padding: 10px 14px; border-radius: 12px; font-size: 13px; line-height: 1.55; }
+.m-msg.received .bubble { background: var(--bg-2); border: 1px solid var(--line); color: var(--fg-2); }
+.m-msg.sent .bubble { background: rgba(59,130,246,0.15); border: 1px solid rgba(59,130,246,0.25); color: var(--fg); }
+.m-msg .time { font: 9px/1 var(--font-mono); color: var(--muted); margin-top: 4px; }
+.m-input-row { display: flex; gap: 8px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); }
+.m-input { flex: 1; padding: 9px 14px; border-radius: 10px; border: 1px solid var(--line-2); background: var(--bg); color: var(--fg); font: 13px/1.4 var(--font); outline: none; }
+.m-input:focus { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(59,130,246,0.15); }
+.m-input::placeholder { color: var(--muted); }
+
+.m-report-item {
+  padding: 12px 14px; background: var(--bg-2); border: 1px solid var(--line);
+  border-radius: 10px; margin-bottom: 10px; cursor: pointer;
+  transition: background 0.2s;
+}
+.m-report-item:hover { background: rgba(17,24,39,0.8); }
+.m-report-item .r-t { font: 600 13px/1 var(--font); color: var(--fg); }
+.m-report-item .r-d { font: 11px/1.4 var(--font-mono); color: var(--muted); margin-top: 5px; }
+.m-report-item .r-v { display: inline-block; margin-top: 8px; font: 600 12px/1 var(--font); color: var(--accent-2); }
+
+.assign-item {
+  padding: 12px 14px; background: var(--bg-2); border: 1px solid var(--line);
+  border-radius: 10px; margin-bottom: 8px; cursor: pointer;
+  transition: all 0.2s;
+}
+.assign-item:hover { border-color: var(--accent); background: rgba(59,130,246,0.04); }
+.assign-item .a-t { font-weight: 600; font-size: 13px; color: var(--fg); }
+.assign-item .a-d { font: 11px/1.3 var(--font-mono); color: var(--muted); margin-top: 3px; }
+
+/* ============================================================
+   EMPTY STATE
+   ============================================================ */
+.empty-state {
+  text-align: center; padding: 60px 20px;
+  color: var(--muted);
+}
+.empty-state .big { font-size: 48px; margin-bottom: 12px; }
+.empty-state h2 { font: 700 18px/1 var(--font); color: var(--fg); margin-bottom: 6px; }
+.empty-state p { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+
+/* ============================================================
+   LOADING
+   ============================================================ */
+.skeleton {
+  background: linear-gradient(90deg, var(--surface) 25%, rgba(255,255,255,0.03) 50%, var(--surface) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+.skeleton-card { height: 180px; border-radius: var(--card-r); }
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-glow"><div class="g g1"></div><div class="g g2"></div><div class="g g3"></div></div>
+
+<!-- STATUS BAR -->
+<div class="status-bar">
+  <div class="seg">
+    <span><span class="dot"></span><span class="lbl-name">ZIRFLOW OFFICE</span></span>
+    <span class="sep hide-mob"></span>
+    <span><span class="lbl">AGENTS</span><span class="v" id="agentCount">0</span></span>
+    <span class="sep hide-mob"></span>
+    <span class="hide-mob"><span class="lbl">WORKING</span><span class="v ok" id="workingCount">0</span></span>
+    <span class="sep hide-mob"></span>
+    <span><span class="lbl">UTC</span><span class="v" id="clock">--:--:--</span></span>
+  </div>
+  <div class="seg">
+    <span class="hide-mob"><span class="lbl" id="userLabel">USER</span><span class="v" id="userDisplay">—</span></span>
+    <span class="sep"></span>
+    <button onclick="logout()" style="font:600 10px/1 var(--font-mono);color:var(--muted);letter-spacing:0.1em;background:none;border:0;cursor:pointer">退出</button>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app">
+
+<div class="office-hero" style="max-width:1360px;margin:0 auto">
+  <div>
+    <h1 id="officeTitle">数字员工办公室</h1>
+    <div class="sub" id="officeSub">加载中…</div>
+  </div>
+  <div class="hero-actions">
+    <button class="btn btn-ghost" onclick="toast('全局报告即将上线')">📊 全局报告</button>
+    <button class="btn btn-primary" onclick="toast('添加 Agent 功能即将上线')">+ 添加 Agent</button>
+  </div>
+</div>
+
+<div class="agent-grid" id="agentGrid">
+  <div class="skeleton skeleton-card"></div>
+  <div class="skeleton skeleton-card"></div>
+  <div class="skeleton skeleton-card"></div>
+  <div class="skeleton skeleton-card"></div>
+</div>
+
+<div class="activity-section">
+  <div class="activity-bar">
+    <h3>实时工作日志 <span class="badge">LIVE</span></h3>
+  </div>
+  <div class="activity-feed" id="activityFeed">
+    <div style="text-align:center;padding:20px;color:var(--muted);font:12px/1 var(--font-mono)">等待活动…</div>
+  </div>
+</div>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-head-left">
+        <div class="m-avatar" id="mAvatar">💼</div>
+        <div class="m-info">
+          <div class="m-name" id="mName">—</div>
+          <div class="m-role" id="mRole">—</div>
+        </div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-tabs">
+        <button class="modal-tab active" data-tab="chat" onclick="switchTab(this)">💬 对话</button>
+        <button class="modal-tab" data-tab="report" onclick="switchTab(this)">📊 报告</button>
+        <button class="modal-tab" data-tab="assign" onclick="switchTab(this)">📋 指令</button>
+      </div>
+      <div class="m-chat tab-content" id="tabChat">
+        <div class="m-msg received"><div class="bubble">你好！有什么我可以帮你的？</div></div>
+        <div class="m-input-row">
+          <input class="m-input" id="chatInput" placeholder="输入指令…" onkeydown="if(event.key==='Enter')sendChat()" />
+          <button class="btn btn-primary btn-sm" onclick="sendChat()">发送</button>
+        </div>
+      </div>
+      <div class="m-report tab-content" id="tabReport" style="display:none">
+        <div class="m-report-item">
+          <div class="r-t">📈 今日业绩</div>
+          <div class="r-d">加载中…</div>
+          <span class="r-v">查看详细 →</span>
+        </div>
+        <div class="m-report-item">
+          <div class="r-t">📋 待办事项</div>
+          <div class="r-d">加载中…</div>
+          <span class="r-v">处理待办 →</span>
+        </div>
+      </div>
+      <div class="tab-content" id="tabAssign" style="display:none">
+        <p style="color:var(--fg-2);font-size:14px;margin-bottom:12px">快速下达任务：</p>
+        <div class="assign-item" onclick="quickAssign('整理今日工作汇总')">
+          <div class="a-t">📋 整理今日工作汇总</div>
+          <div class="a-d">按优先级整理今日完成和待办事项</div>
+        </div>
+        <div class="assign-item" onclick="quickAssign('生成周度业绩报告')">
+          <div class="a-t">📊 生成周度报告</div>
+          <div class="a-d">汇总本周数据并输出分析报告</div>
+        </div>
+        <div class="assign-item" onclick="quickAssign('跟进高意向客户')">
+          <div class="a-t">📞 跟进高意向客户</div>
+          <div class="a-d">主动联系高意向未成交客户</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Empty state template (hidden) -->
+<div id="emptyTemplate" style="display:none">
+  <div class="empty-state">
+    <div class="big">🏢</div>
+    <h2>还没有数字员工</h2>
+    <p>添加你的第一个 Agent 开始使用 Zirflow Office</p>
+    <button class="btn btn-primary" onclick="toast('添加 Agent 功能即将上线')">+ 添加数字员工</button>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// CLIENT DATA
+// ============================================================
+const CLIENTS = {
+  huaqing: { name:'华清检测',
+    agents: [
+      { id:1,name:'销售 Agent',role:'销售岗',emoji:'💼',status:'working',metrics:['12单','3.2min','42%','¥24k'],metricLabels:['今日单量','响应时间','转化率','成交额'],color:'linear-gradient(135deg,#3b82f6,#1d4ed8)' },
+      { id:2,name:'客服 Agent',role:'客服岗',emoji:'🎧',status:'idle',metrics:['28单','1.8min','96%','4.8★'],metricLabels:['今日接待','平均响应','解决率','满意度'],color:'linear-gradient(135deg,#10b981,#059669)' },
+      { id:3,name:'HR Agent',role:'人力资源',emoji:'👤',status:'reporting',metrics:['6人','48份','15人','5人'],metricLabels:['今日面试','简历筛选','待跟进','推荐入职'],color:'linear-gradient(135deg,#8b5cf6,#6d28d9)' },
+      { id:4,name:'跟单 Agent',role:'跟单岗',emoji:'📋',status:'resting',metrics:['8单','100%','0','3单'],metricLabels:['今日订单','准时率','异常数','明日待办'],color:'linear-gradient(135deg,#f59e0b,#d97706)' },
+    ] },
+  hengjia: { name:'亨加礼品',
+    agents: [
+      { id:1,name:'销售 Agent',role:'销售岗 · 日本市场',emoji:'💼',status:'working',metrics:['18封','4.2x','62%','¥38k'],metricLabels:['开发信','回复率','意向率','成交额'],color:'linear-gradient(135deg,#3b82f6,#1d4ed8)' },
+      { id:2,name:'跟单 Agent',role:'跟单岗',emoji:'📋',status:'working',metrics:['5单','3批','2次','100%'],metricLabels:['打样中','在产','验货','按时率'],color:'linear-gradient(135deg,#10b981,#059669)' },
+      { id:3,name:'市场 Agent',role:'市场调研',emoji:'🔍',status:'idle',metrics:['120家','8个','3份','2.4x'],metricLabels:['已分析','新赛道','报告','线索增长'],color:'linear-gradient(135deg,#8b5cf6,#6d28d9)' },
+    ] },
+  demo: { name:'演示公司',
+    agents: [
+      { id:1,name:'销售 Agent',role:'销售岗',emoji:'💼',status:'working',metrics:['8单','4.1min','38%','¥12k'],metricLabels:['今日单量','响应时间','转化率','成交额'],color:'linear-gradient(135deg,#3b82f6,#1d4ed8)' },
+      { id:2,name:'客服 Agent',role:'客服岗',emoji:'🎧',status:'idle',metrics:['15单','2.3min','92%','4.6★'],metricLabels:['今日接待','平均响应','解决率','满意度'],color:'linear-gradient(135deg,#10b981,#059669)' },
+    ] },
+};
+
+const STATUS_TEXT = { working:'工作中', idle:'空闲中', reporting:'汇报中', resting:'休息中' };
+const TEMPLATES = {
+  huaqing:[{msg:'销售 Agent 完成第 12 批客户询盘回复',type:'ok'},{msg:'客服 Agent 解决客户张总的售后问题',type:'ok'},{msg:'HR Agent 筛选出 5 份匹配简历',type:'info'}],
+  hengjia:[{msg:'销售 Agent 向日本客户发送开发信',type:'ok'},{msg:'跟单 Agent 确认打样通过验收',type:'ok'},{msg:'市场 Agent 发现 3 个高潜力渠道',type:'info'}],
+  demo:[{msg:'销售 Agent 完成第 8 单报价',type:'ok'},{msg:'客服 Agent 解决客户售后问题',type:'ok'}],
+};
+
+let clientKey = 'huaqing';
+const STATUS_COLORS = {working:'working',idle:'idle',reporting:'reporting',resting:'resting'};
+
+// ============================================================
+// INIT
+// ============================================================
+async function init() {
+  const params = new URLSearchParams(window.location.search);
+  clientKey = params.get('client') || 'huaqing';
+
+  // Show user info
+  let userName = 'demo@${clientKey}.com';
+  try {
+    const stored = localStorage.getItem('zirflow_user');
+    if (stored) {
+      const user = JSON.parse(stored);
+      userName = user.email || userName;
+    }
+  } catch(e){}
+  document.getElementById('userDisplay').textContent = userName;
+
+  // Simulate loading
+  await new Promise(r => setTimeout(r, 500));
+  render();
+  setTimeout(() => animateCards(), 100);
+}
+
+function render() {
+  const client = CLIENTS[clientKey];
+  if (!client) { document.getElementById('agentGrid').innerHTML = '<div class="empty-state"><div class="big">❌</div><h2>客户未找到</h2></div>'; return; }
+
+  document.getElementById('officeTitle').textContent = `${client.name} · 数字员工办公室`;
+  document.getElementById('officeSub').textContent = `${client.agents.length} 个数字员工 · 点击卡片下达指令或查看报告`;
+  document.getElementById('agentCount').textContent = client.agents.length;
+  document.getElementById('workingCount').textContent = client.agents.filter(a => a.status === 'working').length;
+
+  if (client.agents.length === 0) {
+    document.getElementById('agentGrid').innerHTML = document.getElementById('emptyTemplate').innerHTML;
+    return;
+  }
+
+  document.getElementById('agentGrid').innerHTML = client.agents.map(a => `
+    <div class="agent-card" onclick="openModal(${a.id})" data-idx="${a.id}">
+      <div class="agent-top">
+        <div class="agent-avatar" style="background:${a.color}">
+          <span>${a.emoji}</span>
+          <div class="status-ring"><div class="sr-inner pulse-${STATUS_COLORS[a.status]}"></div></div>
+        </div>
+        <span class="badge badge-${a.status}">● ${STATUS_TEXT[a.status]}</span>
+      </div>
+      <div class="agent-name">${a.name}</div>
+      <div class="agent-role">${a.role}</div>
+      <div class="agent-metrics">
+        ${a.metrics.map((v,i) => `<div class="agent-metric"><div class="val">${v}</div><div class="lbl">${a.metricLabels[i]}</div></div>`).join('')}
+      </div>
+      <div class="agent-actions" onclick="event.stopPropagation()">
+        <button class="btn btn-ghost btn-sm" onclick="openModal(${a.id});switchTabName('chat')">💬 对话</button>
+        <button class="btn btn-ghost btn-sm" onclick="openModal(${a.id});switchTabName('assign')">📋 指令</button>
+      </div>
+    </div>
+  `).join('') + `<div class="agent-card agent-card-add" onclick="toast('添加 Agent 即将上线')"><div class="plus">+</div><div class="lbl">添加数字员工</div></div>`;
+
+  // Render activity feed
+  renderActivities();
+}
+
+function renderActivities() {
+  const feed = document.getElementById('activityFeed');
+  const templates = TEMPLATES[clientKey] || TEMPLATES.huaqing;
+  feed.innerHTML = templates.map(t =>
+    `<div class="activity-item"><span class="t">${new Date().toTimeString().slice(0,8)}</span><span class="dot ${t.type}"></span><span class="x">${t.msg}</span></div>`
+  ).join('');
+}
+
+function animateCards() {
+  document.querySelectorAll('.agent-card:not(.agent-card-add)').forEach((el, i) => {
+    setTimeout(() => el.classList.add('show'), i * 80);
+  });
+}
+
+function addActivity() {
+  const feed = document.getElementById('activityFeed');
+  const templates = TEMPLATES[clientKey] || TEMPLATES.huaqing;
+  const t = templates[Math.floor(Math.random() * templates.length)];
+  const el = document.createElement('div');
+  el.className = 'activity-item line-new';
+  el.innerHTML = `<span class="t">${new Date().toTimeString().slice(0,8)}</span><span class="dot ${t.type}"></span><span class="x">${t.msg}</span>`;
+  feed.insertBefore(el, feed.firstChild);
+  while (feed.children.length > 20) feed.removeChild(feed.lastChild);
+}
+
+function logout() {
+  localStorage.removeItem('zirflow_token');
+  localStorage.removeItem('zirflow_user');
+  window.location.href = '/login.html';
+}
+
+// ============================================================
+// MODAL
+// ============================================================
+function openModal(id) {
+  const client = CLIENTS[clientKey];
+  if (!client) return;
+  const a = client.agents.find(x => x.id === id);
+  if (!a) return;
+  document.getElementById('mAvatar').style.background = a.color;
+  document.getElementById('mAvatar').textContent = a.emoji;
+  document.getElementById('mName').textContent = a.name;
+  document.getElementById('mRole').textContent = `${a.role} · ${STATUS_TEXT[a.status]}`;
+  document.getElementById('modalOverlay').classList.add('open');
+  document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector('[data-tab="chat"]').classList.add('active');
+  document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
+  document.getElementById('tabChat').style.display = '';
+  document.getElementById('chatInput').focus();
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+
+function switchTab(el) {
+  document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
+  const map = { chat:'tabChat', report:'tabReport', assign:'tabAssign' };
+  const tid = map[el.dataset.tab];
+  if (tid) document.getElementById(tid).style.display = '';
+}
+
+function switchTabName(name) {
+  const tab = document.querySelector(`[data-tab="${name}"]`);
+  if (tab) switchTab(tab);
+}
+
+function sendChat() {
+  const input = document.getElementById('chatInput');
+  const msg = input.value.trim();
+  if (!msg) return;
+  const chat = document.querySelector('.m-chat');
+  const now = new Date().toTimeString().slice(0,5);
+  chat.insertAdjacentHTML('beforeend', `<div class="m-msg sent"><div class="bubble">${msg}<div class="time">${now}</div></div></div>`);
+  input.value = '';
+  chat.scrollTop = chat.scrollHeight;
+  setTimeout(() => {
+    const replies = ['好的，马上处理！', '收到，正在执行。', '已记录，稍后汇报结果。', '明白，预计 30 秒内完成。'];
+    chat.insertAdjacentHTML('beforeend', `<div class="m-msg received"><div class="bubble">${replies[Math.floor(Math.random()*replies.length)]}<div class="time">${new Date().toTimeString().slice(0,5)}</div></div></div>`);
+    chat.scrollTop = chat.scrollHeight;
+    addActivity();
+  }, 500 + Math.random()*300);
+}
+
+function quickAssign(task) {
+  document.getElementById('chatInput').value = task;
+  switchTabName('chat');
+  setTimeout(() => sendChat(), 200);
+}
+
+// ============================================================
+// CLOCK & LIVE ACTIVITY
+// ============================================================
+function updateClock() { document.getElementById('clock').textContent = new Date().toTimeString().slice(0,8); }
+setInterval(updateClock, 1000);
+setInterval(() => { if (Math.random() > 0.55) addActivity(); }, 7000);
+
+// ============================================================
+// OVERLAY CLOSE
+// ============================================================
+document.getElementById('modalOverlay').addEventListener('click', function(e) { if (e.target===this) closeModal(); });
+
+// ============================================================
+// TOAST
+// ============================================================
+function toast(msg) {
+  const existing = document.querySelector('.toast');
+  if (existing) existing.remove();
+  const el = document.createElement('div');
+  el.className = 'toast'; el.textContent = msg;
+  Object.assign(el.style, {
+    position:'fixed', bottom:'30px', left:'50%', transform:'translateX(-50%)',
+    padding:'10px 20px', borderRadius:'10px', background:'var(--surface)',
+    border:'1px solid var(--line-2)', color:'var(--fg)', fontSize:'14px',
+    zIndex:'999', fontFamily:'var(--font)',
+    animation:'feedIn 0.3s ease, feedIn 0.3s 2.5s ease reverse',
+  });
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 3000);
+}
+
+// ============================================================
+// START
+// ============================================================
+init();
+updateClock();
+</script>
+</body>
+</html>
