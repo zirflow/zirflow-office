@@ -1,37 +1,7 @@
 # Wrangler configuration for Zirflow Office
-# https://developers.cloudflare.com/workers/wrangler/configuration/
+# This is a Cloudflare Pages project (static site)
 
 name = "zirflow-office"
-main = ""  # Static site: no Worker entrypoint (Cloudflare Pages)
-
-# ========================
-# Pages deployment config
-# ========================
 pages_build_output_dir = "public"
 
-# ========================
-# Compatibility flags
-# ========================
 compatibility_date = "2026-06-17"
-compatibility_flags = ["nodejs_compat"]
-
-# ========================
-# Environment: production
-# ========================
-[env.production]
-# Routes are handled by _redirects and Functions
-
-# ========================
-# Dev server config
-# ========================
-[dev]
-port = 8788
-local_protocol = "http"
-ip = "localhost"
-
-# ========================
-# Route: all traffic goes to Pages
-# ========================
-routes = [
-  { pattern = "zirflow-office.pages.dev", zone_name = "zirflow.com", custom_domain = true }
-]
